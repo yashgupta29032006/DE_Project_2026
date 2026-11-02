@@ -1,0 +1,27 @@
+{
+  "team_number": "19",
+  "group_lead": {
+    "name": "Yash Gupta",
+    "enrollment_no": "2501010523",
+    "github": "yashgupta29032006"
+  },
+  "members": [
+    {
+      "name": "Sneha Bayan",
+      "enrollment_no": "2501010618",
+      "github": "sneha-bayan"
+    },
+    {
+      "name": "Harshita",
+      "enrollment_no": "2501010182",
+      "github": "Martian0202"
+    },
+    {
+      "name": "Deveshi Sahu",
+      "enrollment_no": "2501010722",
+      "github": "deveshi-23"
+    }
+  ],
+  "postgres_version": "18.6",
+  "laptop_used_for_benchmarks": "Apple MacBook Air M4, Apple Silicon"
+}
