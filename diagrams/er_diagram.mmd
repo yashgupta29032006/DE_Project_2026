@@ -1,0 +1,124 @@
+erDiagram
+    CITIES ||--o{ LOCALITIES : "contains (1:N)"
+    LOCALITIES ||--o{ PROJECTS : "hosts (1:N)"
+    LOCALITIES ||--o{ PROPERTIES : "localizes (1:N)"
+    BUILDERS ||--o{ PROJECTS : "develops (1:N)"
+    PROJECTS |o--o{ PROPERTIES : "comprises (0..1 to 0..N, composite FK [project_id, locality_id])"
+    PROJECTS ||--o{ PROJECT_AMENITIES : "offers (1:N)"
+    AMENITIES ||--o{ PROJECT_AMENITIES : "categorizes (1:N)"
+    USERS ||--o{ PROPERTIES : "lists (1:N, OWNER/AGENT only)"
+    USERS ||--o{ ENQUIRIES : "submits (1:N, SEEKER only in dataset)"
+    USERS ||--o{ SITE_VISITS : "books (1:N, SEEKER only in dataset)"
+    USERS ||--o{ SHORTLISTS : "bookmarks (1:N, SEEKER only in dataset)"
+    PROPERTIES ||--o{ PRICE_CHANGES : "audits (1:N)"
+    PROPERTIES ||--o{ ENQUIRIES : "receives (1:N)"
+    PROPERTIES ||--o{ SITE_VISITS : "schedules (1:N)"
+    PROPERTIES ||--o{ SHORTLISTS : "saved_in (1:N)"
+
+    CITIES {
+        int city_id PK
+        varchar city_name UK
+        varchar state
+    }
+
+    LOCALITIES {
+        int locality_id PK
+        int city_id FK
+        varchar locality_name
+        char pincode
+        numeric center_lat
+        numeric center_lng
+    }
+
+    BUILDERS {
+        int builder_id PK
+        varchar builder_name UK
+        smallint founded_year
+    }
+
+    PROJECTS {
+        int project_id PK "PK, composite UK with locality_id"
+        int builder_id FK
+        int locality_id FK "FK, composite UK with project_id"
+        varchar project_name
+        varchar rera_id UK "Conditional alternate ID (when non-null)"
+        varchar possession_status
+        date possession_date
+        int total_units
+    }
+
+    AMENITIES {
+        int amenity_id PK
+        varchar amenity_name UK
+    }
+
+    PROJECT_AMENITIES {
+        int project_id PK,FK
+        int amenity_id PK,FK
+    }
+
+    USERS {
+        int user_id PK
+        varchar full_name
+        char phone UK
+        varchar email UK "Conditional alternate ID (when non-null)"
+        varchar user_type "SEEKER, OWNER, AGENT"
+        varchar agent_rera_id UK "Mandatory for AGENT, NULL otherwise"
+        timestamptz created_at
+    }
+
+    PROPERTIES {
+        int property_id PK
+        int listed_by FK "FK -> users (OWNER or AGENT)"
+        int project_id FK "FK -> projects (optional, NULL for standalone)"
+        int locality_id FK "FK -> localities, composite FK with project_id"
+        varchar listing_type "RENT, SALE"
+        varchar property_type "APARTMENT, INDEPENDENT_HOUSE, VILLA, PLOT"
+        smallint bhk "NULL strictly for PLOT"
+        numeric carpet_area_sqft
+        smallint floor_no "NULL for HOUSE, VILLA, PLOT"
+        smallint total_floors "NULL strictly for PLOT"
+        varchar furnishing "NULL strictly for PLOT"
+        varchar facing
+        numeric price
+        numeric maintenance_monthly "Nullable, non-negative"
+        numeric security_deposit "Mandatory for RENT, NULL for SALE"
+        date available_from
+        numeric latitude
+        numeric longitude
+        boolean is_verified
+        varchar status "ACTIVE, INACTIVE, RENTED, SOLD"
+        timestamptz posted_at
+    }
+
+    PRICE_CHANGES {
+        int change_id PK
+        int property_id FK
+        numeric old_price
+        numeric new_price
+        timestamptz changed_at
+    }
+
+    ENQUIRIES {
+        int enquiry_id PK
+        int property_id FK
+        int user_id FK
+        varchar channel "CALL, WHATSAPP, FORM"
+        text message
+        timestamptz created_at
+    }
+
+    SITE_VISITS {
+        int visit_id PK
+        int property_id FK
+        int user_id FK
+        timestamptz scheduled_at
+        varchar status "SCHEDULED, COMPLETED, CANCELLED, NO_SHOW"
+        smallint feedback_rating "1-5 on COMPLETED, NULL otherwise"
+    }
+
+    SHORTLISTS {
+        int user_id PK,FK
+        int property_id PK,FK
+        timestamptz added_at
+    }

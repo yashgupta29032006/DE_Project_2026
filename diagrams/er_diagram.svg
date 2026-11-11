@@ -1,0 +1,280 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1350" width="100%" height="100%" style="background-color: #0d1117; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <defs>
+    <!-- Filter for soft drop shadow -->
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="115%" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feOffset dx="0" dy="4" result="offset"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.35"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Markers for cardinality -->
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#58a6ff" />
+    </marker>
+    <marker id="crowfoot" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 12 6 L 0 12 M 0 6 L 12 6" fill="none" stroke="#58a6ff" stroke-width="1.8" />
+    </marker>
+    <marker id="one" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 4 0 L 4 10 M 8 0 L 8 10" fill="none" stroke="#58a6ff" stroke-width="1.8" />
+    </marker>
+    <marker id="zero-one" viewBox="0 0 14 10" refX="2" refY="5" markerWidth="9" markerHeight="6" orient="auto-start-reverse">
+      <circle cx="5" cy="5" r="3.5" fill="#161b22" stroke="#58a6ff" stroke-width="1.8" />
+      <path d="M 12 0 L 12 10" fill="none" stroke="#58a6ff" stroke-width="1.8" />
+    </marker>
+  </defs>
+
+  <style>
+    .entity-box { fill: #161b22; stroke: #30363d; stroke-width: 1.5; rx: 8; }
+    .header-geo { fill: #1f6feb; }
+    .header-core { fill: #238636; }
+    .header-rel { fill: #8957e5; }
+    .header-user { fill: #d29922; }
+    .header-text { fill: #ffffff; font-weight: bold; font-size: 14px; text-anchor: middle; }
+    .attr-name { fill: #c9d1d9; font-size: 12px; font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace; }
+    .attr-type { fill: #8b949e; font-size: 11px; text-anchor: end; font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace; }
+    .pk { fill: #f0883e; font-weight: bold; font-size: 10px; font-family: monospace; }
+    .fk { fill: #58a6ff; font-weight: bold; font-size: 10px; font-family: monospace; }
+    .uk { fill: #a371f7; font-weight: bold; font-size: 10px; font-family: monospace; }
+    .line { stroke: #58a6ff; stroke-width: 1.8; fill: none; opacity: 0.75; }
+    .title-text { fill: #f0f6fc; font-size: 24px; font-weight: bold; }
+    .subtitle-text { fill: #8b949e; font-size: 14px; }
+    .legend-box { fill: #161b22; stroke: #30363d; rx: 6; }
+  </style>
+
+  <!-- Title Banner -->
+  <text x="50" y="45" class="title-text">Housing.com Property Search Database — Entity-Relationship Diagram</text>
+  <text x="50" y="70" class="subtitle-text">Team 19 (EchoVault) | Section C | Checkpoint 1 (CP1) — 3NF Relational Model with Composite Integrity (396,885 Records)</text>
+
+  <!-- Legend -->
+  <g transform="translate(1120, 20)">
+    <rect width="430" height="60" class="legend-box" filter="url(#shadow)" />
+    <text x="15" y="25" fill="#f0883e" font-weight="bold" font-size="11px">PK: Primary Key</text>
+    <text x="115" y="25" fill="#58a6ff" font-weight="bold" font-size="11px">FK: Foreign Key</text>
+    <text x="210" y="25" fill="#a371f7" font-weight="bold" font-size="11px">UK: Unique Constraint</text>
+    <text x="15" y="48" fill="#8b949e" font-size="11px">Card: ||─&lt; (1:N Mandatory) |o─&lt; (0..1:N Optional FK) &gt;─&lt; (M:N Junction)</text>
+  </g>
+
+  <!-- ================= ENTITIES ================= -->
+
+  <!-- 1. CITIES -->
+  <g transform="translate(60, 110)" filter="url(#shadow)">
+    <rect width="250" height="120" class="entity-box"/>
+    <path d="M 0 0 h 250 v 32 h -250 z" class="header-geo" rx="8" />
+    <rect y="24" width="250" height="8" class="header-geo" />
+    <text x="125" y="21" class="header-text">cities</text>
+    <text x="15" y="55" class="pk">PK</text><text x="40" y="55" class="attr-name">city_id</text><text x="235" y="55" class="attr-type">INT</text>
+    <text x="15" y="75" class="uk">UK</text><text x="40" y="75" class="attr-name">city_name</text><text x="235" y="75" class="attr-type">VARCHAR(100)</text>
+    <text x="40" y="95" class="attr-name">state</text><text x="235" y="95" class="attr-type">VARCHAR(100)</text>
+  </g>
+
+  <!-- 2. LOCALITIES -->
+  <g transform="translate(60, 310)" filter="url(#shadow)">
+    <rect width="250" height="175" class="entity-box"/>
+    <path d="M 0 0 h 250 v 32 h -250 z" class="header-geo" rx="8" />
+    <rect y="24" width="250" height="8" class="header-geo" />
+    <text x="125" y="21" class="header-text">localities</text>
+    <text x="15" y="55" class="pk">PK</text><text x="40" y="55" class="attr-name">locality_id</text><text x="235" y="55" class="attr-type">INT</text>
+    <text x="15" y="75" class="fk">FK</text><text x="40" y="75" class="attr-name">city_id</text><text x="235" y="75" class="attr-type">INT</text>
+    <text x="40" y="95" class="attr-name">locality_name</text><text x="235" y="95" class="attr-type">VARCHAR(150)</text>
+    <text x="40" y="115" class="attr-name">pincode</text><text x="235" y="115" class="attr-type">CHAR(6)</text>
+    <text x="40" y="135" class="attr-name">center_lat</text><text x="235" y="135" class="attr-type">NUMERIC(9,6)</text>
+    <text x="40" y="155" class="attr-name">center_lng</text><text x="235" y="155" class="attr-type">NUMERIC(9,6)</text>
+  </g>
+
+  <!-- 3. BUILDERS -->
+  <g transform="translate(420, 110)" filter="url(#shadow)">
+    <rect width="270" height="120" class="entity-box"/>
+    <path d="M 0 0 h 270 v 32 h -250 z" class="header-geo" rx="8" />
+    <rect y="24" width="270" height="8" class="header-geo" />
+    <text x="135" y="21" class="header-text">builders</text>
+    <text x="15" y="55" class="pk">PK</text><text x="40" y="55" class="attr-name">builder_id</text><text x="255" y="55" class="attr-type">INT</text>
+    <text x="15" y="75" class="uk">UK</text><text x="40" y="75" class="attr-name">builder_name</text><text x="255" y="75" class="attr-type">VARCHAR(200)</text>
+    <text x="40" y="95" class="attr-name">founded_year</text><text x="255" y="95" class="attr-type">SMALLINT</text>
+  </g>
+
+  <!-- 4. PROJECTS -->
+  <g transform="translate(420, 310)" filter="url(#shadow)">
+    <rect width="270" height="215" class="entity-box"/>
+    <path d="M 0 0 h 270 v 32 h -250 z" class="header-core" rx="8" />
+    <rect y="24" width="270" height="8" class="header-core" />
+    <text x="135" y="21" class="header-text">projects</text>
+    <text x="15" y="55" class="pk">PK</text><text x="40" y="55" class="attr-name">project_id</text><text x="255" y="55" class="attr-type">INT [UK1]</text>
+    <text x="15" y="75" class="fk">FK</text><text x="40" y="75" class="attr-name">builder_id</text><text x="255" y="75" class="attr-type">INT</text>
+    <text x="15" y="95" class="fk">FK</text><text x="40" y="95" class="attr-name">locality_id</text><text x="255" y="95" class="attr-type">INT [UK1]</text>
+    <text x="40" y="115" class="attr-name">project_name</text><text x="255" y="115" class="attr-type">VARCHAR(200)</text>
+    <text x="15" y="135" class="uk">UK</text><text x="40" y="135" class="attr-name">rera_id</text><text x="255" y="135" class="attr-type">VARCHAR(50)</text>
+    <text x="40" y="155" class="attr-name">possession_status</text><text x="255" y="155" class="attr-type">VARCHAR(20)</text>
+    <text x="40" y="175" class="attr-name">possession_date</text><text x="255" y="175" class="attr-type">DATE</text>
+    <text x="40" y="195" class="attr-name">total_units</text><text x="255" y="195" class="attr-type">INT</text>
+  </g>
+
+  <!-- 5. AMENITIES -->
+  <g transform="translate(800, 110)" filter="url(#shadow)">
+    <rect width="250" height="100" class="entity-box"/>
+    <path d="M 0 0 h 250 v 32 h -250 z" class="header-geo" rx="8" />
+    <rect y="24" width="250" height="8" class="header-geo" />
+    <text x="125" y="21" class="header-text">amenities</text>
+    <text x="15" y="55" class="pk">PK</text><text x="40" y="55" class="attr-name">amenity_id</text><text x="235" y="55" class="attr-type">INT</text>
+    <text x="15" y="75" class="uk">UK</text><text x="40" y="75" class="attr-name">amenity_name</text><text x="235" y="75" class="attr-type">VARCHAR(100)</text>
+  </g>
+
+  <!-- 6. PROJECT_AMENITIES (Junction) -->
+  <g transform="translate(800, 310)" filter="url(#shadow)">
+    <rect width="250" height="100" class="entity-box"/>
+    <path d="M 0 0 h 250 v 32 h -250 z" class="header-rel" rx="8" />
+    <rect y="24" width="250" height="8" class="header-rel" />
+    <text x="125" y="21" class="header-text">project_amenities</text>
+    <text x="10" y="55" class="pk">PK,FK</text><text x="50" y="55" class="attr-name">project_id</text><text x="235" y="55" class="attr-type">INT</text>
+    <text x="10" y="75" class="pk">PK,FK</text><text x="50" y="75" class="attr-name">amenity_id</text><text x="235" y="75" class="attr-type">INT</text>
+  </g>
+
+  <!-- 7. USERS -->
+  <g transform="translate(1200, 200)" filter="url(#shadow)">
+    <rect width="320" height="195" class="entity-box"/>
+    <path d="M 0 0 h 320 v 32 h -320 z" class="header-user" rx="8" />
+    <rect y="24" width="320" height="8" class="header-user" />
+    <text x="160" y="21" class="header-text">users</text>
+    <text x="15" y="55" class="pk">PK</text><text x="40" y="55" class="attr-name">user_id</text><text x="305" y="55" class="attr-type">INT</text>
+    <text x="40" y="75" class="attr-name">full_name</text><text x="305" y="75" class="attr-type">VARCHAR(150)</text>
+    <text x="15" y="95" class="uk">UK</text><text x="40" y="95" class="attr-name">phone</text><text x="305" y="95" class="attr-type">CHAR(10)</text>
+    <text x="15" y="115" class="uk">UK</text><text x="40" y="115" class="attr-name">email (optional)</text><text x="305" y="115" class="attr-type">VARCHAR(255)</text>
+    <text x="40" y="135" class="attr-name">user_type</text><text x="305" y="135" class="attr-type">VARCHAR(10)</text>
+    <text x="15" y="155" class="uk">UK</text><text x="40" y="155" class="attr-name">agent_rera_id</text><text x="305" y="155" class="attr-type">VARCHAR(50)</text>
+    <text x="40" y="175" class="attr-name">created_at</text><text x="305" y="175" class="attr-type">TIMESTAMPTZ</text>
+  </g>
+
+  <!-- 8. PROPERTIES (Core Listing) -->
+  <g transform="translate(420, 620)" filter="url(#shadow)">
+    <rect width="320" height="490" class="entity-box" style="stroke: #238636; stroke-width: 2;"/>
+    <path d="M 0 0 h 320 v 32 h -320 z" class="header-core" rx="8" />
+    <rect y="24" width="320" height="8" class="header-core" />
+    <text x="160" y="21" class="header-text">properties</text>
+    <text x="15" y="55" class="pk">PK</text><text x="40" y="55" class="attr-name">property_id</text><text x="305" y="55" class="attr-type">INT</text>
+    <text x="15" y="75" class="fk">FK</text><text x="40" y="75" class="attr-name">listed_by</text><text x="305" y="75" class="attr-type">INT [OWNER/AGENT]</text>
+    <text x="15" y="95" class="fk">FK</text><text x="40" y="95" class="attr-name">project_id (optional)</text><text x="305" y="95" class="attr-type">INT [FK_COMP]</text>
+    <text x="15" y="115" class="fk">FK</text><text x="40" y="115" class="attr-name">locality_id</text><text x="305" y="115" class="attr-type">INT [FK_COMP]</text>
+    <text x="40" y="135" class="attr-name">listing_type</text><text x="305" y="135" class="attr-type">VARCHAR(10)</text>
+    <text x="40" y="155" class="attr-name">property_type</text><text x="305" y="155" class="attr-type">VARCHAR(20)</text>
+    <text x="40" y="175" class="attr-name">bhk (null on plot)</text><text x="305" y="175" class="attr-type">SMALLINT</text>
+    <text x="40" y="195" class="attr-name">carpet_area_sqft</text><text x="305" y="195" class="attr-type">NUMERIC(10,2)</text>
+    <text x="40" y="215" class="attr-name">floor_no (null on house)</text><text x="305" y="215" class="attr-type">SMALLINT</text>
+    <text x="40" y="235" class="attr-name">total_floors (null on plot)</text><text x="305" y="235" class="attr-type">SMALLINT</text>
+    <text x="40" y="255" class="attr-name">furnishing (null on plot)</text><text x="305" y="255" class="attr-type">VARCHAR(20)</text>
+    <text x="40" y="275" class="attr-name">facing</text><text x="305" y="275" class="attr-type">VARCHAR(15)</text>
+    <text x="40" y="295" class="attr-name">price</text><text x="305" y="295" class="attr-type">NUMERIC(12,2)</text>
+    <text x="40" y="315" class="attr-name">maintenance_monthly</text><text x="305" y="315" class="attr-type">NUMERIC(10,2)</text>
+    <text x="40" y="335" class="attr-name">security_deposit (rent)</text><text x="305" y="335" class="attr-type">NUMERIC(12,2)</text>
+    <text x="40" y="355" class="attr-name">available_from</text><text x="305" y="355" class="attr-type">DATE</text>
+    <text x="40" y="375" class="attr-name">latitude</text><text x="305" y="375" class="attr-type">NUMERIC(9,6)</text>
+    <text x="40" y="395" class="attr-name">longitude</text><text x="305" y="395" class="attr-type">NUMERIC(9,6)</text>
+    <text x="40" y="415" class="attr-name">is_verified</text><text x="305" y="415" class="attr-type">BOOLEAN</text>
+    <text x="40" y="435" class="attr-name">status</text><text x="305" y="435" class="attr-type">VARCHAR(15)</text>
+    <text x="40" y="455" class="attr-name">posted_at</text><text x="305" y="455" class="attr-type">TIMESTAMPTZ</text>
+  </g>
+
+  <!-- 9. PRICE_CHANGES -->
+  <g transform="translate(60, 800)" filter="url(#shadow)">
+    <rect width="250" height="155" class="entity-box"/>
+    <path d="M 0 0 h 250 v 32 h -250 z" class="header-rel" rx="8" />
+    <rect y="24" width="250" height="8" class="header-rel" />
+    <text x="125" y="21" class="header-text">price_changes</text>
+    <text x="15" y="55" class="pk">PK</text><text x="40" y="55" class="attr-name">change_id</text><text x="235" y="55" class="attr-type">INT</text>
+    <text x="15" y="75" class="fk">FK</text><text x="40" y="75" class="attr-name">property_id</text><text x="235" y="75" class="attr-type">INT</text>
+    <text x="40" y="95" class="attr-name">old_price</text><text x="235" y="95" class="attr-type">NUMERIC(12,2)</text>
+    <text x="40" y="115" class="attr-name">new_price</text><text x="235" y="115" class="attr-type">NUMERIC(12,2)</text>
+    <text x="40" y="135" class="attr-name">changed_at</text><text x="235" y="135" class="attr-type">TIMESTAMPTZ</text>
+  </g>
+
+  <!-- 10. ENQUIRIES -->
+  <g transform="translate(850, 750)" filter="url(#shadow)">
+    <rect width="270" height="175" class="entity-box"/>
+    <path d="M 0 0 h 270 v 32 h -270 z" class="header-rel" rx="8" />
+    <rect y="24" width="270" height="8" class="header-rel" />
+    <text x="135" y="21" class="header-text">enquiries</text>
+    <text x="15" y="55" class="pk">PK</text><text x="40" y="55" class="attr-name">enquiry_id</text><text x="255" y="55" class="attr-type">INT</text>
+    <text x="15" y="75" class="fk">FK</text><text x="40" y="75" class="attr-name">property_id</text><text x="255" y="75" class="attr-type">INT</text>
+    <text x="15" y="95" class="fk">FK</text><text x="40" y="95" class="attr-name">user_id</text><text x="255" y="95" class="attr-type">INT</text>
+    <text x="40" y="115" class="attr-name">channel</text><text x="255" y="115" class="attr-type">VARCHAR(20)</text>
+    <text x="40" y="135" class="attr-name">message</text><text x="255" y="135" class="attr-type">TEXT</text>
+    <text x="40" y="155" class="attr-name">created_at</text><text x="255" y="155" class="attr-type">TIMESTAMPTZ</text>
+  </g>
+
+  <!-- 11. SITE_VISITS -->
+  <g transform="translate(850, 1000)" filter="url(#shadow)">
+    <rect width="270" height="175" class="entity-box"/>
+    <path d="M 0 0 h 270 v 32 h -270 z" class="header-rel" rx="8" />
+    <rect y="24" width="270" height="8" class="header-rel" />
+    <text x="135" y="21" class="header-text">site_visits</text>
+    <text x="15" y="55" class="pk">PK</text><text x="40" y="55" class="attr-name">visit_id</text><text x="255" y="55" class="attr-type">INT</text>
+    <text x="15" y="75" class="fk">FK</text><text x="40" y="75" class="attr-name">property_id</text><text x="255" y="75" class="attr-type">INT</text>
+    <text x="15" y="95" class="fk">FK</text><text x="40" y="95" class="attr-name">user_id</text><text x="255" y="95" class="attr-type">INT</text>
+    <text x="40" y="115" class="attr-name">scheduled_at</text><text x="255" y="115" class="attr-type">TIMESTAMPTZ</text>
+    <text x="40" y="135" class="attr-name">status</text><text x="255" y="135" class="attr-type">VARCHAR(20)</text>
+    <text x="40" y="155" class="attr-name">feedback_rating</text><text x="255" y="155" class="attr-type">SMALLINT</text>
+  </g>
+
+  <!-- 12. SHORTLISTS (Junction) -->
+  <g transform="translate(1220, 620)" filter="url(#shadow)">
+    <rect width="280" height="120" class="entity-box"/>
+    <path d="M 0 0 h 280 v 32 h -280 z" class="header-rel" rx="8" />
+    <rect y="24" width="280" height="8" class="header-rel" />
+    <text x="140" y="21" class="header-text">shortlists</text>
+    <text x="10" y="55" class="pk">PK,FK</text><text x="55" y="55" class="attr-name">user_id</text><text x="265" y="55" class="attr-type">INT</text>
+    <text x="10" y="75" class="pk">PK,FK</text><text x="55" y="75" class="attr-name">property_id</text><text x="265" y="75" class="attr-type">INT</text>
+    <text x="55" y="95" class="attr-name">added_at</text><text x="265" y="95" class="attr-type">TIMESTAMPTZ</text>
+  </g>
+
+  <!-- ================= RELATIONSHIP CONNECTORS ================= -->
+
+  <!-- cities -> localities (1:N) -->
+  <path d="M 185 230 L 185 310" class="line" marker-start="url(#one)" marker-end="url(#crowfoot)"/>
+
+  <!-- builders -> projects (1:N) -->
+  <path d="M 555 230 L 555 310" class="line" marker-start="url(#one)" marker-end="url(#crowfoot)"/>
+
+  <!-- localities -> projects (1:N) -->
+  <path d="M 310 390 L 420 390" class="line" marker-start="url(#one)" marker-end="url(#crowfoot)"/>
+
+  <!-- projects -> project_amenities (1:N) -->
+  <path d="M 690 360 L 800 360" class="line" marker-start="url(#one)" marker-end="url(#crowfoot)"/>
+
+  <!-- amenities -> project_amenities (1:N) -->
+  <path d="M 925 210 L 925 310" class="line" marker-start="url(#one)" marker-end="url(#crowfoot)"/>
+
+  <!-- localities -> properties (1:N) -->
+  <path d="M 185 485 L 185 680 L 420 680" class="line" marker-start="url(#one)" marker-end="url(#crowfoot)"/>
+
+  <!-- projects -> properties (0..1:N optional, composite FK [project_id, locality_id]) -->
+  <path d="M 555 525 L 555 620" class="line" marker-start="url(#zero-one)" marker-end="url(#crowfoot)"/>
+
+  <!-- users -> properties (listed_by 1:N, OWNER or AGENT) -->
+  <path d="M 1200 280 L 740 280 L 740 680" class="line" marker-start="url(#one)" marker-end="url(#crowfoot)"/>
+
+  <!-- properties -> price_changes (1:N) -->
+  <path d="M 420 830 L 310 830" class="line" marker-start="url(#one)" marker-end="url(#crowfoot)"/>
+
+  <!-- properties -> enquiries (1:N) -->
+  <path d="M 740 800 L 850 800" class="line" marker-start="url(#one)" marker-end="url(#crowfoot)"/>
+
+  <!-- users -> enquiries (1:N) -->
+  <path d="M 1360 395 L 1360 830 L 1120 830" class="line" marker-start="url(#one)" marker-end="url(#crowfoot)"/>
+
+  <!-- properties -> site_visits (1:N) -->
+  <path d="M 740 950 L 790 950 L 790 1060 L 850 1060" class="line" marker-start="url(#one)" marker-end="url(#crowfoot)"/>
+
+  <!-- users -> site_visits (1:N) -->
+  <path d="M 1380 395 L 1380 1080 L 1120 1080" class="line" marker-start="url(#one)" marker-end="url(#crowfoot)"/>
+
+  <!-- users -> shortlists (1:N) -->
+  <path d="M 1340 395 L 1340 620" class="line" marker-start="url(#one)" marker-end="url(#crowfoot)"/>
+
+  <!-- properties -> shortlists (1:N) -->
+  <path d="M 740 700 L 1220 700" class="line" marker-start="url(#one)" marker-end="url(#crowfoot)"/>
+
+</svg>

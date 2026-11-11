@@ -826,3 +826,45 @@ SET status = 'RENTED'
 WHERE property_id = (SELECT min(property_id) FROM properties
                      WHERE listed_by = 1033 AND status = 'ACTIVE' AND listing_type = 'RENT');
 ```
+
+---
+
+## Checkpoint 1 (CP1) Deliverables & Execution Guide
+
+**Team 19 (EchoVault) | Section C**  
+- **Lead:** Yash Gupta (2501010523)  
+- **Members:** Sneha Bayan (2501010618), Harshita (2501010182), Deveshi Sahu (2501010722)  
+- **Target RDBMS:** PostgreSQL 18.6 (Homebrew / macOS Apple Silicon M4)  
+
+### Deliverables Summary
+| Deliverable | File Path | Description |
+| :--- | :--- | :--- |
+| **Problem Understanding** | [`docs/01_problem_understanding.md`](docs/01_problem_understanding.md) | Business context, P1–P7 analysis, stakeholder taxonomy, data requirements (396,885 records), and domain invariants. |
+| **Schema & Normalization** | [`docs/02_schema_design.md`](docs/02_schema_design.md) | 1NF $\rightarrow$ 2NF $\rightarrow$ 3NF / BCNF decomposition, data dictionary, referential actions, and live validation results. |
+| **Relational DDL Schema** | [`sql/01_schema.sql`](sql/01_schema.sql) | Production DDL in `housing` schema with composite FKs, column-specific actions, domain CHECK constraints, and role triggers. |
+| **Seed Ingestion Pipeline** | [`sql/02_load_data.sql`](sql/02_load_data.sql) | Atomic transaction (`BEGIN...COMMIT`) with explicit column lists, automated row assertions, and targeted `ANALYZE`. |
+| **Entity-Relationship Diagram** | [`diagrams/er_diagram.svg`](diagrams/er_diagram.svg) | High-resolution scalable vector diagram with cardinalities, keys, and connectors. |
+| **ER Diagram Source** | [`diagrams/er_diagram.mmd`](diagrams/er_diagram.mmd) | Editable Mermaid ER diagram specification. |
+
+### How to Run CP1 Pipeline
+
+1. **Prerequisite:** Ensure `seed_data.zip` is extracted into `seed_data/` in the project root:
+   ```bash
+   unzip -q seed_data.zip
+   ```
+
+2. **Execute Schema Creation (DDL):**
+   ```bash
+   psql -d <database_name> -v ON_ERROR_STOP=1 -f sql/01_schema.sql
+   ```
+
+3. **Execute Atomic Data Ingestion:**
+   ```bash
+   psql -d <database_name> -v ON_ERROR_STOP=1 -f sql/02_load_data.sql
+   ```
+
+4. **Verify Database Integrity & Workload Compatibility:**
+   ```bash
+   psql -d <database_name> -v ON_ERROR_STOP=1 -f queries/workload_30.sql
+   ```
+
