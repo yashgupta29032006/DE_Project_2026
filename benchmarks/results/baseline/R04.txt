@@ -1,0 +1,72 @@
+=== R04 run 1 ===
+GroupAggregate  (cost=4710.22..4710.28 rows=2 width=48) (actual time=27.211..27.243 rows=6.00 loops=1)
+  Group Key: (date_trunc('month'::text, p.posted_at))
+  Buffers: shared hit=2308
+  ->  Sort  (cost=4710.22..4710.22 rows=2 width=19) (actual time=27.189..27.195 rows=143.00 loops=1)
+        Sort Key: (date_trunc('month'::text, p.posted_at))
+        Sort Method: quicksort  Memory: 30kB
+        Buffers: shared hit=2308
+        ->  Nested Loop  (cost=0.00..4710.21 rows=2 width=19) (actual time=17.767..27.159 rows=143.00 loops=1)
+              Join Filter: (l.locality_id = p.locality_id)
+              Rows Removed by Join Filter: 13887
+              Buffers: shared hit=2305
+              ->  Seq Scan on localities l  (cost=0.00..2.25 rows=1 width=4) (actual time=0.008..0.014 rows=1.00 loops=1)
+                    Filter: ((locality_name)::text = 'Whitefield'::text)
+                    Rows Removed by Filter: 99
+                    Buffers: shared hit=1
+              ->  Seq Scan on properties p  (cost=0.00..4705.20 rows=220 width=23) (actual time=17.607..26.552 rows=14030.00 loops=1)
+                    Filter: (((listing_type)::text = 'SALE'::text) AND ((property_type)::text = 'APARTMENT'::text) AND (EXTRACT(year FROM posted_at) = '2026'::numeric))
+                    Rows Removed by Filter: 106030
+                    Buffers: shared hit=2304
+Planning:
+  Buffers: shared hit=293 dirtied=1
+Planning Time: 0.762 ms
+Execution Time: 27.300 ms
+=== R04 run 2 ===
+GroupAggregate  (cost=4710.22..4710.28 rows=2 width=48) (actual time=27.635..27.669 rows=6.00 loops=1)
+  Group Key: (date_trunc('month'::text, p.posted_at))
+  Buffers: shared hit=2308
+  ->  Sort  (cost=4710.22..4710.22 rows=2 width=19) (actual time=27.559..27.565 rows=143.00 loops=1)
+        Sort Key: (date_trunc('month'::text, p.posted_at))
+        Sort Method: quicksort  Memory: 30kB
+        Buffers: shared hit=2308
+        ->  Nested Loop  (cost=0.00..4710.21 rows=2 width=19) (actual time=17.841..27.529 rows=143.00 loops=1)
+              Join Filter: (l.locality_id = p.locality_id)
+              Rows Removed by Join Filter: 13887
+              Buffers: shared hit=2305
+              ->  Seq Scan on localities l  (cost=0.00..2.25 rows=1 width=4) (actual time=0.008..0.015 rows=1.00 loops=1)
+                    Filter: ((locality_name)::text = 'Whitefield'::text)
+                    Rows Removed by Filter: 99
+                    Buffers: shared hit=1
+              ->  Seq Scan on properties p  (cost=0.00..4705.20 rows=220 width=23) (actual time=17.677..26.920 rows=14030.00 loops=1)
+                    Filter: (((listing_type)::text = 'SALE'::text) AND ((property_type)::text = 'APARTMENT'::text) AND (EXTRACT(year FROM posted_at) = '2026'::numeric))
+                    Rows Removed by Filter: 106030
+                    Buffers: shared hit=2304
+Planning:
+  Buffers: shared hit=293
+Planning Time: 0.702 ms
+Execution Time: 27.720 ms
+=== R04 run 3 ===
+GroupAggregate  (cost=4710.22..4710.28 rows=2 width=48) (actual time=27.789..27.825 rows=6.00 loops=1)
+  Group Key: (date_trunc('month'::text, p.posted_at))
+  Buffers: shared hit=2308
+  ->  Sort  (cost=4710.22..4710.22 rows=2 width=19) (actual time=27.762..27.769 rows=143.00 loops=1)
+        Sort Key: (date_trunc('month'::text, p.posted_at))
+        Sort Method: quicksort  Memory: 30kB
+        Buffers: shared hit=2308
+        ->  Nested Loop  (cost=0.00..4710.21 rows=2 width=19) (actual time=18.046..27.734 rows=143.00 loops=1)
+              Join Filter: (l.locality_id = p.locality_id)
+              Rows Removed by Join Filter: 13887
+              Buffers: shared hit=2305
+              ->  Seq Scan on localities l  (cost=0.00..2.25 rows=1 width=4) (actual time=0.007..0.014 rows=1.00 loops=1)
+                    Filter: ((locality_name)::text = 'Whitefield'::text)
+                    Rows Removed by Filter: 99
+                    Buffers: shared hit=1
+              ->  Seq Scan on properties p  (cost=0.00..4705.20 rows=220 width=23) (actual time=17.884..27.131 rows=14030.00 loops=1)
+                    Filter: (((listing_type)::text = 'SALE'::text) AND ((property_type)::text = 'APARTMENT'::text) AND (EXTRACT(year FROM posted_at) = '2026'::numeric))
+                    Rows Removed by Filter: 106030
+                    Buffers: shared hit=2304
+Planning:
+  Buffers: shared hit=293
+Planning Time: 0.693 ms
+Execution Time: 27.874 ms

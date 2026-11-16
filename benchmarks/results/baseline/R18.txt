@@ -1,0 +1,57 @@
+=== R18 run 1 ===
+Sort  (cost=4733.75..4743.49 rows=3898 width=25) (actual time=34.046..34.049 rows=60.00 loops=1)
+  Sort Key: (count(*)) DESC
+  Sort Method: quicksort  Memory: 27kB
+  Buffers: shared hit=2307
+  ->  HashAggregate  (cost=4355.10..4501.26 rows=3898 width=25) (actual time=30.367..34.022 rows=60.00 loops=1)
+        Group Key: listed_by, locality_id, carpet_area_sqft, floor_no, bhk
+        Filter: (count(*) > 1)
+        Batches: 1  Memory Usage: 3097kB
+        Rows Removed by Filter: 36699
+        Buffers: shared hit=2304
+        ->  Seq Scan on properties  (cost=0.00..3804.75 rows=36690 width=17) (actual time=0.009..20.158 rows=36819.00 loops=1)
+              Filter: ((status)::text = 'ACTIVE'::text)
+              Rows Removed by Filter: 83241
+              Buffers: shared hit=2304
+Planning:
+  Buffers: shared hit=159
+Planning Time: 0.405 ms
+Execution Time: 34.150 ms
+=== R18 run 2 ===
+Sort  (cost=4733.75..4743.49 rows=3898 width=25) (actual time=34.196..34.199 rows=60.00 loops=1)
+  Sort Key: (count(*)) DESC
+  Sort Method: quicksort  Memory: 27kB
+  Buffers: shared hit=2307
+  ->  HashAggregate  (cost=4355.10..4501.26 rows=3898 width=25) (actual time=30.837..34.176 rows=60.00 loops=1)
+        Group Key: listed_by, locality_id, carpet_area_sqft, floor_no, bhk
+        Filter: (count(*) > 1)
+        Batches: 1  Memory Usage: 3097kB
+        Rows Removed by Filter: 36699
+        Buffers: shared hit=2304
+        ->  Seq Scan on properties  (cost=0.00..3804.75 rows=36690 width=17) (actual time=0.009..20.916 rows=36819.00 loops=1)
+              Filter: ((status)::text = 'ACTIVE'::text)
+              Rows Removed by Filter: 83241
+              Buffers: shared hit=2304
+Planning:
+  Buffers: shared hit=159
+Planning Time: 0.356 ms
+Execution Time: 34.294 ms
+=== R18 run 3 ===
+Sort  (cost=4733.75..4743.49 rows=3898 width=25) (actual time=34.039..34.042 rows=60.00 loops=1)
+  Sort Key: (count(*)) DESC
+  Sort Method: quicksort  Memory: 27kB
+  Buffers: shared hit=2307
+  ->  HashAggregate  (cost=4355.10..4501.26 rows=3898 width=25) (actual time=30.491..34.015 rows=60.00 loops=1)
+        Group Key: listed_by, locality_id, carpet_area_sqft, floor_no, bhk
+        Filter: (count(*) > 1)
+        Batches: 1  Memory Usage: 3097kB
+        Rows Removed by Filter: 36699
+        Buffers: shared hit=2304
+        ->  Seq Scan on properties  (cost=0.00..3804.75 rows=36690 width=17) (actual time=0.011..20.561 rows=36819.00 loops=1)
+              Filter: ((status)::text = 'ACTIVE'::text)
+              Rows Removed by Filter: 83241
+              Buffers: shared hit=2304
+Planning:
+  Buffers: shared hit=159
+Planning Time: 0.411 ms
+Execution Time: 34.156 ms

@@ -1,0 +1,81 @@
+=== R07 run 1 ===
+Sort  (cost=2114.01..2114.02 rows=1 width=39) (actual time=4.951..4.952 rows=2.00 loops=1)
+  Sort Key: v.scheduled_at
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=496
+  ->  Nested Loop  (cost=0.58..2114.00 rows=1 width=39) (actual time=0.969..4.935 rows=2.00 loops=1)
+        Buffers: shared hit=493
+        ->  Nested Loop  (cost=0.29..2108.08 rows=1 width=20) (actual time=0.954..4.914 rows=2.00 loops=1)
+              Buffers: shared hit=487
+              ->  Seq Scan on site_visits v  (cost=0.00..815.80 rows=176 width=20) (actual time=0.096..4.574 rows=66.00 loops=1)
+                    Filter: (date(scheduled_at) = '2026-07-01'::date)
+                    Rows Removed by Filter: 35054
+                    Buffers: shared hit=289
+              ->  Index Scan using properties_pkey on properties p  (cost=0.29..7.34 rows=1 width=4) (actual time=0.005..0.005 rows=0.03 loops=66)
+                    Index Cond: (property_id = v.property_id)
+                    Filter: (listed_by = 4723)
+                    Rows Removed by Filter: 1
+                    Index Searches: 66
+                    Buffers: shared hit=198
+        ->  Index Scan using users_pkey on users u  (cost=0.29..5.92 rows=1 width=27) (actual time=0.010..0.010 rows=1.00 loops=2)
+              Index Cond: (user_id = v.user_id)
+              Index Searches: 2
+              Buffers: shared hit=6
+Planning:
+  Buffers: shared hit=347
+Planning Time: 1.054 ms
+Execution Time: 5.005 ms
+=== R07 run 2 ===
+Sort  (cost=2114.01..2114.02 rows=1 width=39) (actual time=4.985..4.986 rows=2.00 loops=1)
+  Sort Key: v.scheduled_at
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=496
+  ->  Nested Loop  (cost=0.58..2114.00 rows=1 width=39) (actual time=0.904..4.969 rows=2.00 loops=1)
+        Buffers: shared hit=493
+        ->  Nested Loop  (cost=0.29..2108.08 rows=1 width=20) (actual time=0.879..4.937 rows=2.00 loops=1)
+              Buffers: shared hit=487
+              ->  Seq Scan on site_visits v  (cost=0.00..815.80 rows=176 width=20) (actual time=0.096..4.614 rows=66.00 loops=1)
+                    Filter: (date(scheduled_at) = '2026-07-01'::date)
+                    Rows Removed by Filter: 35054
+                    Buffers: shared hit=289
+              ->  Index Scan using properties_pkey on properties p  (cost=0.29..7.34 rows=1 width=4) (actual time=0.005..0.005 rows=0.03 loops=66)
+                    Index Cond: (property_id = v.property_id)
+                    Filter: (listed_by = 4723)
+                    Rows Removed by Filter: 1
+                    Index Searches: 66
+                    Buffers: shared hit=198
+        ->  Index Scan using users_pkey on users u  (cost=0.29..5.92 rows=1 width=27) (actual time=0.015..0.015 rows=1.00 loops=2)
+              Index Cond: (user_id = v.user_id)
+              Index Searches: 2
+              Buffers: shared hit=6
+Planning:
+  Buffers: shared hit=347
+Planning Time: 0.932 ms
+Execution Time: 5.058 ms
+=== R07 run 3 ===
+Sort  (cost=2114.01..2114.02 rows=1 width=39) (actual time=4.935..4.936 rows=2.00 loops=1)
+  Sort Key: v.scheduled_at
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=496
+  ->  Nested Loop  (cost=0.58..2114.00 rows=1 width=39) (actual time=0.908..4.919 rows=2.00 loops=1)
+        Buffers: shared hit=493
+        ->  Nested Loop  (cost=0.29..2108.08 rows=1 width=20) (actual time=0.893..4.898 rows=2.00 loops=1)
+              Buffers: shared hit=487
+              ->  Seq Scan on site_visits v  (cost=0.00..815.80 rows=176 width=20) (actual time=0.100..4.589 rows=66.00 loops=1)
+                    Filter: (date(scheduled_at) = '2026-07-01'::date)
+                    Rows Removed by Filter: 35054
+                    Buffers: shared hit=289
+              ->  Index Scan using properties_pkey on properties p  (cost=0.29..7.34 rows=1 width=4) (actual time=0.004..0.004 rows=0.03 loops=66)
+                    Index Cond: (property_id = v.property_id)
+                    Filter: (listed_by = 4723)
+                    Rows Removed by Filter: 1
+                    Index Searches: 66
+                    Buffers: shared hit=198
+        ->  Index Scan using users_pkey on users u  (cost=0.29..5.92 rows=1 width=27) (actual time=0.009..0.009 rows=1.00 loops=2)
+              Index Cond: (user_id = v.user_id)
+              Index Searches: 2
+              Buffers: shared hit=6
+Planning:
+  Buffers: shared hit=347
+Planning Time: 1.012 ms
+Execution Time: 4.994 ms

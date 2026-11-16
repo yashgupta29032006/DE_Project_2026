@@ -1,0 +1,33 @@
+=== W04 run 1 ===
+Update on properties  (cost=0.00..4405.05 rows=0 width=0) (actual time=130.815..130.815 rows=0.00 loops=1)
+  Buffers: shared hit=130522 dirtied=455 written=445
+  ->  Seq Scan on properties  (cost=0.00..4405.05 rows=28666 width=54) (actual time=0.013..25.207 rows=14440.00 loops=1)
+        Filter: (((status)::text = 'ACTIVE'::text) AND (posted_at < ('2026-07-01 00:00:00+05:30'::timestamp with time zone - '120 days'::interval)))
+        Rows Removed by Filter: 105620
+        Buffers: shared hit=2304
+Planning:
+  Buffers: shared hit=63
+Planning Time: 0.291 ms
+Execution Time: 130.897 ms
+=== W04 run 2 ===
+Update on properties  (cost=0.00..4898.32 rows=0 width=0) (actual time=144.452..144.452 rows=0.00 loops=1)
+  Buffers: shared hit=146044 dirtied=321 written=321
+  ->  Seq Scan on properties  (cost=0.00..4898.32 rows=31876 width=54) (actual time=0.017..28.283 rows=14440.00 loops=1)
+        Filter: (((status)::text = 'ACTIVE'::text) AND (posted_at < ('2026-07-01 00:00:00+05:30'::timestamp with time zone - '120 days'::interval)))
+        Rows Removed by Filter: 105620
+        Buffers: shared hit=2562
+Planning:
+  Buffers: shared hit=63
+Planning Time: 0.284 ms
+Execution Time: 144.534 ms
+=== W04 run 3 ===
+Update on properties  (cost=0.00..5420.27 rows=0 width=0) (actual time=160.668..160.668 rows=0.00 loops=1)
+  Buffers: shared hit=157782 dirtied=281 written=281
+  ->  Seq Scan on properties  (cost=0.00..5420.27 rows=35273 width=54) (actual time=0.019..28.673 rows=14440.00 loops=1)
+        Filter: (((status)::text = 'ACTIVE'::text) AND (posted_at < ('2026-07-01 00:00:00+05:30'::timestamp with time zone - '120 days'::interval)))
+        Rows Removed by Filter: 105620
+        Buffers: shared hit=2835
+Planning:
+  Buffers: shared hit=63
+Planning Time: 0.322 ms
+Execution Time: 160.752 ms
