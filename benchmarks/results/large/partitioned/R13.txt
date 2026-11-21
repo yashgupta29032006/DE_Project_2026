@@ -1,0 +1,144 @@
+=== R13 run 1 ===
+Nested Loop Anti Join  (cost=0.42..47726.22 rows=2654 width=39) (actual time=13.263..20.337 rows=2400.00 loops=1)
+  Buffers: shared hit=110103 read=626
+  ->  Seq Scan on projects pj  (cost=0.00..551.00 rows=24000 width=39) (actual time=0.020..0.826 rows=24000.00 loops=1)
+        Buffers: shared read=311
+  ->  Append  (cost=0.42..10.88 rows=68 width=4) (actual time=0.001..0.001 rows=0.90 loops=24000)
+        Buffers: shared hit=110103 read=315
+        ->  Index Only Scan using properties_2025_q1_project_id_idx on properties_2025_q1 p_1  (cost=0.42..1.94 rows=11 width=4) (actual time=0.000..0.000 rows=0.90 loops=24000)
+              Index Cond: (project_id = pj.project_id)
+              Heap Fetches: 13
+              Index Searches: 24000
+              Buffers: shared hit=71717 read=297
+        ->  Index Only Scan using properties_2025_q2_project_id_idx on properties_2025_q2 p_2  (cost=0.42..1.96 rows=11 width=4) (actual time=0.000..0.000 rows=0.00 loops=2401)
+              Index Cond: (project_id = pj.project_id)
+              Heap Fetches: 1
+              Index Searches: 2401
+              Buffers: shared hit=7199 read=5
+        ->  Index Only Scan using properties_2025_q3_project_id_idx on properties_2025_q3 p_3  (cost=0.42..0.69 rows=11 width=4) (actual time=0.000..0.000 rows=0.00 loops=2400)
+              Index Cond: (project_id = pj.project_id)
+              Heap Fetches: 0
+              Index Searches: 2400
+              Buffers: shared hit=7197 read=3
+        ->  Index Only Scan using properties_2025_q4_project_id_idx on properties_2025_q4 p_4  (cost=0.42..1.89 rows=11 width=4) (actual time=0.000..0.000 rows=0.00 loops=2400)
+              Index Cond: (project_id = pj.project_id)
+              Heap Fetches: 0
+              Index Searches: 2400
+              Buffers: shared hit=7197 read=3
+        ->  Index Only Scan using properties_2026_q1_project_id_idx on properties_2026_q1 p_5  (cost=0.42..1.94 rows=11 width=4) (actual time=0.000..0.000 rows=0.00 loops=2400)
+              Index Cond: (project_id = pj.project_id)
+              Heap Fetches: 0
+              Index Searches: 2400
+              Buffers: shared hit=7197 read=3
+        ->  Index Only Scan using properties_2026_q2_project_id_idx on properties_2026_q2 p_6  (cost=0.42..1.97 rows=11 width=4) (actual time=0.000..0.000 rows=0.00 loops=2400)
+              Index Cond: (project_id = pj.project_id)
+              Heap Fetches: 0
+              Index Searches: 2400
+              Buffers: shared hit=7197 read=3
+        ->  Index Only Scan using properties_2026_q3_project_id_idx on properties_2026_q3 p_7  (cost=0.14..0.16 rows=1 width=4) (actual time=0.000..0.000 rows=0.00 loops=2400)
+              Index Cond: (project_id = pj.project_id)
+              Heap Fetches: 0
+              Index Searches: 2400
+              Buffers: shared hit=2399 read=1
+        ->  Seq Scan on properties_default p_8  (cost=0.00..0.00 rows=1 width=4) (actual time=0.000..0.000 rows=0.00 loops=2400)
+              Filter: (project_id = pj.project_id)
+Planning:
+  Buffers: shared hit=2130 read=152
+Planning Time: 3.956 ms
+Execution Time: 20.415 ms
+=== R13 run 2 ===
+Nested Loop Anti Join  (cost=0.42..47726.22 rows=2654 width=39) (actual time=11.938..19.016 rows=2400.00 loops=1)
+  Buffers: shared hit=110729
+  ->  Seq Scan on projects pj  (cost=0.00..551.00 rows=24000 width=39) (actual time=0.002..0.716 rows=24000.00 loops=1)
+        Buffers: shared hit=311
+  ->  Append  (cost=0.42..10.88 rows=68 width=4) (actual time=0.001..0.001 rows=0.90 loops=24000)
+        Buffers: shared hit=110418
+        ->  Index Only Scan using properties_2025_q1_project_id_idx on properties_2025_q1 p_1  (cost=0.42..1.94 rows=11 width=4) (actual time=0.000..0.000 rows=0.90 loops=24000)
+              Index Cond: (project_id = pj.project_id)
+              Heap Fetches: 13
+              Index Searches: 24000
+              Buffers: shared hit=72014
+        ->  Index Only Scan using properties_2025_q2_project_id_idx on properties_2025_q2 p_2  (cost=0.42..1.96 rows=11 width=4) (actual time=0.000..0.000 rows=0.00 loops=2401)
+              Index Cond: (project_id = pj.project_id)
+              Heap Fetches: 1
+              Index Searches: 2401
+              Buffers: shared hit=7204
+        ->  Index Only Scan using properties_2025_q3_project_id_idx on properties_2025_q3 p_3  (cost=0.42..0.69 rows=11 width=4) (actual time=0.000..0.000 rows=0.00 loops=2400)
+              Index Cond: (project_id = pj.project_id)
+              Heap Fetches: 0
+              Index Searches: 2400
+              Buffers: shared hit=7200
+        ->  Index Only Scan using properties_2025_q4_project_id_idx on properties_2025_q4 p_4  (cost=0.42..1.89 rows=11 width=4) (actual time=0.000..0.000 rows=0.00 loops=2400)
+              Index Cond: (project_id = pj.project_id)
+              Heap Fetches: 0
+              Index Searches: 2400
+              Buffers: shared hit=7200
+        ->  Index Only Scan using properties_2026_q1_project_id_idx on properties_2026_q1 p_5  (cost=0.42..1.94 rows=11 width=4) (actual time=0.000..0.000 rows=0.00 loops=2400)
+              Index Cond: (project_id = pj.project_id)
+              Heap Fetches: 0
+              Index Searches: 2400
+              Buffers: shared hit=7200
+        ->  Index Only Scan using properties_2026_q2_project_id_idx on properties_2026_q2 p_6  (cost=0.42..1.97 rows=11 width=4) (actual time=0.000..0.000 rows=0.00 loops=2400)
+              Index Cond: (project_id = pj.project_id)
+              Heap Fetches: 0
+              Index Searches: 2400
+              Buffers: shared hit=7200
+        ->  Index Only Scan using properties_2026_q3_project_id_idx on properties_2026_q3 p_7  (cost=0.14..0.16 rows=1 width=4) (actual time=0.000..0.000 rows=0.00 loops=2400)
+              Index Cond: (project_id = pj.project_id)
+              Heap Fetches: 0
+              Index Searches: 2400
+              Buffers: shared hit=2400
+        ->  Seq Scan on properties_default p_8  (cost=0.00..0.00 rows=1 width=4) (actual time=0.000..0.000 rows=0.00 loops=2400)
+              Filter: (project_id = pj.project_id)
+Planning:
+  Buffers: shared hit=2282
+Planning Time: 2.698 ms
+Execution Time: 19.095 ms
+=== R13 run 3 ===
+Nested Loop Anti Join  (cost=0.42..47726.22 rows=2654 width=39) (actual time=12.061..18.681 rows=2400.00 loops=1)
+  Buffers: shared hit=110727
+  ->  Seq Scan on projects pj  (cost=0.00..551.00 rows=24000 width=39) (actual time=0.002..0.712 rows=24000.00 loops=1)
+        Buffers: shared hit=311
+  ->  Append  (cost=0.42..10.88 rows=68 width=4) (actual time=0.001..0.001 rows=0.90 loops=24000)
+        Buffers: shared hit=110416
+        ->  Index Only Scan using properties_2025_q1_project_id_idx on properties_2025_q1 p_1  (cost=0.42..1.94 rows=11 width=4) (actual time=0.000..0.000 rows=0.90 loops=24000)
+              Index Cond: (project_id = pj.project_id)
+              Heap Fetches: 11
+              Index Searches: 24000
+              Buffers: shared hit=72012
+        ->  Index Only Scan using properties_2025_q2_project_id_idx on properties_2025_q2 p_2  (cost=0.42..1.96 rows=11 width=4) (actual time=0.000..0.000 rows=0.00 loops=2401)
+              Index Cond: (project_id = pj.project_id)
+              Heap Fetches: 1
+              Index Searches: 2401
+              Buffers: shared hit=7204
+        ->  Index Only Scan using properties_2025_q3_project_id_idx on properties_2025_q3 p_3  (cost=0.42..0.69 rows=11 width=4) (actual time=0.000..0.000 rows=0.00 loops=2400)
+              Index Cond: (project_id = pj.project_id)
+              Heap Fetches: 0
+              Index Searches: 2400
+              Buffers: shared hit=7200
+        ->  Index Only Scan using properties_2025_q4_project_id_idx on properties_2025_q4 p_4  (cost=0.42..1.89 rows=11 width=4) (actual time=0.000..0.000 rows=0.00 loops=2400)
+              Index Cond: (project_id = pj.project_id)
+              Heap Fetches: 0
+              Index Searches: 2400
+              Buffers: shared hit=7200
+        ->  Index Only Scan using properties_2026_q1_project_id_idx on properties_2026_q1 p_5  (cost=0.42..1.94 rows=11 width=4) (actual time=0.000..0.000 rows=0.00 loops=2400)
+              Index Cond: (project_id = pj.project_id)
+              Heap Fetches: 0
+              Index Searches: 2400
+              Buffers: shared hit=7200
+        ->  Index Only Scan using properties_2026_q2_project_id_idx on properties_2026_q2 p_6  (cost=0.42..1.97 rows=11 width=4) (actual time=0.000..0.000 rows=0.00 loops=2400)
+              Index Cond: (project_id = pj.project_id)
+              Heap Fetches: 0
+              Index Searches: 2400
+              Buffers: shared hit=7200
+        ->  Index Only Scan using properties_2026_q3_project_id_idx on properties_2026_q3 p_7  (cost=0.14..0.16 rows=1 width=4) (actual time=0.000..0.000 rows=0.00 loops=2400)
+              Index Cond: (project_id = pj.project_id)
+              Heap Fetches: 0
+              Index Searches: 2400
+              Buffers: shared hit=2400
+        ->  Seq Scan on properties_default p_8  (cost=0.00..0.00 rows=1 width=4) (actual time=0.000..0.000 rows=0.00 loops=2400)
+              Filter: (project_id = pj.project_id)
+Planning:
+  Buffers: shared hit=2282
+Planning Time: 3.041 ms
+Execution Time: 18.758 ms

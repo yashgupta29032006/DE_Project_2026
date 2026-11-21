@@ -1,0 +1,132 @@
+=== R04 run 1 ===
+GroupAggregate  (cost=23842.17..24263.28 rows=2925 width=48) (actual time=35.489..36.644 rows=6.00 loops=1)
+  Group Key: (date_trunc('month'::text, p.posted_at))
+  Buffers: shared hit=3937 read=11276
+  ->  Gather Merge  (cost=23842.17..24182.84 rows=2925 width=19) (actual time=35.338..36.185 rows=2874.00 loops=1)
+        Workers Planned: 2
+        Workers Launched: 2
+        Buffers: shared hit=3937 read=11276
+        ->  Sort  (cost=22842.15..22845.20 rows=1219 width=19) (actual time=33.870..33.897 rows=958.00 loops=3)
+              Sort Key: (date_trunc('month'::text, p.posted_at))
+              Sort Method: quicksort  Memory: 89kB
+              Buffers: shared hit=3937 read=11276
+              Worker 0:  Sort Method: quicksort  Memory: 62kB
+              Worker 1:  Sort Method: quicksort  Memory: 60kB
+              ->  Hash Join  (cost=2.26..22779.67 rows=1219 width=19) (actual time=0.132..33.798 rows=958.00 loops=3)
+                    Hash Cond: (p.locality_id = l.locality_id)
+                    Buffers: shared hit=3921 read=11276
+                    ->  Parallel Append  (cost=0.00..22440.83 rows=121893 width=23) (actual time=0.026..31.190 rows=92932.00 loops=3)
+                          Buffers: shared hit=3918 read=11276
+                          ->  Seq Scan on properties_default p_4  (cost=0.00..0.00 rows=1 width=44) (actual time=0.017..0.017 rows=0.00 loops=1)
+                                Filter: ((posted_at >= '2026-01-01 00:00:00+05:30'::timestamp with time zone) AND (posted_at < '2027-01-01 00:00:00+05:30'::timestamp with time zone) AND ((listing_type)::text = 'SALE'::text) AND ((property_type)::text = 'APARTMENT'::text))
+                          ->  Parallel Seq Scan on properties_2026_q2 p_2  (cost=0.00..10990.05 rows=60785 width=23) (actual time=0.011..14.627 rows=46646.33 loops=3)
+                                Filter: ((posted_at >= '2026-01-01 00:00:00+05:30'::timestamp with time zone) AND (posted_at < '2027-01-01 00:00:00+05:30'::timestamp with time zone) AND ((listing_type)::text = 'SALE'::text) AND ((property_type)::text = 'APARTMENT'::text))
+                                Rows Removed by Filter: 86876
+                                Buffers: shared hit=3317 read=4335
+                          ->  Parallel Seq Scan on properties_2026_q1 p_1  (cost=0.00..10838.66 rows=61098 width=23) (actual time=0.020..20.017 rows=69419.00 loops=2)
+                                Filter: ((posted_at >= '2026-01-01 00:00:00+05:30'::timestamp with time zone) AND (posted_at < '2027-01-01 00:00:00+05:30'::timestamp with time zone) AND ((listing_type)::text = 'SALE'::text) AND ((property_type)::text = 'APARTMENT'::text))
+                                Rows Removed by Filter: 128500
+                                Buffers: shared hit=599 read=6941
+                          ->  Parallel Seq Scan on properties_2026_q3 p_3  (cost=0.00..2.66 rows=12 width=24) (actual time=0.002..0.008 rows=19.00 loops=1)
+                                Filter: ((posted_at >= '2026-01-01 00:00:00+05:30'::timestamp with time zone) AND (posted_at < '2027-01-01 00:00:00+05:30'::timestamp with time zone) AND ((listing_type)::text = 'SALE'::text) AND ((property_type)::text = 'APARTMENT'::text))
+                                Rows Removed by Filter: 37
+                                Buffers: shared hit=2
+                    ->  Hash  (cost=2.25..2.25 rows=1 width=4) (actual time=0.018..0.018 rows=1.00 loops=3)
+                          Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                          Buffers: shared hit=3
+                          ->  Seq Scan on localities l  (cost=0.00..2.25 rows=1 width=4) (actual time=0.013..0.015 rows=1.00 loops=3)
+                                Filter: ((locality_name)::text = 'Whitefield'::text)
+                                Rows Removed by Filter: 99
+                                Buffers: shared hit=3
+Planning:
+  Buffers: shared hit=1535 read=13
+Planning Time: 2.901 ms
+Execution Time: 36.681 ms
+=== R04 run 2 ===
+GroupAggregate  (cost=23842.17..24263.28 rows=2925 width=48) (actual time=36.323..37.311 rows=6.00 loops=1)
+  Group Key: (date_trunc('month'::text, p.posted_at))
+  Buffers: shared hit=4407 read=10806
+  ->  Gather Merge  (cost=23842.17..24182.84 rows=2925 width=19) (actual time=36.209..36.953 rows=2874.00 loops=1)
+        Workers Planned: 2
+        Workers Launched: 2
+        Buffers: shared hit=4407 read=10806
+        ->  Sort  (cost=22842.15..22845.20 rows=1219 width=19) (actual time=34.794..34.813 rows=958.00 loops=3)
+              Sort Key: (date_trunc('month'::text, p.posted_at))
+              Sort Method: quicksort  Memory: 63kB
+              Buffers: shared hit=4407 read=10806
+              Worker 0:  Sort Method: quicksort  Memory: 62kB
+              Worker 1:  Sort Method: quicksort  Memory: 60kB
+              ->  Hash Join  (cost=2.26..22779.67 rows=1219 width=19) (actual time=0.109..34.718 rows=958.00 loops=3)
+                    Hash Cond: (p.locality_id = l.locality_id)
+                    Buffers: shared hit=4391 read=10806
+                    ->  Parallel Append  (cost=0.00..22440.83 rows=121893 width=23) (actual time=0.026..31.954 rows=92932.00 loops=3)
+                          Buffers: shared hit=4388 read=10806
+                          ->  Seq Scan on properties_default p_4  (cost=0.00..0.00 rows=1 width=44) (actual time=0.017..0.017 rows=0.00 loops=1)
+                                Filter: ((posted_at >= '2026-01-01 00:00:00+05:30'::timestamp with time zone) AND (posted_at < '2027-01-01 00:00:00+05:30'::timestamp with time zone) AND ((listing_type)::text = 'SALE'::text) AND ((property_type)::text = 'APARTMENT'::text))
+                          ->  Parallel Seq Scan on properties_2026_q2 p_2  (cost=0.00..10990.05 rows=60785 width=23) (actual time=0.017..14.489 rows=46646.33 loops=3)
+                                Filter: ((posted_at >= '2026-01-01 00:00:00+05:30'::timestamp with time zone) AND (posted_at < '2027-01-01 00:00:00+05:30'::timestamp with time zone) AND ((listing_type)::text = 'SALE'::text) AND ((property_type)::text = 'APARTMENT'::text))
+                                Rows Removed by Filter: 86876
+                                Buffers: shared hit=3599 read=4053
+                          ->  Parallel Seq Scan on properties_2026_q1 p_1  (cost=0.00..10838.66 rows=61098 width=23) (actual time=0.023..21.297 rows=69419.00 loops=2)
+                                Filter: ((posted_at >= '2026-01-01 00:00:00+05:30'::timestamp with time zone) AND (posted_at < '2027-01-01 00:00:00+05:30'::timestamp with time zone) AND ((listing_type)::text = 'SALE'::text) AND ((property_type)::text = 'APARTMENT'::text))
+                                Rows Removed by Filter: 128500
+                                Buffers: shared hit=787 read=6753
+                          ->  Parallel Seq Scan on properties_2026_q3 p_3  (cost=0.00..2.66 rows=12 width=24) (actual time=0.002..0.008 rows=19.00 loops=1)
+                                Filter: ((posted_at >= '2026-01-01 00:00:00+05:30'::timestamp with time zone) AND (posted_at < '2027-01-01 00:00:00+05:30'::timestamp with time zone) AND ((listing_type)::text = 'SALE'::text) AND ((property_type)::text = 'APARTMENT'::text))
+                                Rows Removed by Filter: 37
+                                Buffers: shared hit=2
+                    ->  Hash  (cost=2.25..2.25 rows=1 width=4) (actual time=0.016..0.016 rows=1.00 loops=3)
+                          Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                          Buffers: shared hit=3
+                          ->  Seq Scan on localities l  (cost=0.00..2.25 rows=1 width=4) (actual time=0.011..0.014 rows=1.00 loops=3)
+                                Filter: ((locality_name)::text = 'Whitefield'::text)
+                                Rows Removed by Filter: 99
+                                Buffers: shared hit=3
+Planning:
+  Buffers: shared hit=1548
+Planning Time: 2.152 ms
+Execution Time: 37.345 ms
+=== R04 run 3 ===
+GroupAggregate  (cost=23842.17..24263.28 rows=2925 width=48) (actual time=34.866..35.868 rows=6.00 loops=1)
+  Group Key: (date_trunc('month'::text, p.posted_at))
+  Buffers: shared hit=4877 read=10336
+  ->  Gather Merge  (cost=23842.17..24182.84 rows=2925 width=19) (actual time=34.753..35.511 rows=2874.00 loops=1)
+        Workers Planned: 2
+        Workers Launched: 2
+        Buffers: shared hit=4877 read=10336
+        ->  Sort  (cost=22842.15..22845.20 rows=1219 width=19) (actual time=33.376..33.395 rows=958.00 loops=3)
+              Sort Key: (date_trunc('month'::text, p.posted_at))
+              Sort Method: quicksort  Memory: 89kB
+              Buffers: shared hit=4877 read=10336
+              Worker 0:  Sort Method: quicksort  Memory: 60kB
+              Worker 1:  Sort Method: quicksort  Memory: 61kB
+              ->  Hash Join  (cost=2.26..22779.67 rows=1219 width=19) (actual time=0.152..33.298 rows=958.00 loops=3)
+                    Hash Cond: (p.locality_id = l.locality_id)
+                    Buffers: shared hit=4861 read=10336
+                    ->  Parallel Append  (cost=0.00..22440.83 rows=121893 width=23) (actual time=0.024..30.718 rows=92932.00 loops=3)
+                          Buffers: shared hit=4858 read=10336
+                          ->  Seq Scan on properties_default p_4  (cost=0.00..0.00 rows=1 width=44) (actual time=0.014..0.014 rows=0.00 loops=1)
+                                Filter: ((posted_at >= '2026-01-01 00:00:00+05:30'::timestamp with time zone) AND (posted_at < '2027-01-01 00:00:00+05:30'::timestamp with time zone) AND ((listing_type)::text = 'SALE'::text) AND ((property_type)::text = 'APARTMENT'::text))
+                          ->  Parallel Seq Scan on properties_2026_q2 p_2  (cost=0.00..10990.05 rows=60785 width=23) (actual time=0.039..14.229 rows=46646.33 loops=3)
+                                Filter: ((posted_at >= '2026-01-01 00:00:00+05:30'::timestamp with time zone) AND (posted_at < '2027-01-01 00:00:00+05:30'::timestamp with time zone) AND ((listing_type)::text = 'SALE'::text) AND ((property_type)::text = 'APARTMENT'::text))
+                                Rows Removed by Filter: 86876
+                                Buffers: shared hit=3881 read=3771
+                          ->  Parallel Seq Scan on properties_2026_q1 p_1  (cost=0.00..10838.66 rows=61098 width=23) (actual time=0.023..20.075 rows=69419.00 loops=2)
+                                Filter: ((posted_at >= '2026-01-01 00:00:00+05:30'::timestamp with time zone) AND (posted_at < '2027-01-01 00:00:00+05:30'::timestamp with time zone) AND ((listing_type)::text = 'SALE'::text) AND ((property_type)::text = 'APARTMENT'::text))
+                                Rows Removed by Filter: 128500
+                                Buffers: shared hit=975 read=6565
+                          ->  Parallel Seq Scan on properties_2026_q3 p_3  (cost=0.00..2.66 rows=12 width=24) (actual time=0.003..0.008 rows=19.00 loops=1)
+                                Filter: ((posted_at >= '2026-01-01 00:00:00+05:30'::timestamp with time zone) AND (posted_at < '2027-01-01 00:00:00+05:30'::timestamp with time zone) AND ((listing_type)::text = 'SALE'::text) AND ((property_type)::text = 'APARTMENT'::text))
+                                Rows Removed by Filter: 37
+                                Buffers: shared hit=2
+                    ->  Hash  (cost=2.25..2.25 rows=1 width=4) (actual time=0.016..0.016 rows=1.00 loops=3)
+                          Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                          Buffers: shared hit=3
+                          ->  Seq Scan on localities l  (cost=0.00..2.25 rows=1 width=4) (actual time=0.011..0.014 rows=1.00 loops=3)
+                                Filter: ((locality_name)::text = 'Whitefield'::text)
+                                Rows Removed by Filter: 99
+                                Buffers: shared hit=3
+Planning:
+  Buffers: shared hit=1548
+Planning Time: 2.029 ms
+Execution Time: 35.909 ms

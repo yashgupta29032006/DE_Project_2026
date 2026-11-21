@@ -1,0 +1,135 @@
+=== R05 run 1 ===
+Limit  (cost=94.90..817.23 rows=200 width=28) (actual time=0.297..0.711 rows=200.00 loops=1)
+  Buffers: shared hit=22 read=215
+  ->  Append  (cost=94.90..6144.42 rows=1675 width=28) (actual time=0.297..0.702 rows=200.00 loops=1)
+        Buffers: shared hit=22 read=215
+        ->  Bitmap Heap Scan on properties_2025_q1 properties_1  (cost=94.90..542.81 rows=123 width=28) (actual time=0.296..0.694 rows=200.00 loops=1)
+              Recheck Cond: ((latitude >= 12.90) AND (latitude <= 13.00) AND (longitude >= 77.55) AND (longitude <= 77.65) AND ((listing_type)::text = 'RENT'::text) AND ((status)::text = 'ACTIVE'::text))
+              Heap Blocks: exact=191
+              Buffers: shared hit=22 read=215
+              ->  Bitmap Index Scan on properties_2025_q1_latitude_longitude_property_id_price_bhk_idx  (cost=0.00..94.87 rows=123 width=0) (actual time=0.210..0.210 rows=1231.00 loops=1)
+                    Index Cond: ((latitude >= 12.90) AND (latitude <= 13.00) AND (longitude >= 77.55) AND (longitude <= 77.65))
+                    Index Searches: 1
+                    Buffers: shared hit=8 read=17
+        ->  Bitmap Heap Scan on properties_2025_q2 properties_2  (cost=95.55..543.74 rows=124 width=28) (never executed)
+              Recheck Cond: ((latitude >= 12.90) AND (latitude <= 13.00) AND (longitude >= 77.55) AND (longitude <= 77.65) AND ((listing_type)::text = 'RENT'::text) AND ((status)::text = 'ACTIVE'::text))
+              ->  Bitmap Index Scan on properties_2025_q2_latitude_longitude_property_id_price_bhk_idx  (cost=0.00..95.52 rows=124 width=0) (never executed)
+                    Index Cond: ((latitude >= 12.90) AND (latitude <= 13.00) AND (longitude >= 77.55) AND (longitude <= 77.65))
+                    Index Searches: 0
+        ->  Index Only Scan using properties_2025_q3_latitude_longitude_property_id_price_bhk_idx on properties_2025_q3 properties_3  (cost=0.41..97.20 rows=133 width=28) (never executed)
+              Index Cond: ((latitude >= 12.90) AND (latitude <= 13.00) AND (longitude >= 77.55) AND (longitude <= 77.65))
+              Heap Fetches: 0
+              Index Searches: 0
+        ->  Bitmap Heap Scan on properties_2025_q4 properties_4  (cost=100.56..590.32 rows=136 width=28) (never executed)
+              Recheck Cond: ((latitude >= 12.90) AND (latitude <= 13.00) AND (longitude >= 77.55) AND (longitude <= 77.65) AND ((listing_type)::text = 'RENT'::text) AND ((status)::text = 'ACTIVE'::text))
+              ->  Bitmap Index Scan on properties_2025_q4_latitude_longitude_property_id_price_bhk_idx  (cost=0.00..100.53 rows=136 width=0) (never executed)
+                    Index Cond: ((latitude >= 12.90) AND (latitude <= 13.00) AND (longitude >= 77.55) AND (longitude <= 77.65))
+                    Index Searches: 0
+        ->  Bitmap Heap Scan on properties_2026_q1 properties_5  (cost=258.63..1404.57 rows=345 width=28) (never executed)
+              Recheck Cond: ((latitude >= 12.90) AND (latitude <= 13.00) AND (longitude >= 77.55) AND (longitude <= 77.65) AND ((listing_type)::text = 'RENT'::text) AND ((status)::text = 'ACTIVE'::text))
+              ->  Bitmap Index Scan on properties_2026_q1_latitude_longitude_property_id_price_bhk_idx  (cost=0.00..258.55 rows=345 width=0) (never executed)
+                    Index Cond: ((latitude >= 12.90) AND (latitude <= 13.00) AND (longitude >= 77.55) AND (longitude <= 77.65))
+                    Index Searches: 0
+        ->  Bitmap Heap Scan on properties_2026_q2 properties_6  (cost=581.34..2954.01 rows=812 width=28) (never executed)
+              Recheck Cond: ((latitude >= 12.90) AND (latitude <= 13.00) AND (longitude >= 77.55) AND (longitude <= 77.65) AND ((listing_type)::text = 'RENT'::text) AND ((status)::text = 'ACTIVE'::text))
+              ->  Bitmap Index Scan on properties_2026_q2_latitude_longitude_property_id_price_bhk_idx  (cost=0.00..581.13 rows=812 width=0) (never executed)
+                    Index Cond: ((latitude >= 12.90) AND (latitude <= 13.00) AND (longitude >= 77.55) AND (longitude <= 77.65))
+                    Index Searches: 0
+        ->  Seq Scan on properties_2026_q3 properties_7  (cost=0.00..3.40 rows=1 width=31) (never executed)
+              Filter: ((latitude >= 12.90) AND (latitude <= 13.00) AND (longitude >= 77.55) AND (longitude <= 77.65) AND ((listing_type)::text = 'RENT'::text) AND ((status)::text = 'ACTIVE'::text))
+        ->  Seq Scan on properties_default properties_8  (cost=0.00..0.00 rows=1 width=50) (never executed)
+              Filter: ((latitude >= 12.90) AND (latitude <= 13.00) AND (longitude >= 77.55) AND (longitude <= 77.65) AND ((listing_type)::text = 'RENT'::text) AND ((status)::text = 'ACTIVE'::text))
+Planning:
+  Buffers: shared hit=2379 dirtied=1
+Planning Time: 4.043 ms
+Execution Time: 0.761 ms
+=== R05 run 2 ===
+Limit  (cost=94.90..817.23 rows=200 width=28) (actual time=0.248..0.445 rows=200.00 loops=1)
+  Buffers: shared hit=217
+  ->  Append  (cost=94.90..6144.42 rows=1675 width=28) (actual time=0.248..0.438 rows=200.00 loops=1)
+        Buffers: shared hit=217
+        ->  Bitmap Heap Scan on properties_2025_q1 properties_1  (cost=94.90..542.81 rows=123 width=28) (actual time=0.247..0.431 rows=200.00 loops=1)
+              Recheck Cond: ((latitude >= 12.90) AND (latitude <= 13.00) AND (longitude >= 77.55) AND (longitude <= 77.65) AND ((listing_type)::text = 'RENT'::text) AND ((status)::text = 'ACTIVE'::text))
+              Heap Blocks: exact=191
+              Buffers: shared hit=217
+              ->  Bitmap Index Scan on properties_2025_q1_latitude_longitude_property_id_price_bhk_idx  (cost=0.00..94.87 rows=123 width=0) (actual time=0.177..0.177 rows=1231.00 loops=1)
+                    Index Cond: ((latitude >= 12.90) AND (latitude <= 13.00) AND (longitude >= 77.55) AND (longitude <= 77.65))
+                    Index Searches: 1
+                    Buffers: shared hit=25
+        ->  Bitmap Heap Scan on properties_2025_q2 properties_2  (cost=95.55..543.74 rows=124 width=28) (never executed)
+              Recheck Cond: ((latitude >= 12.90) AND (latitude <= 13.00) AND (longitude >= 77.55) AND (longitude <= 77.65) AND ((listing_type)::text = 'RENT'::text) AND ((status)::text = 'ACTIVE'::text))
+              ->  Bitmap Index Scan on properties_2025_q2_latitude_longitude_property_id_price_bhk_idx  (cost=0.00..95.52 rows=124 width=0) (never executed)
+                    Index Cond: ((latitude >= 12.90) AND (latitude <= 13.00) AND (longitude >= 77.55) AND (longitude <= 77.65))
+                    Index Searches: 0
+        ->  Index Only Scan using properties_2025_q3_latitude_longitude_property_id_price_bhk_idx on properties_2025_q3 properties_3  (cost=0.41..97.20 rows=133 width=28) (never executed)
+              Index Cond: ((latitude >= 12.90) AND (latitude <= 13.00) AND (longitude >= 77.55) AND (longitude <= 77.65))
+              Heap Fetches: 0
+              Index Searches: 0
+        ->  Bitmap Heap Scan on properties_2025_q4 properties_4  (cost=100.56..590.32 rows=136 width=28) (never executed)
+              Recheck Cond: ((latitude >= 12.90) AND (latitude <= 13.00) AND (longitude >= 77.55) AND (longitude <= 77.65) AND ((listing_type)::text = 'RENT'::text) AND ((status)::text = 'ACTIVE'::text))
+              ->  Bitmap Index Scan on properties_2025_q4_latitude_longitude_property_id_price_bhk_idx  (cost=0.00..100.53 rows=136 width=0) (never executed)
+                    Index Cond: ((latitude >= 12.90) AND (latitude <= 13.00) AND (longitude >= 77.55) AND (longitude <= 77.65))
+                    Index Searches: 0
+        ->  Bitmap Heap Scan on properties_2026_q1 properties_5  (cost=258.63..1404.57 rows=345 width=28) (never executed)
+              Recheck Cond: ((latitude >= 12.90) AND (latitude <= 13.00) AND (longitude >= 77.55) AND (longitude <= 77.65) AND ((listing_type)::text = 'RENT'::text) AND ((status)::text = 'ACTIVE'::text))
+              ->  Bitmap Index Scan on properties_2026_q1_latitude_longitude_property_id_price_bhk_idx  (cost=0.00..258.55 rows=345 width=0) (never executed)
+                    Index Cond: ((latitude >= 12.90) AND (latitude <= 13.00) AND (longitude >= 77.55) AND (longitude <= 77.65))
+                    Index Searches: 0
+        ->  Bitmap Heap Scan on properties_2026_q2 properties_6  (cost=581.34..2954.01 rows=812 width=28) (never executed)
+              Recheck Cond: ((latitude >= 12.90) AND (latitude <= 13.00) AND (longitude >= 77.55) AND (longitude <= 77.65) AND ((listing_type)::text = 'RENT'::text) AND ((status)::text = 'ACTIVE'::text))
+              ->  Bitmap Index Scan on properties_2026_q2_latitude_longitude_property_id_price_bhk_idx  (cost=0.00..581.13 rows=812 width=0) (never executed)
+                    Index Cond: ((latitude >= 12.90) AND (latitude <= 13.00) AND (longitude >= 77.55) AND (longitude <= 77.65))
+                    Index Searches: 0
+        ->  Seq Scan on properties_2026_q3 properties_7  (cost=0.00..3.40 rows=1 width=31) (never executed)
+              Filter: ((latitude >= 12.90) AND (latitude <= 13.00) AND (longitude >= 77.55) AND (longitude <= 77.65) AND ((listing_type)::text = 'RENT'::text) AND ((status)::text = 'ACTIVE'::text))
+        ->  Seq Scan on properties_default properties_8  (cost=0.00..0.00 rows=1 width=50) (never executed)
+              Filter: ((latitude >= 12.90) AND (latitude <= 13.00) AND (longitude >= 77.55) AND (longitude <= 77.65) AND ((listing_type)::text = 'RENT'::text) AND ((status)::text = 'ACTIVE'::text))
+Planning:
+  Buffers: shared hit=2379
+Planning Time: 3.478 ms
+Execution Time: 0.483 ms
+=== R05 run 3 ===
+Limit  (cost=94.90..817.23 rows=200 width=28) (actual time=0.251..0.443 rows=200.00 loops=1)
+  Buffers: shared hit=217
+  ->  Append  (cost=94.90..6144.42 rows=1675 width=28) (actual time=0.251..0.428 rows=200.00 loops=1)
+        Buffers: shared hit=217
+        ->  Bitmap Heap Scan on properties_2025_q1 properties_1  (cost=94.90..542.81 rows=123 width=28) (actual time=0.251..0.421 rows=200.00 loops=1)
+              Recheck Cond: ((latitude >= 12.90) AND (latitude <= 13.00) AND (longitude >= 77.55) AND (longitude <= 77.65) AND ((listing_type)::text = 'RENT'::text) AND ((status)::text = 'ACTIVE'::text))
+              Heap Blocks: exact=191
+              Buffers: shared hit=217
+              ->  Bitmap Index Scan on properties_2025_q1_latitude_longitude_property_id_price_bhk_idx  (cost=0.00..94.87 rows=123 width=0) (actual time=0.179..0.179 rows=1231.00 loops=1)
+                    Index Cond: ((latitude >= 12.90) AND (latitude <= 13.00) AND (longitude >= 77.55) AND (longitude <= 77.65))
+                    Index Searches: 1
+                    Buffers: shared hit=25
+        ->  Bitmap Heap Scan on properties_2025_q2 properties_2  (cost=95.55..543.74 rows=124 width=28) (never executed)
+              Recheck Cond: ((latitude >= 12.90) AND (latitude <= 13.00) AND (longitude >= 77.55) AND (longitude <= 77.65) AND ((listing_type)::text = 'RENT'::text) AND ((status)::text = 'ACTIVE'::text))
+              ->  Bitmap Index Scan on properties_2025_q2_latitude_longitude_property_id_price_bhk_idx  (cost=0.00..95.52 rows=124 width=0) (never executed)
+                    Index Cond: ((latitude >= 12.90) AND (latitude <= 13.00) AND (longitude >= 77.55) AND (longitude <= 77.65))
+                    Index Searches: 0
+        ->  Index Only Scan using properties_2025_q3_latitude_longitude_property_id_price_bhk_idx on properties_2025_q3 properties_3  (cost=0.41..97.20 rows=133 width=28) (never executed)
+              Index Cond: ((latitude >= 12.90) AND (latitude <= 13.00) AND (longitude >= 77.55) AND (longitude <= 77.65))
+              Heap Fetches: 0
+              Index Searches: 0
+        ->  Bitmap Heap Scan on properties_2025_q4 properties_4  (cost=100.56..590.32 rows=136 width=28) (never executed)
+              Recheck Cond: ((latitude >= 12.90) AND (latitude <= 13.00) AND (longitude >= 77.55) AND (longitude <= 77.65) AND ((listing_type)::text = 'RENT'::text) AND ((status)::text = 'ACTIVE'::text))
+              ->  Bitmap Index Scan on properties_2025_q4_latitude_longitude_property_id_price_bhk_idx  (cost=0.00..100.53 rows=136 width=0) (never executed)
+                    Index Cond: ((latitude >= 12.90) AND (latitude <= 13.00) AND (longitude >= 77.55) AND (longitude <= 77.65))
+                    Index Searches: 0
+        ->  Bitmap Heap Scan on properties_2026_q1 properties_5  (cost=258.63..1404.57 rows=345 width=28) (never executed)
+              Recheck Cond: ((latitude >= 12.90) AND (latitude <= 13.00) AND (longitude >= 77.55) AND (longitude <= 77.65) AND ((listing_type)::text = 'RENT'::text) AND ((status)::text = 'ACTIVE'::text))
+              ->  Bitmap Index Scan on properties_2026_q1_latitude_longitude_property_id_price_bhk_idx  (cost=0.00..258.55 rows=345 width=0) (never executed)
+                    Index Cond: ((latitude >= 12.90) AND (latitude <= 13.00) AND (longitude >= 77.55) AND (longitude <= 77.65))
+                    Index Searches: 0
+        ->  Bitmap Heap Scan on properties_2026_q2 properties_6  (cost=581.34..2954.01 rows=812 width=28) (never executed)
+              Recheck Cond: ((latitude >= 12.90) AND (latitude <= 13.00) AND (longitude >= 77.55) AND (longitude <= 77.65) AND ((listing_type)::text = 'RENT'::text) AND ((status)::text = 'ACTIVE'::text))
+              ->  Bitmap Index Scan on properties_2026_q2_latitude_longitude_property_id_price_bhk_idx  (cost=0.00..581.13 rows=812 width=0) (never executed)
+                    Index Cond: ((latitude >= 12.90) AND (latitude <= 13.00) AND (longitude >= 77.55) AND (longitude <= 77.65))
+                    Index Searches: 0
+        ->  Seq Scan on properties_2026_q3 properties_7  (cost=0.00..3.40 rows=1 width=31) (never executed)
+              Filter: ((latitude >= 12.90) AND (latitude <= 13.00) AND (longitude >= 77.55) AND (longitude <= 77.65) AND ((listing_type)::text = 'RENT'::text) AND ((status)::text = 'ACTIVE'::text))
+        ->  Seq Scan on properties_default properties_8  (cost=0.00..0.00 rows=1 width=50) (never executed)
+              Filter: ((latitude >= 12.90) AND (latitude <= 13.00) AND (longitude >= 77.55) AND (longitude <= 77.65) AND ((listing_type)::text = 'RENT'::text) AND ((status)::text = 'ACTIVE'::text))
+Planning:
+  Buffers: shared hit=2379
+Planning Time: 3.427 ms
+Execution Time: 0.481 ms

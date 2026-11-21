@@ -1,0 +1,288 @@
+=== W05 run 1 ===
+Update on properties  (cost=11.41..64.38 rows=0 width=0) (actual time=1.358..1.360 rows=0.00 loops=1)
+  Update on properties_2025_q1 properties_1
+  Update on properties_2025_q2 properties_2
+  Update on properties_2025_q3 properties_3
+  Update on properties_2025_q4 properties_4
+  Update on properties_2026_q1 properties_5
+  Update on properties_2026_q2 properties_6
+  Update on properties_2026_q3 properties_7
+  Update on properties_default properties_8
+  Buffers: shared hit=56 read=59 dirtied=10 written=57
+  InitPlan 2
+    ->  Result  (cost=10.97..10.98 rows=1 width=4) (actual time=0.465..0.467 rows=1.00 loops=1)
+          Buffers: shared hit=7 read=21 dirtied=2 written=20
+          InitPlan 1
+            ->  Limit  (cost=2.93..10.97 rows=1 width=4) (actual time=0.463..0.464 rows=1.00 loops=1)
+                  Buffers: shared hit=7 read=21 dirtied=2 written=20
+                  ->  Merge Append  (cost=2.93..67.27 rows=8 width=4) (actual time=0.463..0.464 rows=1.00 loops=1)
+                        Sort Key: properties_9.property_id
+                        Buffers: shared hit=7 read=21 dirtied=2 written=20
+                        ->  Index Only Scan using properties_2025_q1_listed_by_status_listing_type_property_i_idx on properties_2025_q1 properties_10  (cost=0.42..8.45 rows=1 width=4) (actual time=0.067..0.067 rows=1.00 loops=1)
+                              Index Cond: ((listed_by = 1033) AND (status = 'ACTIVE'::text) AND (listing_type = 'RENT'::text))
+                              Heap Fetches: 1
+                              Index Searches: 1
+                              Buffers: shared read=5 dirtied=1 written=5
+                        ->  Index Only Scan using properties_2025_q2_listed_by_status_listing_type_property_i_idx on properties_2025_q2 properties_11  (cost=0.42..8.45 rows=1 width=4) (actual time=0.028..0.028 rows=0.00 loops=1)
+                              Index Cond: ((listed_by = 1033) AND (status = 'ACTIVE'::text) AND (listing_type = 'RENT'::text))
+                              Heap Fetches: 0
+                              Index Searches: 1
+                              Buffers: shared read=3 written=3
+                        ->  Index Only Scan using properties_2025_q3_listed_by_status_listing_type_property_i_idx on properties_2025_q3 properties_12  (cost=0.42..8.45 rows=1 width=4) (actual time=0.055..0.055 rows=1.00 loops=1)
+                              Index Cond: ((listed_by = 1033) AND (status = 'ACTIVE'::text) AND (listing_type = 'RENT'::text))
+                              Heap Fetches: 1
+                              Index Searches: 1
+                              Buffers: shared read=5 dirtied=1 written=4
+                        ->  Index Only Scan using properties_2025_q4_listed_by_status_listing_type_property_i_idx on properties_2025_q4 properties_13  (cost=0.42..8.45 rows=1 width=4) (actual time=0.023..0.023 rows=0.00 loops=1)
+                              Index Cond: ((listed_by = 1033) AND (status = 'ACTIVE'::text) AND (listing_type = 'RENT'::text))
+                              Heap Fetches: 0
+                              Index Searches: 1
+                              Buffers: shared read=3 written=3
+                        ->  Index Only Scan using properties_2026_q1_listed_by_status_listing_type_property_i_idx on properties_2026_q1 properties_14  (cost=0.42..8.45 rows=1 width=4) (actual time=0.042..0.042 rows=1.00 loops=1)
+                              Index Cond: ((listed_by = 1033) AND (status = 'ACTIVE'::text) AND (listing_type = 'RENT'::text))
+                              Heap Fetches: 1
+                              Index Searches: 1
+                              Buffers: shared hit=4 read=1 written=1
+                        ->  Index Only Scan using properties_2026_q2_listed_by_status_listing_type_property_i_idx on properties_2026_q2 properties_15  (cost=0.42..8.44 rows=1 width=4) (actual time=0.226..0.226 rows=1.00 loops=1)
+                              Index Cond: ((listed_by = 1033) AND (status = 'ACTIVE'::text) AND (listing_type = 'RENT'::text))
+                              Heap Fetches: 0
+                              Index Searches: 1
+                              Buffers: shared hit=1 read=3 written=3
+                        ->  Index Only Scan using properties_2026_q3_listed_by_status_listing_type_property_i_idx on properties_2026_q3 properties_16  (cost=0.14..8.16 rows=1 width=4) (actual time=0.010..0.010 rows=0.00 loops=1)
+                              Index Cond: ((listed_by = 1033) AND (status = 'ACTIVE'::text) AND (listing_type = 'RENT'::text))
+                              Heap Fetches: 0
+                              Index Searches: 1
+                              Buffers: shared read=1 written=1
+                        ->  Index Only Scan using properties_default_listed_by_status_listing_type_property_i_idx on properties_default properties_17  (cost=0.12..8.15 rows=1 width=4) (actual time=0.011..0.011 rows=0.00 loops=1)
+                              Index Cond: ((listed_by = 1033) AND (status = 'ACTIVE'::text) AND (listing_type = 'RENT'::text))
+                              Heap Fetches: 0
+                              Index Searches: 1
+                              Buffers: shared hit=2
+  ->  Append  (cost=0.42..53.39 rows=8 width=58) (actual time=0.491..0.726 rows=1.00 loops=1)
+        Buffers: shared hit=12 read=39 dirtied=2 written=38
+        ->  Index Scan using properties_2025_q1_pkey on properties_2025_q1 properties_1  (cost=0.42..8.44 rows=1 width=58) (actual time=0.491..0.491 rows=1.00 loops=1)
+              Index Cond: (property_id = (InitPlan 2).col1)
+              Index Searches: 1
+              Buffers: shared hit=10 read=24 dirtied=2 written=23
+        ->  Index Scan using properties_2025_q2_pkey on properties_2025_q2 properties_2  (cost=0.42..8.44 rows=1 width=58) (actual time=0.021..0.021 rows=0.00 loops=1)
+              Index Cond: (property_id = (InitPlan 2).col1)
+              Index Searches: 1
+              Buffers: shared read=3 written=3
+        ->  Index Scan using properties_2025_q3_pkey on properties_2025_q3 properties_3  (cost=0.42..8.44 rows=1 width=58) (actual time=0.021..0.022 rows=0.00 loops=1)
+              Index Cond: (property_id = (InitPlan 2).col1)
+              Index Searches: 1
+              Buffers: shared read=3 written=3
+        ->  Index Scan using properties_2025_q4_pkey on properties_2025_q4 properties_4  (cost=0.42..8.44 rows=1 width=58) (actual time=0.021..0.022 rows=0.00 loops=1)
+              Index Cond: (property_id = (InitPlan 2).col1)
+              Index Searches: 1
+              Buffers: shared read=3 written=3
+        ->  Index Scan using properties_2026_q1_pkey on properties_2026_q1 properties_5  (cost=0.42..8.44 rows=1 width=58) (actual time=0.012..0.012 rows=0.00 loops=1)
+              Index Cond: (property_id = (InitPlan 2).col1)
+              Index Searches: 1
+              Buffers: shared hit=2 read=1 written=1
+        ->  Index Scan using properties_2026_q2_pkey on properties_2026_q2 properties_6  (cost=0.42..8.44 rows=1 width=58) (actual time=0.116..0.116 rows=0.00 loops=1)
+              Index Cond: (property_id = (InitPlan 2).col1)
+              Index Searches: 1
+              Buffers: shared read=3 written=3
+        ->  Seq Scan on properties_2026_q3 properties_7  (cost=0.00..2.70 rows=1 width=58) (actual time=0.040..0.040 rows=0.00 loops=1)
+              Filter: (property_id = (InitPlan 2).col1)
+              Rows Removed by Filter: 56
+              Buffers: shared read=2 written=2
+        ->  Seq Scan on properties_default properties_8  (cost=0.00..0.00 rows=1 width=58) (actual time=0.001..0.001 rows=0.00 loops=1)
+              Filter: (property_id = (InitPlan 2).col1)
+Planning:
+  Buffers: shared hit=2164 read=185 dirtied=2 written=175
+Planning Time: 7.634 ms
+Execution Time: 1.580 ms
+=== W05 run 2 ===
+Update on properties  (cost=11.41..64.38 rows=0 width=0) (actual time=0.475..0.476 rows=0.00 loops=1)
+  Update on properties_2025_q1 properties_1
+  Update on properties_2025_q2 properties_2
+  Update on properties_2025_q3 properties_3
+  Update on properties_2025_q4 properties_4
+  Update on properties_2026_q1 properties_5
+  Update on properties_2026_q2 properties_6
+  Update on properties_2026_q3 properties_7
+  Update on properties_default properties_8
+  Buffers: shared hit=103 read=14 written=13
+  InitPlan 2
+    ->  Result  (cost=10.97..10.98 rows=1 width=4) (actual time=0.222..0.222 rows=1.00 loops=1)
+          Buffers: shared hit=14 read=14 written=13
+          InitPlan 1
+            ->  Limit  (cost=2.93..10.97 rows=1 width=4) (actual time=0.220..0.220 rows=1.00 loops=1)
+                  Buffers: shared hit=14 read=14 written=13
+                  ->  Merge Append  (cost=2.93..67.27 rows=8 width=4) (actual time=0.219..0.220 rows=1.00 loops=1)
+                        Sort Key: properties_9.property_id
+                        Buffers: shared hit=14 read=14 written=13
+                        ->  Index Only Scan using properties_2025_q1_listed_by_status_listing_type_property_i_idx on properties_2025_q1 properties_10  (cost=0.42..8.45 rows=1 width=4) (actual time=0.032..0.032 rows=1.00 loops=1)
+                              Index Cond: ((listed_by = 1033) AND (status = 'ACTIVE'::text) AND (listing_type = 'RENT'::text))
+                              Heap Fetches: 1
+                              Index Searches: 1
+                              Buffers: shared hit=5
+                        ->  Index Only Scan using properties_2025_q2_listed_by_status_listing_type_property_i_idx on properties_2025_q2 properties_11  (cost=0.42..8.45 rows=1 width=4) (actual time=0.029..0.029 rows=0.00 loops=1)
+                              Index Cond: ((listed_by = 1033) AND (status = 'ACTIVE'::text) AND (listing_type = 'RENT'::text))
+                              Heap Fetches: 0
+                              Index Searches: 1
+                              Buffers: shared read=3 written=3
+                        ->  Index Only Scan using properties_2025_q3_listed_by_status_listing_type_property_i_idx on properties_2025_q3 properties_12  (cost=0.42..8.45 rows=1 width=4) (actual time=0.042..0.042 rows=1.00 loops=1)
+                              Index Cond: ((listed_by = 1033) AND (status = 'ACTIVE'::text) AND (listing_type = 'RENT'::text))
+                              Heap Fetches: 1
+                              Index Searches: 1
+                              Buffers: shared hit=2 read=3 written=2
+                        ->  Index Only Scan using properties_2025_q4_listed_by_status_listing_type_property_i_idx on properties_2025_q4 properties_13  (cost=0.42..8.45 rows=1 width=4) (actual time=0.025..0.025 rows=0.00 loops=1)
+                              Index Cond: ((listed_by = 1033) AND (status = 'ACTIVE'::text) AND (listing_type = 'RENT'::text))
+                              Heap Fetches: 0
+                              Index Searches: 1
+                              Buffers: shared read=3 written=3
+                        ->  Index Only Scan using properties_2026_q1_listed_by_status_listing_type_property_i_idx on properties_2026_q1 properties_14  (cost=0.42..8.45 rows=1 width=4) (actual time=0.034..0.034 rows=1.00 loops=1)
+                              Index Cond: ((listed_by = 1033) AND (status = 'ACTIVE'::text) AND (listing_type = 'RENT'::text))
+                              Heap Fetches: 1
+                              Index Searches: 1
+                              Buffers: shared hit=4 read=1 written=1
+                        ->  Index Only Scan using properties_2026_q2_listed_by_status_listing_type_property_i_idx on properties_2026_q2 properties_15  (cost=0.42..8.44 rows=1 width=4) (actual time=0.043..0.043 rows=1.00 loops=1)
+                              Index Cond: ((listed_by = 1033) AND (status = 'ACTIVE'::text) AND (listing_type = 'RENT'::text))
+                              Heap Fetches: 0
+                              Index Searches: 1
+                              Buffers: shared hit=1 read=3 written=3
+                        ->  Index Only Scan using properties_2026_q3_listed_by_status_listing_type_property_i_idx on properties_2026_q3 properties_16  (cost=0.14..8.16 rows=1 width=4) (actual time=0.010..0.010 rows=0.00 loops=1)
+                              Index Cond: ((listed_by = 1033) AND (status = 'ACTIVE'::text) AND (listing_type = 'RENT'::text))
+                              Heap Fetches: 0
+                              Index Searches: 1
+                              Buffers: shared read=1 written=1
+                        ->  Index Only Scan using properties_default_listed_by_status_listing_type_property_i_idx on properties_default properties_17  (cost=0.12..8.15 rows=1 width=4) (actual time=0.004..0.004 rows=0.00 loops=1)
+                              Index Cond: ((listed_by = 1033) AND (status = 'ACTIVE'::text) AND (listing_type = 'RENT'::text))
+                              Heap Fetches: 0
+                              Index Searches: 1
+                              Buffers: shared hit=2
+  ->  Append  (cost=0.42..53.39 rows=8 width=58) (actual time=0.231..0.273 rows=1.00 loops=1)
+        Buffers: shared hit=38 read=14 written=13
+        ->  Index Scan using properties_2025_q1_pkey on properties_2025_q1 properties_1  (cost=0.42..8.44 rows=1 width=58) (actual time=0.231..0.232 rows=1.00 loops=1)
+              Index Cond: (property_id = (InitPlan 2).col1)
+              Index Searches: 1
+              Buffers: shared hit=21 read=14 written=13
+        ->  Index Scan using properties_2025_q2_pkey on properties_2025_q2 properties_2  (cost=0.42..8.44 rows=1 width=58) (actual time=0.006..0.006 rows=0.00 loops=1)
+              Index Cond: (property_id = (InitPlan 2).col1)
+              Index Searches: 1
+              Buffers: shared hit=3
+        ->  Index Scan using properties_2025_q3_pkey on properties_2025_q3 properties_3  (cost=0.42..8.44 rows=1 width=58) (actual time=0.007..0.007 rows=0.00 loops=1)
+              Index Cond: (property_id = (InitPlan 2).col1)
+              Index Searches: 1
+              Buffers: shared hit=3
+        ->  Index Scan using properties_2025_q4_pkey on properties_2025_q4 properties_4  (cost=0.42..8.44 rows=1 width=58) (actual time=0.007..0.007 rows=0.00 loops=1)
+              Index Cond: (property_id = (InitPlan 2).col1)
+              Index Searches: 1
+              Buffers: shared hit=3
+        ->  Index Scan using properties_2026_q1_pkey on properties_2026_q1 properties_5  (cost=0.42..8.44 rows=1 width=58) (actual time=0.006..0.006 rows=0.00 loops=1)
+              Index Cond: (property_id = (InitPlan 2).col1)
+              Index Searches: 1
+              Buffers: shared hit=3
+        ->  Index Scan using properties_2026_q2_pkey on properties_2026_q2 properties_6  (cost=0.42..8.44 rows=1 width=58) (actual time=0.006..0.006 rows=0.00 loops=1)
+              Index Cond: (property_id = (InitPlan 2).col1)
+              Index Searches: 1
+              Buffers: shared hit=3
+        ->  Seq Scan on properties_2026_q3 properties_7  (cost=0.00..2.70 rows=1 width=58) (actual time=0.006..0.006 rows=0.00 loops=1)
+              Filter: (property_id = (InitPlan 2).col1)
+              Rows Removed by Filter: 56
+              Buffers: shared hit=2
+        ->  Seq Scan on properties_default properties_8  (cost=0.00..0.00 rows=1 width=58) (actual time=0.001..0.001 rows=0.00 loops=1)
+              Filter: (property_id = (InitPlan 2).col1)
+Planning:
+  Buffers: shared hit=2348 read=1 written=1
+Planning Time: 5.013 ms
+Execution Time: 0.596 ms
+=== W05 run 3 ===
+Update on properties  (cost=11.41..64.38 rows=0 width=0) (actual time=0.375..0.375 rows=0.00 loops=1)
+  Update on properties_2025_q1 properties_1
+  Update on properties_2025_q2 properties_2
+  Update on properties_2025_q3 properties_3
+  Update on properties_2025_q4 properties_4
+  Update on properties_2026_q1 properties_5
+  Update on properties_2026_q2 properties_6
+  Update on properties_2026_q3 properties_7
+  Update on properties_default properties_8
+  Buffers: shared hit=117
+  InitPlan 2
+    ->  Result  (cost=10.97..10.98 rows=1 width=4) (actual time=0.145..0.145 rows=1.00 loops=1)
+          Buffers: shared hit=28
+          InitPlan 1
+            ->  Limit  (cost=2.93..10.97 rows=1 width=4) (actual time=0.142..0.143 rows=1.00 loops=1)
+                  Buffers: shared hit=28
+                  ->  Merge Append  (cost=2.93..67.27 rows=8 width=4) (actual time=0.142..0.142 rows=1.00 loops=1)
+                        Sort Key: properties_9.property_id
+                        Buffers: shared hit=28
+                        ->  Index Only Scan using properties_2025_q1_listed_by_status_listing_type_property_i_idx on properties_2025_q1 properties_10  (cost=0.42..8.45 rows=1 width=4) (actual time=0.034..0.034 rows=1.00 loops=1)
+                              Index Cond: ((listed_by = 1033) AND (status = 'ACTIVE'::text) AND (listing_type = 'RENT'::text))
+                              Heap Fetches: 1
+                              Index Searches: 1
+                              Buffers: shared hit=5
+                        ->  Index Only Scan using properties_2025_q2_listed_by_status_listing_type_property_i_idx on properties_2025_q2 properties_11  (cost=0.42..8.45 rows=1 width=4) (actual time=0.010..0.010 rows=0.00 loops=1)
+                              Index Cond: ((listed_by = 1033) AND (status = 'ACTIVE'::text) AND (listing_type = 'RENT'::text))
+                              Heap Fetches: 0
+                              Index Searches: 1
+                              Buffers: shared hit=3
+                        ->  Index Only Scan using properties_2025_q3_listed_by_status_listing_type_property_i_idx on properties_2025_q3 properties_12  (cost=0.42..8.45 rows=1 width=4) (actual time=0.026..0.027 rows=1.00 loops=1)
+                              Index Cond: ((listed_by = 1033) AND (status = 'ACTIVE'::text) AND (listing_type = 'RENT'::text))
+                              Heap Fetches: 1
+                              Index Searches: 1
+                              Buffers: shared hit=5
+                        ->  Index Only Scan using properties_2025_q4_listed_by_status_listing_type_property_i_idx on properties_2025_q4 properties_13  (cost=0.42..8.45 rows=1 width=4) (actual time=0.009..0.009 rows=0.00 loops=1)
+                              Index Cond: ((listed_by = 1033) AND (status = 'ACTIVE'::text) AND (listing_type = 'RENT'::text))
+                              Heap Fetches: 0
+                              Index Searches: 1
+                              Buffers: shared hit=3
+                        ->  Index Only Scan using properties_2026_q1_listed_by_status_listing_type_property_i_idx on properties_2026_q1 properties_14  (cost=0.42..8.45 rows=1 width=4) (actual time=0.028..0.028 rows=1.00 loops=1)
+                              Index Cond: ((listed_by = 1033) AND (status = 'ACTIVE'::text) AND (listing_type = 'RENT'::text))
+                              Heap Fetches: 1
+                              Index Searches: 1
+                              Buffers: shared hit=5
+                        ->  Index Only Scan using properties_2026_q2_listed_by_status_listing_type_property_i_idx on properties_2026_q2 properties_15  (cost=0.42..8.44 rows=1 width=4) (actual time=0.026..0.026 rows=1.00 loops=1)
+                              Index Cond: ((listed_by = 1033) AND (status = 'ACTIVE'::text) AND (listing_type = 'RENT'::text))
+                              Heap Fetches: 0
+                              Index Searches: 1
+                              Buffers: shared hit=4
+                        ->  Index Only Scan using properties_2026_q3_listed_by_status_listing_type_property_i_idx on properties_2026_q3 properties_16  (cost=0.14..8.16 rows=1 width=4) (actual time=0.005..0.005 rows=0.00 loops=1)
+                              Index Cond: ((listed_by = 1033) AND (status = 'ACTIVE'::text) AND (listing_type = 'RENT'::text))
+                              Heap Fetches: 0
+                              Index Searches: 1
+                              Buffers: shared hit=1
+                        ->  Index Only Scan using properties_default_listed_by_status_listing_type_property_i_idx on properties_default properties_17  (cost=0.12..8.15 rows=1 width=4) (actual time=0.003..0.003 rows=0.00 loops=1)
+                              Index Cond: ((listed_by = 1033) AND (status = 'ACTIVE'::text) AND (listing_type = 'RENT'::text))
+                              Heap Fetches: 0
+                              Index Searches: 1
+                              Buffers: shared hit=2
+  ->  Append  (cost=0.42..53.39 rows=8 width=58) (actual time=0.154..0.194 rows=1.00 loops=1)
+        Buffers: shared hit=52
+        ->  Index Scan using properties_2025_q1_pkey on properties_2025_q1 properties_1  (cost=0.42..8.44 rows=1 width=58) (actual time=0.154..0.155 rows=1.00 loops=1)
+              Index Cond: (property_id = (InitPlan 2).col1)
+              Index Searches: 1
+              Buffers: shared hit=35
+        ->  Index Scan using properties_2025_q2_pkey on properties_2025_q2 properties_2  (cost=0.42..8.44 rows=1 width=58) (actual time=0.006..0.006 rows=0.00 loops=1)
+              Index Cond: (property_id = (InitPlan 2).col1)
+              Index Searches: 1
+              Buffers: shared hit=3
+        ->  Index Scan using properties_2025_q3_pkey on properties_2025_q3 properties_3  (cost=0.42..8.44 rows=1 width=58) (actual time=0.007..0.007 rows=0.00 loops=1)
+              Index Cond: (property_id = (InitPlan 2).col1)
+              Index Searches: 1
+              Buffers: shared hit=3
+        ->  Index Scan using properties_2025_q4_pkey on properties_2025_q4 properties_4  (cost=0.42..8.44 rows=1 width=58) (actual time=0.006..0.006 rows=0.00 loops=1)
+              Index Cond: (property_id = (InitPlan 2).col1)
+              Index Searches: 1
+              Buffers: shared hit=3
+        ->  Index Scan using properties_2026_q1_pkey on properties_2026_q1 properties_5  (cost=0.42..8.44 rows=1 width=58) (actual time=0.007..0.007 rows=0.00 loops=1)
+              Index Cond: (property_id = (InitPlan 2).col1)
+              Index Searches: 1
+              Buffers: shared hit=3
+        ->  Index Scan using properties_2026_q2_pkey on properties_2026_q2 properties_6  (cost=0.42..8.44 rows=1 width=58) (actual time=0.006..0.006 rows=0.00 loops=1)
+              Index Cond: (property_id = (InitPlan 2).col1)
+              Index Searches: 1
+              Buffers: shared hit=3
+        ->  Seq Scan on properties_2026_q3 properties_7  (cost=0.00..2.70 rows=1 width=58) (actual time=0.006..0.006 rows=0.00 loops=1)
+              Filter: (property_id = (InitPlan 2).col1)
+              Rows Removed by Filter: 56
+              Buffers: shared hit=2
+        ->  Seq Scan on properties_default properties_8  (cost=0.00..0.00 rows=1 width=58) (actual time=0.001..0.001 rows=0.00 loops=1)
+              Filter: (property_id = (InitPlan 2).col1)
+Planning:
+  Buffers: shared hit=2349
+Planning Time: 5.233 ms
+Execution Time: 0.497 ms

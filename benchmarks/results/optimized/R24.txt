@@ -1,0 +1,63 @@
+=== R24 run 1 ===
+Sort  (cost=59.91..60.73 rows=327 width=50) (actual time=0.262..0.269 rows=180.00 loops=1)
+  Sort Key: pj.possession_date
+  Sort Method: quicksort  Memory: 37kB
+  Buffers: shared hit=27
+  ->  Hash Join  (cost=5.38..46.26 rows=327 width=50) (actual time=0.056..0.204 rows=180.00 loops=1)
+        Hash Cond: (pj.builder_id = b.builder_id)
+        Buffers: shared hit=24
+        ->  Seq Scan on projects pj  (cost=0.00..40.00 rows=327 width=30) (actual time=0.010..0.132 rows=180.00 loops=1)
+              Filter: ((possession_date < '2026-07-01'::date) AND ((possession_status)::text = 'UNDER_CONSTRUCTION'::text))
+              Rows Removed by Filter: 1020
+              Buffers: shared hit=22
+        ->  Hash  (cost=3.50..3.50 rows=150 width=28) (actual time=0.039..0.039 rows=150.00 loops=1)
+              Buckets: 1024  Batches: 1  Memory Usage: 18kB
+              Buffers: shared hit=2
+              ->  Seq Scan on builders b  (cost=0.00..3.50 rows=150 width=28) (actual time=0.004..0.016 rows=150.00 loops=1)
+                    Buffers: shared hit=2
+Planning:
+  Buffers: shared hit=285
+Planning Time: 1.008 ms
+Execution Time: 0.312 ms
+=== R24 run 2 ===
+Sort  (cost=59.91..60.73 rows=327 width=50) (actual time=0.275..0.285 rows=180.00 loops=1)
+  Sort Key: pj.possession_date
+  Sort Method: quicksort  Memory: 37kB
+  Buffers: shared hit=27
+  ->  Hash Join  (cost=5.38..46.26 rows=327 width=50) (actual time=0.056..0.215 rows=180.00 loops=1)
+        Hash Cond: (pj.builder_id = b.builder_id)
+        Buffers: shared hit=24
+        ->  Seq Scan on projects pj  (cost=0.00..40.00 rows=327 width=30) (actual time=0.011..0.141 rows=180.00 loops=1)
+              Filter: ((possession_date < '2026-07-01'::date) AND ((possession_status)::text = 'UNDER_CONSTRUCTION'::text))
+              Rows Removed by Filter: 1020
+              Buffers: shared hit=22
+        ->  Hash  (cost=3.50..3.50 rows=150 width=28) (actual time=0.037..0.037 rows=150.00 loops=1)
+              Buckets: 1024  Batches: 1  Memory Usage: 18kB
+              Buffers: shared hit=2
+              ->  Seq Scan on builders b  (cost=0.00..3.50 rows=150 width=28) (actual time=0.004..0.015 rows=150.00 loops=1)
+                    Buffers: shared hit=2
+Planning:
+  Buffers: shared hit=285
+Planning Time: 0.953 ms
+Execution Time: 0.331 ms
+=== R24 run 3 ===
+Sort  (cost=59.91..60.73 rows=327 width=50) (actual time=0.391..0.402 rows=180.00 loops=1)
+  Sort Key: pj.possession_date
+  Sort Method: quicksort  Memory: 37kB
+  Buffers: shared hit=27
+  ->  Hash Join  (cost=5.38..46.26 rows=327 width=50) (actual time=0.083..0.305 rows=180.00 loops=1)
+        Hash Cond: (pj.builder_id = b.builder_id)
+        Buffers: shared hit=24
+        ->  Seq Scan on projects pj  (cost=0.00..40.00 rows=327 width=30) (actual time=0.016..0.195 rows=180.00 loops=1)
+              Filter: ((possession_date < '2026-07-01'::date) AND ((possession_status)::text = 'UNDER_CONSTRUCTION'::text))
+              Rows Removed by Filter: 1020
+              Buffers: shared hit=22
+        ->  Hash  (cost=3.50..3.50 rows=150 width=28) (actual time=0.058..0.058 rows=150.00 loops=1)
+              Buckets: 1024  Batches: 1  Memory Usage: 18kB
+              Buffers: shared hit=2
+              ->  Seq Scan on builders b  (cost=0.00..3.50 rows=150 width=28) (actual time=0.005..0.023 rows=150.00 loops=1)
+                    Buffers: shared hit=2
+Planning:
+  Buffers: shared hit=285
+Planning Time: 1.248 ms
+Execution Time: 0.462 ms

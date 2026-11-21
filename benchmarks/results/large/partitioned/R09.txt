@@ -1,0 +1,189 @@
+=== R09 run 1 ===
+Limit  (cost=14067.39..14067.52 rows=50 width=14) (actual time=57.945..57.949 rows=50.00 loops=1)
+  Buffers: shared hit=23728 read=17486 written=52
+  ->  Sort  (cost=14067.39..14072.96 rows=2227 width=14) (actual time=57.945..57.947 rows=50.00 loops=1)
+        Sort Key: p.price
+        Sort Method: top-N heapsort  Memory: 28kB
+        Buffers: shared hit=23728 read=17486 written=52
+        ->  Nested Loop  (cost=1170.34..13993.41 rows=2227 width=14) (actual time=4.648..56.837 rows=19373.00 loops=1)
+              Buffers: shared hit=23725 read=17486 written=52
+              ->  HashAggregate  (cost=1169.92..1460.11 rows=116 width=4) (actual time=4.611..5.567 rows=1145.00 loops=1)
+                    Group Key: pa.project_id
+                    Filter: (count(*) = 3)
+                    Batches: 1  Memory Usage: 1305kB
+                    Rows Removed by Filter: 17118
+                    Buffers: shared hit=7 read=77
+                    ->  Nested Loop  (cost=0.42..1034.00 rows=27184 width=4) (actual time=0.500..2.955 rows=26809.00 loops=1)
+                          Buffers: shared hit=7 read=77
+                          ->  Seq Scan on amenities a  (cost=0.00..1.21 rows=3 width=4) (actual time=0.002..0.004 rows=3.00 loops=1)
+                                Filter: ((amenity_name)::text = ANY ('{Gym,"Swimming Pool","Power Backup"}'::text[]))
+                                Rows Removed by Filter: 12
+                                Buffers: shared hit=1
+                          ->  Index Only Scan using idx_project_amenities_amenity_project on project_amenities pa  (cost=0.42..253.65 rows=9061 width=8) (actual time=0.167..0.661 rows=8936.33 loops=3)
+                                Index Cond: (amenity_id = a.amenity_id)
+                                Heap Fetches: 0
+                                Index Searches: 3
+                                Buffers: shared hit=6 read=77
+              ->  Append  (cost=0.42..107.82 rows=23 width=14) (actual time=0.005..0.044 rows=16.92 loops=1145)
+                    Buffers: shared hit=23718 read=17409 written=52
+                    ->  Index Scan using properties_2025_q1_project_id_status_bhk_listing_type_price_idx on properties_2025_q1 p_1  (cost=0.42..12.29 rows=2 width=14) (actual time=0.004..0.004 rows=1.38 loops=1145)
+                          Index Cond: ((project_id = pa.project_id) AND ((status)::text = 'ACTIVE'::text))
+                          Index Searches: 1145
+                          Buffers: shared hit=3599 read=1420 written=9
+                    ->  Index Scan using properties_2025_q2_project_id_status_bhk_listing_type_price_idx on properties_2025_q2 p_2  (cost=0.42..12.29 rows=2 width=14) (actual time=0.004..0.005 rows=1.39 loops=1145)
+                          Index Cond: ((project_id = pa.project_id) AND ((status)::text = 'ACTIVE'::text))
+                          Index Searches: 1145
+                          Buffers: shared hit=3112 read=1918 written=3
+                    ->  Index Scan using properties_2025_q3_project_id_status_bhk_listing_type_price_idx on properties_2025_q3 p_3  (cost=0.42..12.29 rows=2 width=14) (actual time=0.004..0.005 rows=1.35 loops=1145)
+                          Index Cond: ((project_id = pa.project_id) AND ((status)::text = 'ACTIVE'::text))
+                          Index Searches: 1145
+                          Buffers: shared hit=2851 read=2133 written=9
+                    ->  Index Scan using properties_2025_q4_project_id_status_bhk_listing_type_price_idx on properties_2025_q4 p_4  (cost=0.42..12.29 rows=2 width=14) (actual time=0.004..0.005 rows=1.42 loops=1145)
+                          Index Cond: ((project_id = pa.project_id) AND ((status)::text = 'ACTIVE'::text))
+                          Index Searches: 1145
+                          Buffers: shared hit=2797 read=2266 written=9
+                    ->  Index Scan using properties_2026_q1_project_id_status_bhk_listing_type_price_idx on properties_2026_q1 p_5  (cost=0.42..19.99 rows=4 width=14) (actual time=0.004..0.008 rows=3.50 loops=1145)
+                          Index Cond: ((project_id = pa.project_id) AND ((status)::text = 'ACTIVE'::text))
+                          Index Searches: 1145
+                          Buffers: shared hit=3932 read=3514 written=9
+                    ->  Index Scan using properties_2026_q2_project_id_status_bhk_listing_type_price_idx on properties_2026_q2 p_6  (cost=0.42..38.26 rows=9 width=14) (actual time=0.004..0.014 rows=7.86 loops=1145)
+                          Index Cond: ((project_id = pa.project_id) AND ((status)::text = 'ACTIVE'::text))
+                          Index Searches: 1145
+                          Buffers: shared hit=6283 read=6156 written=13
+                    ->  Index Scan using properties_2026_q3_project_id_idx on properties_2026_q3 p_7  (cost=0.14..0.30 rows=1 width=15) (actual time=0.000..0.000 rows=0.00 loops=1145)
+                          Index Cond: (project_id = pa.project_id)
+                          Filter: ((status)::text = 'ACTIVE'::text)
+                          Index Searches: 1145
+                          Buffers: shared hit=1144 read=2
+                    ->  Seq Scan on properties_default p_8  (cost=0.00..0.00 rows=1 width=24) (actual time=0.000..0.000 rows=0.00 loops=1145)
+                          Filter: (((status)::text = 'ACTIVE'::text) AND (pa.project_id = project_id))
+Planning:
+  Buffers: shared hit=2249 read=188
+Planning Time: 4.084 ms
+Execution Time: 58.033 ms
+=== R09 run 2 ===
+Limit  (cost=14067.39..14067.52 rows=50 width=14) (actual time=51.542..51.546 rows=50.00 loops=1)
+  Buffers: shared hit=27532 read=13682 written=116
+  ->  Sort  (cost=14067.39..14072.96 rows=2227 width=14) (actual time=51.541..51.543 rows=50.00 loops=1)
+        Sort Key: p.price
+        Sort Method: top-N heapsort  Memory: 28kB
+        Buffers: shared hit=27532 read=13682 written=116
+        ->  Nested Loop  (cost=1170.34..13993.41 rows=2227 width=14) (actual time=3.466..50.454 rows=19373.00 loops=1)
+              Buffers: shared hit=27529 read=13682 written=116
+              ->  HashAggregate  (cost=1169.92..1460.11 rows=116 width=4) (actual time=3.441..4.393 rows=1145.00 loops=1)
+                    Group Key: pa.project_id
+                    Filter: (count(*) = 3)
+                    Batches: 1  Memory Usage: 1305kB
+                    Rows Removed by Filter: 17118
+                    Buffers: shared hit=12 read=72
+                    ->  Nested Loop  (cost=0.42..1034.00 rows=27184 width=4) (actual time=0.027..1.882 rows=26809.00 loops=1)
+                          Buffers: shared hit=12 read=72
+                          ->  Seq Scan on amenities a  (cost=0.00..1.21 rows=3 width=4) (actual time=0.002..0.004 rows=3.00 loops=1)
+                                Filter: ((amenity_name)::text = ANY ('{Gym,"Swimming Pool","Power Backup"}'::text[]))
+                                Rows Removed by Filter: 12
+                                Buffers: shared hit=1
+                          ->  Index Only Scan using idx_project_amenities_amenity_project on project_amenities pa  (cost=0.42..253.65 rows=9061 width=8) (actual time=0.009..0.319 rows=8936.33 loops=3)
+                                Index Cond: (amenity_id = a.amenity_id)
+                                Heap Fetches: 0
+                                Index Searches: 3
+                                Buffers: shared hit=11 read=72
+              ->  Append  (cost=0.42..107.82 rows=23 width=14) (actual time=0.005..0.040 rows=16.92 loops=1145)
+                    Buffers: shared hit=27517 read=13610 written=116
+                    ->  Index Scan using properties_2025_q1_project_id_status_bhk_listing_type_price_idx on properties_2025_q1 p_1  (cost=0.42..12.29 rows=2 width=14) (actual time=0.004..0.005 rows=1.38 loops=1145)
+                          Index Cond: ((project_id = pa.project_id) AND ((status)::text = 'ACTIVE'::text))
+                          Index Searches: 1145
+                          Buffers: shared hit=3234 read=1785 written=18
+                    ->  Index Scan using properties_2025_q2_project_id_status_bhk_listing_type_price_idx on properties_2025_q2 p_2  (cost=0.42..12.29 rows=2 width=14) (actual time=0.004..0.005 rows=1.39 loops=1145)
+                          Index Cond: ((project_id = pa.project_id) AND ((status)::text = 'ACTIVE'::text))
+                          Index Searches: 1145
+                          Buffers: shared hit=3081 read=1949 written=10
+                    ->  Index Scan using properties_2025_q3_project_id_status_bhk_listing_type_price_idx on properties_2025_q3 p_3  (cost=0.42..12.29 rows=2 width=14) (actual time=0.004..0.005 rows=1.35 loops=1145)
+                          Index Cond: ((project_id = pa.project_id) AND ((status)::text = 'ACTIVE'::text))
+                          Index Searches: 1145
+                          Buffers: shared hit=3139 read=1845 written=16
+                    ->  Index Scan using properties_2025_q4_project_id_status_bhk_listing_type_price_idx on properties_2025_q4 p_4  (cost=0.42..12.29 rows=2 width=14) (actual time=0.004..0.005 rows=1.42 loops=1145)
+                          Index Cond: ((project_id = pa.project_id) AND ((status)::text = 'ACTIVE'::text))
+                          Index Searches: 1145
+                          Buffers: shared hit=3133 read=1930 written=16
+                    ->  Index Scan using properties_2026_q1_project_id_status_bhk_listing_type_price_idx on properties_2026_q1 p_5  (cost=0.42..19.99 rows=4 width=14) (actual time=0.003..0.007 rows=3.50 loops=1145)
+                          Index Cond: ((project_id = pa.project_id) AND ((status)::text = 'ACTIVE'::text))
+                          Index Searches: 1145
+                          Buffers: shared hit=4969 read=2477 written=22
+                    ->  Index Scan using properties_2026_q2_project_id_status_bhk_listing_type_price_idx on properties_2026_q2 p_6  (cost=0.42..38.26 rows=9 width=14) (actual time=0.003..0.011 rows=7.86 loops=1145)
+                          Index Cond: ((project_id = pa.project_id) AND ((status)::text = 'ACTIVE'::text))
+                          Index Searches: 1145
+                          Buffers: shared hit=8816 read=3623 written=34
+                    ->  Index Scan using properties_2026_q3_project_id_idx on properties_2026_q3 p_7  (cost=0.14..0.30 rows=1 width=15) (actual time=0.000..0.000 rows=0.00 loops=1145)
+                          Index Cond: (project_id = pa.project_id)
+                          Filter: ((status)::text = 'ACTIVE'::text)
+                          Index Searches: 1145
+                          Buffers: shared hit=1145 read=1
+                    ->  Seq Scan on properties_default p_8  (cost=0.00..0.00 rows=1 width=24) (actual time=0.000..0.000 rows=0.00 loops=1145)
+                          Filter: (((status)::text = 'ACTIVE'::text) AND (pa.project_id = project_id))
+Planning:
+  Buffers: shared hit=2322 read=115
+Planning Time: 3.568 ms
+Execution Time: 51.623 ms
+=== R09 run 3 ===
+Limit  (cost=14067.39..14067.52 rows=50 width=14) (actual time=53.614..53.618 rows=50.00 loops=1)
+  Buffers: shared hit=26126 read=15088 written=46
+  ->  Sort  (cost=14067.39..14072.96 rows=2227 width=14) (actual time=53.614..53.615 rows=50.00 loops=1)
+        Sort Key: p.price
+        Sort Method: top-N heapsort  Memory: 28kB
+        Buffers: shared hit=26126 read=15088 written=46
+        ->  Nested Loop  (cost=1170.34..13993.41 rows=2227 width=14) (actual time=3.511..52.521 rows=19373.00 loops=1)
+              Buffers: shared hit=26123 read=15088 written=46
+              ->  HashAggregate  (cost=1169.92..1460.11 rows=116 width=4) (actual time=3.486..4.487 rows=1145.00 loops=1)
+                    Group Key: pa.project_id
+                    Filter: (count(*) = 3)
+                    Batches: 1  Memory Usage: 1305kB
+                    Rows Removed by Filter: 17118
+                    Buffers: shared hit=12 read=72
+                    ->  Nested Loop  (cost=0.42..1034.00 rows=27184 width=4) (actual time=0.028..1.892 rows=26809.00 loops=1)
+                          Buffers: shared hit=12 read=72
+                          ->  Seq Scan on amenities a  (cost=0.00..1.21 rows=3 width=4) (actual time=0.002..0.004 rows=3.00 loops=1)
+                                Filter: ((amenity_name)::text = ANY ('{Gym,"Swimming Pool","Power Backup"}'::text[]))
+                                Rows Removed by Filter: 12
+                                Buffers: shared hit=1
+                          ->  Index Only Scan using idx_project_amenities_amenity_project on project_amenities pa  (cost=0.42..253.65 rows=9061 width=8) (actual time=0.009..0.322 rows=8936.33 loops=3)
+                                Index Cond: (amenity_id = a.amenity_id)
+                                Heap Fetches: 0
+                                Index Searches: 3
+                                Buffers: shared hit=11 read=72
+              ->  Append  (cost=0.42..107.82 rows=23 width=14) (actual time=0.005..0.041 rows=16.92 loops=1145)
+                    Buffers: shared hit=26111 read=15016 written=46
+                    ->  Index Scan using properties_2025_q1_project_id_status_bhk_listing_type_price_idx on properties_2025_q1 p_1  (cost=0.42..12.29 rows=2 width=14) (actual time=0.004..0.005 rows=1.38 loops=1145)
+                          Index Cond: ((project_id = pa.project_id) AND ((status)::text = 'ACTIVE'::text))
+                          Index Searches: 1145
+                          Buffers: shared hit=3088 read=1931 written=9
+                    ->  Index Scan using properties_2025_q2_project_id_status_bhk_listing_type_price_idx on properties_2025_q2 p_2  (cost=0.42..12.29 rows=2 width=14) (actual time=0.004..0.005 rows=1.39 loops=1145)
+                          Index Cond: ((project_id = pa.project_id) AND ((status)::text = 'ACTIVE'::text))
+                          Index Searches: 1145
+                          Buffers: shared hit=3006 read=2024 written=3
+                    ->  Index Scan using properties_2025_q3_project_id_status_bhk_listing_type_price_idx on properties_2025_q3 p_3  (cost=0.42..12.29 rows=2 width=14) (actual time=0.004..0.005 rows=1.35 loops=1145)
+                          Index Cond: ((project_id = pa.project_id) AND ((status)::text = 'ACTIVE'::text))
+                          Index Searches: 1145
+                          Buffers: shared hit=3047 read=1937 written=8
+                    ->  Index Scan using properties_2025_q4_project_id_status_bhk_listing_type_price_idx on properties_2025_q4 p_4  (cost=0.42..12.29 rows=2 width=14) (actual time=0.004..0.005 rows=1.42 loops=1145)
+                          Index Cond: ((project_id = pa.project_id) AND ((status)::text = 'ACTIVE'::text))
+                          Index Searches: 1145
+                          Buffers: shared hit=3022 read=2041 written=3
+                    ->  Index Scan using properties_2026_q1_project_id_status_bhk_listing_type_price_idx on properties_2026_q1 p_5  (cost=0.42..19.99 rows=4 width=14) (actual time=0.004..0.007 rows=3.50 loops=1145)
+                          Index Cond: ((project_id = pa.project_id) AND ((status)::text = 'ACTIVE'::text))
+                          Index Searches: 1145
+                          Buffers: shared hit=4694 read=2752 written=7
+                    ->  Index Scan using properties_2026_q2_project_id_status_bhk_listing_type_price_idx on properties_2026_q2 p_6  (cost=0.42..38.26 rows=9 width=14) (actual time=0.003..0.012 rows=7.86 loops=1145)
+                          Index Cond: ((project_id = pa.project_id) AND ((status)::text = 'ACTIVE'::text))
+                          Index Searches: 1145
+                          Buffers: shared hit=8109 read=4330 written=16
+                    ->  Index Scan using properties_2026_q3_project_id_idx on properties_2026_q3 p_7  (cost=0.14..0.30 rows=1 width=15) (actual time=0.000..0.000 rows=0.00 loops=1145)
+                          Index Cond: (project_id = pa.project_id)
+                          Filter: ((status)::text = 'ACTIVE'::text)
+                          Index Searches: 1145
+                          Buffers: shared hit=1145 read=1
+                    ->  Seq Scan on properties_default p_8  (cost=0.00..0.00 rows=1 width=24) (actual time=0.000..0.000 rows=0.00 loops=1145)
+                          Filter: (((status)::text = 'ACTIVE'::text) AND (pa.project_id = project_id))
+Planning:
+  Buffers: shared hit=2322 read=115
+Planning Time: 3.710 ms
+Execution Time: 53.692 ms

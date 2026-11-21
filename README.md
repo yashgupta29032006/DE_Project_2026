@@ -829,42 +829,103 @@ WHERE property_id = (SELECT min(property_id) FROM properties
 
 ---
 
-## Checkpoint 1 (CP1) Deliverables & Execution Guide
+## Project Execution Guide & Checkpoint Handover
 
 **Team 19 (EchoVault) | Section C**  
 - **Lead:** Yash Gupta (2501010523)  
 - **Members:** Sneha Bayan (2501010618), Harshita (2501010182), Deveshi Sahu (2501010722)  
 - **Target RDBMS:** PostgreSQL 18.6 (Homebrew / macOS Apple Silicon M4)  
 
-### Deliverables Summary
-| Deliverable | File Path | Description |
-| :--- | :--- | :--- |
-| **Problem Understanding** | [`docs/01_problem_understanding.md`](docs/01_problem_understanding.md) | Business context, P1–P7 analysis, stakeholder taxonomy, data requirements (396,885 records), and domain invariants. |
-| **Schema & Normalization** | [`docs/02_schema_design.md`](docs/02_schema_design.md) | 1NF $\rightarrow$ 2NF $\rightarrow$ 3NF / BCNF decomposition, data dictionary, referential actions, and live validation results. |
-| **Relational DDL Schema** | [`sql/01_schema.sql`](sql/01_schema.sql) | Production DDL in `housing` schema with composite FKs, column-specific actions, domain CHECK constraints, and role triggers. |
-| **Seed Ingestion Pipeline** | [`sql/02_load_data.sql`](sql/02_load_data.sql) | Atomic transaction (`BEGIN...COMMIT`) with explicit column lists, automated row assertions, and targeted `ANALYZE`. |
-| **Entity-Relationship Diagram** | [`diagrams/er_diagram.svg`](diagrams/er_diagram.svg) | High-resolution scalable vector diagram with cardinalities, keys, and connectors. |
-| **ER Diagram Source** | [`diagrams/er_diagram.mmd`](diagrams/er_diagram.mmd) | Editable Mermaid ER diagram specification. |
+---
 
-### How to Run CP1 Pipeline
+### Headline Performance Results
 
-1. **Prerequisite:** Ensure `seed_data.zip` is extracted into `seed_data/` in the project root:
-   ```bash
-   unzip -q seed_data.zip
-   ```
+| Milestone | Total Workload Latency | Slowest Query (Outlier) | Real-Time Query Latency | Storage Footprint |
+| :--- | :---: | :---: | :---: | :---: |
+| **CP2 Baseline (Seed: 396k rows)** | 18,112.713 ms | R19: 16,875.315 ms | 5 – 25 ms | Data: 41 MB / Indexes: 10 MB |
+| **CP3 Optimized (Seed: 396k rows)** | **640.194 ms** (-96.47%, **28.3× speedup**) | W04: 391.387 ms (R19: 27.445 ms) | **0.03 – 0.58 ms** (< 1 ms SLA) | Data: 41 MB / Indexes: 36.3 MB |
+| **CP4 Large (20×: 7.93M rows, Non-Part)** | 26,488.948 ms | W04: 17,876.253 ms | **0.12 – 7.08 ms** | Data: 815 MB / Indexes: 636 MB |
+| **CP4 Large (20×: 7.93M rows, Partitioned)** | **16,913.523 ms** (**-36.15% overall**) | W04: **8,565.582 ms** (**52.1% speedup**) | **0.16 – 4.38 ms** (all < 5 ms SLA) | 7 Quarterly + 1 Default Partition |
 
-2. **Execute Schema Creation (DDL):**
-   ```bash
-   psql -d <database_name> -v ON_ERROR_STOP=1 -f sql/01_schema.sql
-   ```
+---
 
-3. **Execute Atomic Data Ingestion:**
-   ```bash
-   psql -d <database_name> -v ON_ERROR_STOP=1 -f sql/02_load_data.sql
-   ```
+### Checkpoints & Deliverables Summary
 
-4. **Verify Database Integrity & Workload Compatibility:**
-   ```bash
-   psql -d <database_name> -v ON_ERROR_STOP=1 -f queries/workload_30.sql
-   ```
+| Checkpoint | Phase | Core Deliverables | Description |
+| :--- | :--- | :--- | :--- |
+| **CP1** | Schema Design & Data Ingestion | [`docs/01_problem_understanding.md`](docs/01_problem_understanding.md)<br>[`docs/02_schema_design.md`](docs/02_schema_design.md)<br>[`sql/01_schema.sql`](sql/01_schema.sql)<br>[`sql/02_load_data.sql`](sql/02_load_data.sql)<br>[`diagrams/er_diagram.svg`](diagrams/er_diagram.svg) | Relational schema in 3NF with 12 tables, composite FKs, domain CHECK constraints, and atomic ingestion script for 396,885 seed records. |
+| **CP2** | Baseline Workload Profiling | [`docs/03_baseline_timings.md`](docs/03_baseline_timings.md)<br>[`benchmarks/results/baseline/summary.csv`](benchmarks/results/baseline/summary.csv)<br>[`benchmarks/results/baseline/`](benchmarks/results/baseline/) | Empirical benchmark of 30 queries on un-indexed schema (3 runs each, buffers captured). Identified R19 $O(N \cdot M)$ correlated subquery bottleneck. |
+| **CP3** | Secondary Indexing & Query Tuning | [`sql/05_indexes.sql`](sql/05_indexes.sql)<br>[`sql/06_optimized_queries.sql`](sql/06_optimized_queries.sql)<br>[`docs/04_optimization_report.md`](docs/04_optimization_report.md)<br>[`benchmarks/results/optimized/summary.csv`](benchmarks/results/optimized/summary.csv)<br>[`benchmarks/results/optimized/`](benchmarks/results/optimized/) | 20 secondary B-Tree/covering/partial indexes. Fixed ANSI NULL 3-valued logic bug in R13. Rewrote R19 to CTE grouped join. 28.3× overall speedup. |
+| **CP4** | Scalability, Partitioning & 100× Report | [`docs/05_scalability_report.md`](docs/05_scalability_report.md)<br>[`sql/02_load_large_data.sql`](sql/02_load_large_data.sql)<br>[`sql/08_partitioning.sql`](sql/08_partitioning.sql)<br>[`benchmarks/results/large/summary.csv`](benchmarks/results/large/summary.csv)<br>[`benchmarks/results/large/partitioned/summary.csv`](benchmarks/results/large/partitioned/summary.csv) | Ingestion of 7,930,894 records (20×). Declarative quarterly range partitioning on `properties`. Pruning verification. 100× scale-out architecture. |
+| **CP5** | Individual Defense Preparation | All files above + raw execution plans | Mathematical proofs, execution plan deep-dives, and trade-off rationales prepared for oral examination. |
+
+---
+
+### Step-by-Step Reproduction Guide
+
+#### 1. Environment Setup & Seed Database Initialization (CP1)
+```bash
+# Ensure local PostgreSQL 18 service is running
+pg_isready
+
+# Create seed database
+createdb housing_db
+
+# Apply 3NF relational schema (housing schema)
+psql -d housing_db -v ON_ERROR_STOP=1 -f sql/01_schema.sql
+
+# Ingest seed dataset (396,885 rows)
+psql -d housing_db -v ON_ERROR_STOP=1 -f sql/02_load_data.sql
+```
+
+#### 2. Run Baseline Benchmark (CP2)
+```bash
+# Execute 3 runs per query across all 30 queries and record plans
+./benchmarks/run_benchmark.sh housing_db baseline 3 queries/workload_30.sql
+
+# View baseline summary
+cat benchmarks/results/baseline/summary.csv
+```
+
+#### 3. Apply Index Optimization & Run Optimized Benchmark (CP3)
+```bash
+# Apply 20 secondary indexes and recalculate planner statistics
+psql -d housing_db -v ON_ERROR_STOP=1 -f sql/05_indexes.sql
+
+# Run optimized workload using rewritten queries
+./benchmarks/run_benchmark.sh housing_db optimized 3 sql/06_optimized_queries.sql
+
+# View optimized summary
+cat benchmarks/results/optimized/summary.csv
+```
+
+#### 4. Large Dataset Ingestion & Scalability Benchmark (CP4)
+```bash
+# Create dedicated large database
+createdb housing_large_db
+
+# Apply schema
+psql -d housing_large_db -v ON_ERROR_STOP=1 -f sql/01_schema.sql
+
+# Ingest large dataset (7,930,894 rows)
+psql -d housing_large_db -v ON_ERROR_STOP=1 -f sql/02_load_large_data.sql
+
+# Apply secondary indexes to large database
+psql -d housing_large_db -v ON_ERROR_STOP=1 -f sql/05_indexes.sql
+
+# Run benchmark on large non-partitioned schema
+./benchmarks/run_benchmark.sh housing_large_db large 3 sql/06_optimized_queries.sql
+```
+
+#### 5. Declarative Range Partitioning & Partitioned Benchmark (CP4)
+```bash
+# Create partitioned table, child partitions, local indexes, and migrate 2.4M properties
+psql -d housing_large_db -v ON_ERROR_STOP=1 -f sql/08_partitioning.sql
+
+# Run benchmark on partitioned schema
+PGSCHEMA="housing_partitioned, housing" ./benchmarks/run_benchmark.sh housing_large_db large/partitioned 3 sql/06_optimized_queries.sql
+
+# View partitioned benchmark summary
+cat benchmarks/results/large/partitioned/summary.csv
+```
 

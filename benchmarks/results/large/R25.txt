@@ -1,0 +1,111 @@
+=== R25 run 1 ===
+Sort  (cost=11995591.12..11995591.14 rows=10 width=20) (actual time=3763.609..3763.612 rows=10.00 loops=1)
+  Sort Key: l.city_id
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=4193980 read=59369 written=2, temp read=12196 written=12196
+  ->  HashAggregate  (cost=11995590.85..11995590.95 rows=10 width=20) (actual time=3763.600..3763.603 rows=10.00 loops=1)
+        Group Key: l.city_id
+        Batches: 1  Memory Usage: 32kB
+        Buffers: shared hit=4193977 read=59369 written=2, temp read=12196 written=12196
+        ->  Hash Join  (cost=109181.09..158590.85 rows=1400000 width=12) (actual time=275.664..1394.473 rows=1400000.00 loops=1)
+              Hash Cond: (p.locality_id = l.locality_id)
+              Buffers: shared hit=999 read=52346, temp read=12196 written=12196
+              ->  Hash Join  (cost=109177.84..154756.85 rows=1400000 width=12) (actual time=275.649..1239.519 rows=1400000.00 loops=1)
+                    Hash Cond: (s.property_id = p.property_id)
+                    Buffers: shared hit=998 read=52346, temp read=12196 written=12196
+                    ->  Seq Scan on shortlists s  (cost=0.00..21584.00 rows=1400000 width=8) (actual time=0.022..48.532 rows=1400000.00 loops=1)
+                          Buffers: shared read=7584
+                    ->  Hash  (cost=69775.93..69775.93 rows=2401593 width=8) (actual time=274.938..274.939 rows=2401264.00 loops=1)
+                          Buckets: 262144  Batches: 16  Memory Usage: 7911kB
+                          Buffers: shared hit=998 read=44762, temp written=7688
+                          ->  Seq Scan on properties p  (cost=0.00..69775.93 rows=2401593 width=8) (actual time=0.012..127.831 rows=2401264.00 loops=1)
+                                Buffers: shared hit=998 read=44762
+              ->  Hash  (cost=2.00..2.00 rows=100 width=8) (actual time=0.009..0.010 rows=100.00 loops=1)
+                    Buckets: 1024  Batches: 1  Memory Usage: 12kB
+                    Buffers: shared hit=1
+                    ->  Seq Scan on localities l  (cost=0.00..2.00 rows=100 width=8) (actual time=0.002..0.005 rows=100.00 loops=1)
+                          Buffers: shared hit=1
+        SubPlan 1
+          ->  Index Only Scan using idx_enquiries_property_user_created on enquiries e  (cost=0.43..8.45 rows=1 width=0) (actual time=0.002..0.002 rows=0.00 loops=1400000)
+                Index Cond: ((property_id = s.property_id) AND (user_id = s.user_id))
+                Heap Fetches: 0
+                Index Searches: 1400000
+                Buffers: shared hit=4192978 read=7023 written=2
+Planning:
+  Buffers: shared hit=520 read=13 dirtied=2
+Planning Time: 1.767 ms
+Execution Time: 3763.680 ms
+=== R25 run 2 ===
+Sort  (cost=11995591.12..11995591.14 rows=10 width=20) (actual time=2334.889..2334.891 rows=10.00 loops=1)
+  Sort Key: l.city_id
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=4201056 read=52293, temp read=12196 written=12196
+  ->  HashAggregate  (cost=11995590.85..11995590.95 rows=10 width=20) (actual time=2334.880..2334.882 rows=10.00 loops=1)
+        Group Key: l.city_id
+        Batches: 1  Memory Usage: 32kB
+        Buffers: shared hit=4201053 read=52293, temp read=12196 written=12196
+        ->  Hash Join  (cost=109181.09..158590.85 rows=1400000 width=12) (actual time=260.071..772.487 rows=1400000.00 loops=1)
+              Hash Cond: (p.locality_id = l.locality_id)
+              Buffers: shared hit=1052 read=52293, temp read=12196 written=12196
+              ->  Hash Join  (cost=109177.84..154756.85 rows=1400000 width=12) (actual time=260.055..683.681 rows=1400000.00 loops=1)
+                    Hash Cond: (s.property_id = p.property_id)
+                    Buffers: shared hit=1051 read=52293, temp read=12196 written=12196
+                    ->  Seq Scan on shortlists s  (cost=0.00..21584.00 rows=1400000 width=8) (actual time=0.030..46.361 rows=1400000.00 loops=1)
+                          Buffers: shared hit=94 read=7490
+                    ->  Hash  (cost=69775.93..69775.93 rows=2401593 width=8) (actual time=259.425..259.425 rows=2401264.00 loops=1)
+                          Buckets: 262144  Batches: 16  Memory Usage: 7911kB
+                          Buffers: shared hit=957 read=44803, temp written=7688
+                          ->  Seq Scan on properties p  (cost=0.00..69775.93 rows=2401593 width=8) (actual time=0.017..119.996 rows=2401264.00 loops=1)
+                                Buffers: shared hit=957 read=44803
+              ->  Hash  (cost=2.00..2.00 rows=100 width=8) (actual time=0.012..0.012 rows=100.00 loops=1)
+                    Buckets: 1024  Batches: 1  Memory Usage: 12kB
+                    Buffers: shared hit=1
+                    ->  Seq Scan on localities l  (cost=0.00..2.00 rows=100 width=8) (actual time=0.003..0.006 rows=100.00 loops=1)
+                          Buffers: shared hit=1
+        SubPlan 1
+          ->  Index Only Scan using idx_enquiries_property_user_created on enquiries e  (cost=0.43..8.45 rows=1 width=0) (actual time=0.001..0.001 rows=0.00 loops=1400000)
+                Index Cond: ((property_id = s.property_id) AND (user_id = s.user_id))
+                Heap Fetches: 0
+                Index Searches: 1400000
+                Buffers: shared hit=4200001
+Planning:
+  Buffers: shared hit=521 read=10
+Planning Time: 1.187 ms
+Execution Time: 2334.967 ms
+=== R25 run 3 ===
+Sort  (cost=11995591.12..11995591.14 rows=10 width=20) (actual time=3153.640..3153.641 rows=10.00 loops=1)
+  Sort Key: l.city_id
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=4201244 read=52105, temp read=12196 written=12196
+  ->  HashAggregate  (cost=11995590.85..11995590.95 rows=10 width=20) (actual time=3153.631..3153.633 rows=10.00 loops=1)
+        Group Key: l.city_id
+        Batches: 1  Memory Usage: 32kB
+        Buffers: shared hit=4201241 read=52105, temp read=12196 written=12196
+        ->  Hash Join  (cost=109181.09..158590.85 rows=1400000 width=12) (actual time=263.238..1200.128 rows=1400000.00 loops=1)
+              Hash Cond: (p.locality_id = l.locality_id)
+              Buffers: shared hit=1240 read=52105, temp read=12196 written=12196
+              ->  Hash Join  (cost=109177.84..154756.85 rows=1400000 width=12) (actual time=263.223..1102.961 rows=1400000.00 loops=1)
+                    Hash Cond: (s.property_id = p.property_id)
+                    Buffers: shared hit=1239 read=52105, temp read=12196 written=12196
+                    ->  Seq Scan on shortlists s  (cost=0.00..21584.00 rows=1400000 width=8) (actual time=0.034..126.651 rows=1400000.00 loops=1)
+                          Buffers: shared hit=188 read=7396
+                    ->  Hash  (cost=69775.93..69775.93 rows=2401593 width=8) (actual time=262.561..262.561 rows=2401264.00 loops=1)
+                          Buckets: 262144  Batches: 16  Memory Usage: 7911kB
+                          Buffers: shared hit=1051 read=44709, temp written=7688
+                          ->  Seq Scan on properties p  (cost=0.00..69775.93 rows=2401593 width=8) (actual time=0.017..121.212 rows=2401264.00 loops=1)
+                                Buffers: shared hit=1051 read=44709
+              ->  Hash  (cost=2.00..2.00 rows=100 width=8) (actual time=0.012..0.012 rows=100.00 loops=1)
+                    Buckets: 1024  Batches: 1  Memory Usage: 12kB
+                    Buffers: shared hit=1
+                    ->  Seq Scan on localities l  (cost=0.00..2.00 rows=100 width=8) (actual time=0.003..0.006 rows=100.00 loops=1)
+                          Buffers: shared hit=1
+        SubPlan 1
+          ->  Index Only Scan using idx_enquiries_property_user_created on enquiries e  (cost=0.43..8.45 rows=1 width=0) (actual time=0.001..0.001 rows=0.00 loops=1400000)
+                Index Cond: ((property_id = s.property_id) AND (user_id = s.user_id))
+                Heap Fetches: 0
+                Index Searches: 1400000
+                Buffers: shared hit=4200001
+Planning:
+  Buffers: shared hit=531
+Planning Time: 0.942 ms
+Execution Time: 3153.723 ms

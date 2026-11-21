@@ -79,3 +79,23 @@ Timing table format for `dbms/05_query_timings.md`:
 |----------|----------|------:|
 | AP Projects | Normalization 5 · ER diagram 5 · All SQL queries used 5 · Query analysis 5 | 20 |
 | DE Projects | Query execution 10 · Code optimization 30 · Individual analysis 40 | 80 |
+
+---
+
+## Team 19 (EchoVault) Checkpoint Completion & Audit Matrix
+
+**Team No.:** 19 · **Section:** C · **Institution:** Rishihood University  
+**Target RDBMS:** PostgreSQL 18.6 (Homebrew / Apple Silicon M4)  
+**Database Schemas:** `housing` (Seed ~396k rows & Large ~7.93M rows), `housing_partitioned` (Large Range-Partitioned)  
+**Default Branch Status:** Default branch `main` verified and all deliverables present.
+
+### Checkpoint Deliverables Status
+
+| Checkpoint | Due Date | Status | Required Deliverables | Repository Paths Verified | Key Evidence / Highlights |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| **CP0** | Tue 3 Nov 2026 | **COMPLETED** | `queries/workload_30.sql`<br>`benchmarks/run_benchmark.sh`<br>`team.json` | [`queries/workload_30.sql`](queries/workload_30.sql)<br>[`benchmarks/run_benchmark.sh`](benchmarks/run_benchmark.sh)<br>[`team.json`](team.json) | Team details configured (`T0039`), benchmarking harness verified. |
+| **CP1** | Mon 16 Nov 2026 | **COMPLETED** | `docs/01_problem_understanding.md`<br>`docs/02_schema_design.md`<br>`sql/01_schema.sql`<br>`sql/02_load_data.sql`<br>`diagrams/er_diagram.*` | [`docs/01_problem_understanding.md`](docs/01_problem_understanding.md)<br>[`docs/02_schema_design.md`](docs/02_schema_design.md)<br>[`sql/01_schema.sql`](sql/01_schema.sql)<br>[`sql/02_load_data.sql`](sql/02_load_data.sql)<br>[`diagrams/er_diagram.svg`](diagrams/er_diagram.svg)<br>[`diagrams/er_diagram.mmd`](diagrams/er_diagram.mmd) | 12 tables in 3NF, composite FKs, domain CHECK constraints, 396,885 seed records loaded cleanly with zero errors. |
+| **CP2** | Tue 17 Nov 2026 | **COMPLETED** | `docs/03_baseline_timings.md`<br>`benchmarks/results/baseline/summary.csv` | [`docs/03_baseline_timings.md`](docs/03_baseline_timings.md)<br>[`benchmarks/results/baseline/summary.csv`](benchmarks/results/baseline/summary.csv)<br>[`benchmarks/results/baseline/`](benchmarks/results/baseline/) | Total baseline latency: **18,112.713 ms**. Outlier `R19` clocked at **16,875.315 ms** due to $O(N \cdot M)$ correlated subqueries. |
+| **CP3** | Thu 19 Nov 2026 | **COMPLETED** | `sql/05_indexes.sql`<br>`sql/06_optimized_queries.sql`<br>`docs/04_optimization_report.md`<br>`benchmarks/results/optimized/summary.csv` | [`sql/05_indexes.sql`](sql/05_indexes.sql)<br>[`sql/06_optimized_queries.sql`](sql/06_optimized_queries.sql)<br>[`docs/04_optimization_report.md`](docs/04_optimization_report.md)<br>[`benchmarks/results/optimized/summary.csv`](benchmarks/results/optimized/summary.csv)<br>[`benchmarks/results/optimized/`](benchmarks/results/optimized/) | Workload latency reduced from **18,112 ms to 640 ms** (**96.47% reduction, 28.3× speedup**). `R19` reduced from **16,875 ms to 27.4 ms** (614.9× speedup). Fixed ANSI 3-valued logic bug in `R13`. 20 secondary indexes (36.3 MB) created and analyzed. |
+| **CP4** | Mon 23 Nov 2026 | **COMPLETED** | `docs/05_scalability_report.md`<br>`sql/08_partitioning.sql`<br>`benchmarks/results/large/summary.csv` | [`docs/05_scalability_report.md`](docs/05_scalability_report.md)<br>[`sql/02_load_large_data.sql`](sql/02_load_large_data.sql)<br>[`sql/08_partitioning.sql`](sql/08_partitioning.sql)<br>[`benchmarks/results/large/summary.csv`](benchmarks/results/large/summary.csv)<br>[`benchmarks/results/large/partitioned/summary.csv`](benchmarks/results/large/partitioned/summary.csv)<br>[`benchmarks/results/large/`](benchmarks/results/large/) | Ingested **7,930,894** rows (20× scale) with `BIGINT` safety. Executed declarative range partitioning by `RANGE (posted_at)` (7 quarterly partitions + default). Demonstrated partition pruning; reduced `W04` from **17,876 ms to 8,565 ms** (52.1% speedup). 100× enterprise architecture documented. |
+| **CP5** | Wed 25 – Thu 26 Nov 2026 | **READY** | Individual oral analysis defense | All architectural documentation, execution plans, and query proofs prepared for in-class defense. | Defense scripts, index selection rationales, subquery unnesting mathematical proofs, and partitioning trade-offs ready. |

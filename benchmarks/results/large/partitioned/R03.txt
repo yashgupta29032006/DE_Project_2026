@@ -1,0 +1,321 @@
+=== R03 run 1 ===
+Hash Left Join  (cost=60.05..180.35 rows=8 width=95) (actual time=0.109..0.129 rows=1.00 loops=1)
+  Hash Cond: (pj.project_id = pa.project_id)
+  Buffers: shared hit=27 read=19
+  ->  Nested Loop Left Join  (cost=0.85..121.13 rows=8 width=67) (actual time=0.019..0.038 rows=1.00 loops=1)
+        Buffers: shared hit=17 read=4
+        ->  Nested Loop Left Join  (cost=0.71..119.82 rows=8 width=47) (actual time=0.017..0.036 rows=1.00 loops=1)
+              Buffers: shared hit=17 read=4
+              ->  Append  (cost=0.42..53.38 rows=8 width=24) (actual time=0.016..0.034 rows=1.00 loops=1)
+                    Buffers: shared hit=17 read=4
+                    ->  Index Scan using properties_2025_q1_pkey on properties_2025_q1 p_1  (cost=0.42..8.44 rows=1 width=21) (actual time=0.015..0.016 rows=1.00 loops=1)
+                          Index Cond: (property_id = 6897)
+                          Index Searches: 1
+                          Buffers: shared read=4
+                    ->  Index Scan using properties_2025_q2_pkey on properties_2025_q2 p_2  (cost=0.42..8.44 rows=1 width=21) (actual time=0.003..0.003 rows=0.00 loops=1)
+                          Index Cond: (property_id = 6897)
+                          Index Searches: 1
+                          Buffers: shared hit=3
+                    ->  Index Scan using properties_2025_q3_pkey on properties_2025_q3 p_3  (cost=0.42..8.44 rows=1 width=21) (actual time=0.002..0.002 rows=0.00 loops=1)
+                          Index Cond: (property_id = 6897)
+                          Index Searches: 1
+                          Buffers: shared hit=3
+                    ->  Index Scan using properties_2025_q4_pkey on properties_2025_q4 p_4  (cost=0.42..8.44 rows=1 width=21) (actual time=0.003..0.003 rows=0.00 loops=1)
+                          Index Cond: (property_id = 6897)
+                          Index Searches: 1
+                          Buffers: shared hit=3
+                    ->  Index Scan using properties_2026_q1_pkey on properties_2026_q1 p_5  (cost=0.42..8.44 rows=1 width=21) (actual time=0.003..0.003 rows=0.00 loops=1)
+                          Index Cond: (property_id = 6897)
+                          Index Searches: 1
+                          Buffers: shared hit=3
+                    ->  Index Scan using properties_2026_q2_pkey on properties_2026_q2 p_6  (cost=0.42..8.44 rows=1 width=21) (actual time=0.002..0.003 rows=0.00 loops=1)
+                          Index Cond: (property_id = 6897)
+                          Index Searches: 1
+                          Buffers: shared hit=3
+                    ->  Seq Scan on properties_2026_q3 p_7  (cost=0.00..2.70 rows=1 width=22) (actual time=0.003..0.004 rows=0.00 loops=1)
+                          Filter: (property_id = 6897)
+                          Rows Removed by Filter: 56
+                          Buffers: shared hit=2
+                    ->  Seq Scan on properties_default p_8  (cost=0.00..0.00 rows=1 width=42) (actual time=0.002..0.002 rows=0.00 loops=1)
+                          Filter: (property_id = 6897)
+              ->  Index Scan using uq_projects_project_locality on projects pj  (cost=0.29..8.30 rows=1 width=28) (actual time=0.000..0.000 rows=0.00 loops=1)
+                    Index Cond: (project_id = p.project_id)
+                    Index Searches: 0
+        ->  Index Scan using builders_pkey on builders b  (cost=0.14..0.16 rows=1 width=28) (actual time=0.002..0.002 rows=0.00 loops=1)
+              Index Cond: (builder_id = pj.builder_id)
+              Index Searches: 0
+  ->  Hash  (cost=59.19..59.19 rows=1 width=36) (actual time=0.087..0.088 rows=0.00 loops=1)
+        Buckets: 1024  Batches: 1  Memory Usage: 8kB
+        Buffers: shared hit=10 read=15
+        ->  Subquery Scan on pa  (cost=59.13..59.19 rows=1 width=36) (actual time=0.087..0.088 rows=0.00 loops=1)
+              Buffers: shared hit=10 read=15
+              ->  GroupAggregate  (cost=59.13..59.18 rows=1 width=36) (actual time=0.087..0.087 rows=0.00 loops=1)
+                    Buffers: shared hit=10 read=15
+                    InitPlan 1
+                      ->  Append  (cost=0.42..53.38 rows=8 width=4) (actual time=0.001..0.062 rows=1.00 loops=1)
+                            Buffers: shared hit=6 read=15
+                            ->  Index Scan using properties_2025_q1_pkey on properties_2025_q1 properties_1  (cost=0.42..8.44 rows=1 width=4) (actual time=0.001..0.001 rows=1.00 loops=1)
+                                  Index Cond: (property_id = 6897)
+                                  Index Searches: 1
+                                  Buffers: shared hit=4
+                            ->  Index Scan using properties_2025_q2_pkey on properties_2025_q2 properties_2  (cost=0.42..8.44 rows=1 width=4) (actual time=0.010..0.010 rows=0.00 loops=1)
+                                  Index Cond: (property_id = 6897)
+                                  Index Searches: 1
+                                  Buffers: shared read=3
+                            ->  Index Scan using properties_2025_q3_pkey on properties_2025_q3 properties_3  (cost=0.42..8.44 rows=1 width=4) (actual time=0.011..0.011 rows=0.00 loops=1)
+                                  Index Cond: (property_id = 6897)
+                                  Index Searches: 1
+                                  Buffers: shared read=3
+                            ->  Index Scan using properties_2025_q4_pkey on properties_2025_q4 properties_4  (cost=0.42..8.44 rows=1 width=4) (actual time=0.010..0.010 rows=0.00 loops=1)
+                                  Index Cond: (property_id = 6897)
+                                  Index Searches: 1
+                                  Buffers: shared read=3
+                            ->  Index Scan using properties_2026_q1_pkey on properties_2026_q1 properties_5  (cost=0.42..8.44 rows=1 width=4) (actual time=0.010..0.010 rows=0.00 loops=1)
+                                  Index Cond: (property_id = 6897)
+                                  Index Searches: 1
+                                  Buffers: shared read=3
+                            ->  Index Scan using properties_2026_q2_pkey on properties_2026_q2 properties_6  (cost=0.42..8.44 rows=1 width=4) (actual time=0.010..0.010 rows=0.00 loops=1)
+                                  Index Cond: (property_id = 6897)
+                                  Index Searches: 1
+                                  Buffers: shared read=3
+                            ->  Seq Scan on properties_2026_q3 properties_7  (cost=0.00..2.70 rows=1 width=4) (actual time=0.007..0.007 rows=0.00 loops=1)
+                                  Filter: (property_id = 6897)
+                                  Rows Removed by Filter: 56
+                                  Buffers: shared hit=2
+                            ->  Seq Scan on properties_default properties_8  (cost=0.00..0.00 rows=1 width=4) (actual time=0.001..0.001 rows=0.00 loops=1)
+                                  Filter: (property_id = 6897)
+                    ->  Sort  (cost=5.75..5.77 rows=6 width=17) (actual time=0.086..0.087 rows=0.00 loops=1)
+                          Sort Key: a.amenity_name
+                          Sort Method: quicksort  Memory: 25kB
+                          Buffers: shared hit=10 read=15
+                          ->  Hash Join  (cost=4.47..5.68 rows=6 width=17) (actual time=0.071..0.071 rows=0.00 loops=1)
+                                Hash Cond: (a.amenity_id = pa_1.amenity_id)
+                                Buffers: shared hit=7 read=15
+                                ->  Seq Scan on amenities a  (cost=0.00..1.15 rows=15 width=17) (actual time=0.002..0.002 rows=1.00 loops=1)
+                                      Buffers: shared hit=1
+                                ->  Hash  (cost=4.40..4.40 rows=6 width=8) (actual time=0.066..0.066 rows=0.00 loops=1)
+                                      Buckets: 1024  Batches: 1  Memory Usage: 8kB
+                                      Buffers: shared hit=6 read=15
+                                      ->  Index Only Scan using project_amenities_pkey on project_amenities pa_1  (cost=0.29..4.40 rows=6 width=8) (actual time=0.066..0.066 rows=0.00 loops=1)
+                                            Index Cond: (project_id = (InitPlan 1).col1)
+                                            Heap Fetches: 0
+                                            Index Searches: 0
+                                            Buffers: shared hit=6 read=15
+Planning:
+  Buffers: shared hit=2487 read=17
+Planning Time: 6.897 ms
+Execution Time: 0.191 ms
+=== R03 run 2 ===
+Hash Left Join  (cost=60.05..180.35 rows=8 width=95) (actual time=0.078..0.095 rows=1.00 loops=1)
+  Hash Cond: (pj.project_id = pa.project_id)
+  Buffers: shared hit=46
+  ->  Nested Loop Left Join  (cost=0.85..121.13 rows=8 width=67) (actual time=0.009..0.025 rows=1.00 loops=1)
+        Buffers: shared hit=21
+        ->  Nested Loop Left Join  (cost=0.71..119.82 rows=8 width=47) (actual time=0.007..0.023 rows=1.00 loops=1)
+              Buffers: shared hit=21
+              ->  Append  (cost=0.42..53.38 rows=8 width=24) (actual time=0.006..0.022 rows=1.00 loops=1)
+                    Buffers: shared hit=21
+                    ->  Index Scan using properties_2025_q1_pkey on properties_2025_q1 p_1  (cost=0.42..8.44 rows=1 width=21) (actual time=0.006..0.007 rows=1.00 loops=1)
+                          Index Cond: (property_id = 6897)
+                          Index Searches: 1
+                          Buffers: shared hit=4
+                    ->  Index Scan using properties_2025_q2_pkey on properties_2025_q2 p_2  (cost=0.42..8.44 rows=1 width=21) (actual time=0.003..0.003 rows=0.00 loops=1)
+                          Index Cond: (property_id = 6897)
+                          Index Searches: 1
+                          Buffers: shared hit=3
+                    ->  Index Scan using properties_2025_q3_pkey on properties_2025_q3 p_3  (cost=0.42..8.44 rows=1 width=21) (actual time=0.002..0.002 rows=0.00 loops=1)
+                          Index Cond: (property_id = 6897)
+                          Index Searches: 1
+                          Buffers: shared hit=3
+                    ->  Index Scan using properties_2025_q4_pkey on properties_2025_q4 p_4  (cost=0.42..8.44 rows=1 width=21) (actual time=0.002..0.002 rows=0.00 loops=1)
+                          Index Cond: (property_id = 6897)
+                          Index Searches: 1
+                          Buffers: shared hit=3
+                    ->  Index Scan using properties_2026_q1_pkey on properties_2026_q1 p_5  (cost=0.42..8.44 rows=1 width=21) (actual time=0.002..0.002 rows=0.00 loops=1)
+                          Index Cond: (property_id = 6897)
+                          Index Searches: 1
+                          Buffers: shared hit=3
+                    ->  Index Scan using properties_2026_q2_pkey on properties_2026_q2 p_6  (cost=0.42..8.44 rows=1 width=21) (actual time=0.002..0.002 rows=0.00 loops=1)
+                          Index Cond: (property_id = 6897)
+                          Index Searches: 1
+                          Buffers: shared hit=3
+                    ->  Seq Scan on properties_2026_q3 p_7  (cost=0.00..2.70 rows=1 width=22) (actual time=0.002..0.002 rows=0.00 loops=1)
+                          Filter: (property_id = 6897)
+                          Rows Removed by Filter: 56
+                          Buffers: shared hit=2
+                    ->  Seq Scan on properties_default p_8  (cost=0.00..0.00 rows=1 width=42) (actual time=0.001..0.001 rows=0.00 loops=1)
+                          Filter: (property_id = 6897)
+              ->  Index Scan using uq_projects_project_locality on projects pj  (cost=0.29..8.30 rows=1 width=28) (actual time=0.000..0.000 rows=0.00 loops=1)
+                    Index Cond: (project_id = p.project_id)
+                    Index Searches: 0
+        ->  Index Scan using builders_pkey on builders b  (cost=0.14..0.16 rows=1 width=28) (actual time=0.002..0.002 rows=0.00 loops=1)
+              Index Cond: (builder_id = pj.builder_id)
+              Index Searches: 0
+  ->  Hash  (cost=59.19..59.19 rows=1 width=36) (actual time=0.066..0.067 rows=0.00 loops=1)
+        Buckets: 1024  Batches: 1  Memory Usage: 8kB
+        Buffers: shared hit=25
+        ->  Subquery Scan on pa  (cost=59.13..59.19 rows=1 width=36) (actual time=0.066..0.067 rows=0.00 loops=1)
+              Buffers: shared hit=25
+              ->  GroupAggregate  (cost=59.13..59.18 rows=1 width=36) (actual time=0.066..0.067 rows=0.00 loops=1)
+                    Buffers: shared hit=25
+                    InitPlan 1
+                      ->  Append  (cost=0.42..53.38 rows=8 width=4) (actual time=0.001..0.047 rows=1.00 loops=1)
+                            Buffers: shared hit=21
+                            ->  Index Scan using properties_2025_q1_pkey on properties_2025_q1 properties_1  (cost=0.42..8.44 rows=1 width=4) (actual time=0.001..0.001 rows=1.00 loops=1)
+                                  Index Cond: (property_id = 6897)
+                                  Index Searches: 1
+                                  Buffers: shared hit=4
+                            ->  Index Scan using properties_2025_q2_pkey on properties_2025_q2 properties_2  (cost=0.42..8.44 rows=1 width=4) (actual time=0.005..0.005 rows=0.00 loops=1)
+                                  Index Cond: (property_id = 6897)
+                                  Index Searches: 1
+                                  Buffers: shared hit=3
+                            ->  Index Scan using properties_2025_q3_pkey on properties_2025_q3 properties_3  (cost=0.42..8.44 rows=1 width=4) (actual time=0.005..0.005 rows=0.00 loops=1)
+                                  Index Cond: (property_id = 6897)
+                                  Index Searches: 1
+                                  Buffers: shared hit=3
+                            ->  Index Scan using properties_2025_q4_pkey on properties_2025_q4 properties_4  (cost=0.42..8.44 rows=1 width=4) (actual time=0.006..0.006 rows=0.00 loops=1)
+                                  Index Cond: (property_id = 6897)
+                                  Index Searches: 1
+                                  Buffers: shared hit=3
+                            ->  Index Scan using properties_2026_q1_pkey on properties_2026_q1 properties_5  (cost=0.42..8.44 rows=1 width=4) (actual time=0.004..0.004 rows=0.00 loops=1)
+                                  Index Cond: (property_id = 6897)
+                                  Index Searches: 1
+                                  Buffers: shared hit=3
+                            ->  Index Scan using properties_2026_q2_pkey on properties_2026_q2 properties_6  (cost=0.42..8.44 rows=1 width=4) (actual time=0.006..0.006 rows=0.00 loops=1)
+                                  Index Cond: (property_id = 6897)
+                                  Index Searches: 1
+                                  Buffers: shared hit=3
+                            ->  Seq Scan on properties_2026_q3 properties_7  (cost=0.00..2.70 rows=1 width=4) (actual time=0.006..0.006 rows=0.00 loops=1)
+                                  Filter: (property_id = 6897)
+                                  Rows Removed by Filter: 56
+                                  Buffers: shared hit=2
+                            ->  Seq Scan on properties_default properties_8  (cost=0.00..0.00 rows=1 width=4) (actual time=0.012..0.012 rows=0.00 loops=1)
+                                  Filter: (property_id = 6897)
+                    ->  Sort  (cost=5.75..5.77 rows=6 width=17) (actual time=0.066..0.066 rows=0.00 loops=1)
+                          Sort Key: a.amenity_name
+                          Sort Method: quicksort  Memory: 25kB
+                          Buffers: shared hit=25
+                          ->  Hash Join  (cost=4.47..5.68 rows=6 width=17) (actual time=0.055..0.055 rows=0.00 loops=1)
+                                Hash Cond: (a.amenity_id = pa_1.amenity_id)
+                                Buffers: shared hit=22
+                                ->  Seq Scan on amenities a  (cost=0.00..1.15 rows=15 width=17) (actual time=0.001..0.001 rows=1.00 loops=1)
+                                      Buffers: shared hit=1
+                                ->  Hash  (cost=4.40..4.40 rows=6 width=8) (actual time=0.050..0.051 rows=0.00 loops=1)
+                                      Buckets: 1024  Batches: 1  Memory Usage: 8kB
+                                      Buffers: shared hit=21
+                                      ->  Index Only Scan using project_amenities_pkey on project_amenities pa_1  (cost=0.29..4.40 rows=6 width=8) (actual time=0.050..0.050 rows=0.00 loops=1)
+                                            Index Cond: (project_id = (InitPlan 1).col1)
+                                            Heap Fetches: 0
+                                            Index Searches: 0
+                                            Buffers: shared hit=21
+Planning:
+  Buffers: shared hit=2504
+Planning Time: 4.379 ms
+Execution Time: 0.152 ms
+=== R03 run 3 ===
+Hash Left Join  (cost=60.05..180.35 rows=8 width=95) (actual time=0.068..0.084 rows=1.00 loops=1)
+  Hash Cond: (pj.project_id = pa.project_id)
+  Buffers: shared hit=46
+  ->  Nested Loop Left Join  (cost=0.85..121.13 rows=8 width=67) (actual time=0.009..0.025 rows=1.00 loops=1)
+        Buffers: shared hit=21
+        ->  Nested Loop Left Join  (cost=0.71..119.82 rows=8 width=47) (actual time=0.007..0.023 rows=1.00 loops=1)
+              Buffers: shared hit=21
+              ->  Append  (cost=0.42..53.38 rows=8 width=24) (actual time=0.006..0.021 rows=1.00 loops=1)
+                    Buffers: shared hit=21
+                    ->  Index Scan using properties_2025_q1_pkey on properties_2025_q1 p_1  (cost=0.42..8.44 rows=1 width=21) (actual time=0.006..0.006 rows=1.00 loops=1)
+                          Index Cond: (property_id = 6897)
+                          Index Searches: 1
+                          Buffers: shared hit=4
+                    ->  Index Scan using properties_2025_q2_pkey on properties_2025_q2 p_2  (cost=0.42..8.44 rows=1 width=21) (actual time=0.002..0.002 rows=0.00 loops=1)
+                          Index Cond: (property_id = 6897)
+                          Index Searches: 1
+                          Buffers: shared hit=3
+                    ->  Index Scan using properties_2025_q3_pkey on properties_2025_q3 p_3  (cost=0.42..8.44 rows=1 width=21) (actual time=0.002..0.002 rows=0.00 loops=1)
+                          Index Cond: (property_id = 6897)
+                          Index Searches: 1
+                          Buffers: shared hit=3
+                    ->  Index Scan using properties_2025_q4_pkey on properties_2025_q4 p_4  (cost=0.42..8.44 rows=1 width=21) (actual time=0.003..0.003 rows=0.00 loops=1)
+                          Index Cond: (property_id = 6897)
+                          Index Searches: 1
+                          Buffers: shared hit=3
+                    ->  Index Scan using properties_2026_q1_pkey on properties_2026_q1 p_5  (cost=0.42..8.44 rows=1 width=21) (actual time=0.002..0.002 rows=0.00 loops=1)
+                          Index Cond: (property_id = 6897)
+                          Index Searches: 1
+                          Buffers: shared hit=3
+                    ->  Index Scan using properties_2026_q2_pkey on properties_2026_q2 p_6  (cost=0.42..8.44 rows=1 width=21) (actual time=0.002..0.002 rows=0.00 loops=1)
+                          Index Cond: (property_id = 6897)
+                          Index Searches: 1
+                          Buffers: shared hit=3
+                    ->  Seq Scan on properties_2026_q3 p_7  (cost=0.00..2.70 rows=1 width=22) (actual time=0.002..0.002 rows=0.00 loops=1)
+                          Filter: (property_id = 6897)
+                          Rows Removed by Filter: 56
+                          Buffers: shared hit=2
+                    ->  Seq Scan on properties_default p_8  (cost=0.00..0.00 rows=1 width=42) (actual time=0.002..0.002 rows=0.00 loops=1)
+                          Filter: (property_id = 6897)
+              ->  Index Scan using uq_projects_project_locality on projects pj  (cost=0.29..8.30 rows=1 width=28) (actual time=0.000..0.000 rows=0.00 loops=1)
+                    Index Cond: (project_id = p.project_id)
+                    Index Searches: 0
+        ->  Index Scan using builders_pkey on builders b  (cost=0.14..0.16 rows=1 width=28) (actual time=0.002..0.002 rows=0.00 loops=1)
+              Index Cond: (builder_id = pj.builder_id)
+              Index Searches: 0
+  ->  Hash  (cost=59.19..59.19 rows=1 width=36) (actual time=0.056..0.056 rows=0.00 loops=1)
+        Buckets: 1024  Batches: 1  Memory Usage: 8kB
+        Buffers: shared hit=25
+        ->  Subquery Scan on pa  (cost=59.13..59.19 rows=1 width=36) (actual time=0.056..0.056 rows=0.00 loops=1)
+              Buffers: shared hit=25
+              ->  GroupAggregate  (cost=59.13..59.18 rows=1 width=36) (actual time=0.056..0.056 rows=0.00 loops=1)
+                    Buffers: shared hit=25
+                    InitPlan 1
+                      ->  Append  (cost=0.42..53.38 rows=8 width=4) (actual time=0.001..0.034 rows=1.00 loops=1)
+                            Buffers: shared hit=21
+                            ->  Index Scan using properties_2025_q1_pkey on properties_2025_q1 properties_1  (cost=0.42..8.44 rows=1 width=4) (actual time=0.001..0.001 rows=1.00 loops=1)
+                                  Index Cond: (property_id = 6897)
+                                  Index Searches: 1
+                                  Buffers: shared hit=4
+                            ->  Index Scan using properties_2025_q2_pkey on properties_2025_q2 properties_2  (cost=0.42..8.44 rows=1 width=4) (actual time=0.005..0.005 rows=0.00 loops=1)
+                                  Index Cond: (property_id = 6897)
+                                  Index Searches: 1
+                                  Buffers: shared hit=3
+                            ->  Index Scan using properties_2025_q3_pkey on properties_2025_q3 properties_3  (cost=0.42..8.44 rows=1 width=4) (actual time=0.005..0.005 rows=0.00 loops=1)
+                                  Index Cond: (property_id = 6897)
+                                  Index Searches: 1
+                                  Buffers: shared hit=3
+                            ->  Index Scan using properties_2025_q4_pkey on properties_2025_q4 properties_4  (cost=0.42..8.44 rows=1 width=4) (actual time=0.006..0.006 rows=0.00 loops=1)
+                                  Index Cond: (property_id = 6897)
+                                  Index Searches: 1
+                                  Buffers: shared hit=3
+                            ->  Index Scan using properties_2026_q1_pkey on properties_2026_q1 properties_5  (cost=0.42..8.44 rows=1 width=4) (actual time=0.005..0.005 rows=0.00 loops=1)
+                                  Index Cond: (property_id = 6897)
+                                  Index Searches: 1
+                                  Buffers: shared hit=3
+                            ->  Index Scan using properties_2026_q2_pkey on properties_2026_q2 properties_6  (cost=0.42..8.44 rows=1 width=4) (actual time=0.006..0.006 rows=0.00 loops=1)
+                                  Index Cond: (property_id = 6897)
+                                  Index Searches: 1
+                                  Buffers: shared hit=3
+                            ->  Seq Scan on properties_2026_q3 properties_7  (cost=0.00..2.70 rows=1 width=4) (actual time=0.005..0.005 rows=0.00 loops=1)
+                                  Filter: (property_id = 6897)
+                                  Rows Removed by Filter: 56
+                                  Buffers: shared hit=2
+                            ->  Seq Scan on properties_default properties_8  (cost=0.00..0.00 rows=1 width=4) (actual time=0.001..0.001 rows=0.00 loops=1)
+                                  Filter: (property_id = 6897)
+                    ->  Sort  (cost=5.75..5.77 rows=6 width=17) (actual time=0.055..0.056 rows=0.00 loops=1)
+                          Sort Key: a.amenity_name
+                          Sort Method: quicksort  Memory: 25kB
+                          Buffers: shared hit=25
+                          ->  Hash Join  (cost=4.47..5.68 rows=6 width=17) (actual time=0.042..0.042 rows=0.00 loops=1)
+                                Hash Cond: (a.amenity_id = pa_1.amenity_id)
+                                Buffers: shared hit=22
+                                ->  Seq Scan on amenities a  (cost=0.00..1.15 rows=15 width=17) (actual time=0.002..0.002 rows=1.00 loops=1)
+                                      Buffers: shared hit=1
+                                ->  Hash  (cost=4.40..4.40 rows=6 width=8) (actual time=0.037..0.038 rows=0.00 loops=1)
+                                      Buckets: 1024  Batches: 1  Memory Usage: 8kB
+                                      Buffers: shared hit=21
+                                      ->  Index Only Scan using project_amenities_pkey on project_amenities pa_1  (cost=0.29..4.40 rows=6 width=8) (actual time=0.037..0.037 rows=0.00 loops=1)
+                                            Index Cond: (project_id = (InitPlan 1).col1)
+                                            Heap Fetches: 0
+                                            Index Searches: 0
+                                            Buffers: shared hit=21
+Planning:
+  Buffers: shared hit=2504
+Planning Time: 5.857 ms
+Execution Time: 0.135 ms

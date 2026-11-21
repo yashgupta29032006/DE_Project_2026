@@ -1,0 +1,75 @@
+=== R24 run 1 ===
+Sort  (cost=959.85..976.15 rows=6519 width=52) (actual time=1.705..1.789 rows=3522.00 loops=1)
+  Sort Key: pj.possession_date
+  Sort Method: quicksort  Memory: 352kB
+  Buffers: shared hit=5 read=317
+  ->  Hash Join  (cost=120.48..546.86 rows=6519 width=52) (actual time=0.623..1.388 rows=3522.00 loops=1)
+        Hash Cond: (pj.builder_id = b.builder_id)
+        Buffers: shared hit=2 read=317
+        ->  Bitmap Heap Scan on projects pj  (cost=115.11..523.89 rows=6519 width=32) (actual time=0.602..1.046 rows=3522.00 loops=1)
+              Recheck Cond: (((possession_status)::text = 'UNDER_CONSTRUCTION'::text) AND (possession_date < '2026-07-01'::date))
+              Heap Blocks: exact=311
+              Buffers: shared read=317
+              ->  Bitmap Index Scan on idx_projects_status_possession  (cost=0.00..113.48 rows=6519 width=0) (actual time=0.572..0.572 rows=3522.00 loops=1)
+                    Index Cond: (((possession_status)::text = 'UNDER_CONSTRUCTION'::text) AND (possession_date < '2026-07-01'::date))
+                    Index Searches: 1
+                    Buffers: shared read=6
+        ->  Hash  (cost=3.50..3.50 rows=150 width=28) (actual time=0.016..0.016 rows=150.00 loops=1)
+              Buckets: 1024  Batches: 1  Memory Usage: 18kB
+              Buffers: shared hit=2
+              ->  Seq Scan on builders b  (cost=0.00..3.50 rows=150 width=28) (actual time=0.002..0.007 rows=150.00 loops=1)
+                    Buffers: shared hit=2
+Planning:
+  Buffers: shared hit=272 read=13
+Planning Time: 0.418 ms
+Execution Time: 1.862 ms
+=== R24 run 2 ===
+Sort  (cost=959.85..976.15 rows=6519 width=52) (actual time=1.078..1.144 rows=3522.00 loops=1)
+  Sort Key: pj.possession_date
+  Sort Method: quicksort  Memory: 352kB
+  Buffers: shared hit=322
+  ->  Hash Join  (cost=120.48..546.86 rows=6519 width=52) (actual time=0.094..0.779 rows=3522.00 loops=1)
+        Hash Cond: (pj.builder_id = b.builder_id)
+        Buffers: shared hit=319
+        ->  Bitmap Heap Scan on projects pj  (cost=115.11..523.89 rows=6519 width=32) (actual time=0.074..0.450 rows=3522.00 loops=1)
+              Recheck Cond: (((possession_status)::text = 'UNDER_CONSTRUCTION'::text) AND (possession_date < '2026-07-01'::date))
+              Heap Blocks: exact=311
+              Buffers: shared hit=317
+              ->  Bitmap Index Scan on idx_projects_status_possession  (cost=0.00..113.48 rows=6519 width=0) (actual time=0.054..0.054 rows=3522.00 loops=1)
+                    Index Cond: (((possession_status)::text = 'UNDER_CONSTRUCTION'::text) AND (possession_date < '2026-07-01'::date))
+                    Index Searches: 1
+                    Buffers: shared hit=6
+        ->  Hash  (cost=3.50..3.50 rows=150 width=28) (actual time=0.016..0.016 rows=150.00 loops=1)
+              Buckets: 1024  Batches: 1  Memory Usage: 18kB
+              Buffers: shared hit=2
+              ->  Seq Scan on builders b  (cost=0.00..3.50 rows=150 width=28) (actual time=0.002..0.007 rows=150.00 loops=1)
+                    Buffers: shared hit=2
+Planning:
+  Buffers: shared hit=285
+Planning Time: 0.353 ms
+Execution Time: 1.223 ms
+=== R24 run 3 ===
+Sort  (cost=959.85..976.15 rows=6519 width=52) (actual time=1.079..1.141 rows=3522.00 loops=1)
+  Sort Key: pj.possession_date
+  Sort Method: quicksort  Memory: 352kB
+  Buffers: shared hit=322
+  ->  Hash Join  (cost=120.48..546.86 rows=6519 width=52) (actual time=0.086..0.787 rows=3522.00 loops=1)
+        Hash Cond: (pj.builder_id = b.builder_id)
+        Buffers: shared hit=319
+        ->  Bitmap Heap Scan on projects pj  (cost=115.11..523.89 rows=6519 width=32) (actual time=0.067..0.442 rows=3522.00 loops=1)
+              Recheck Cond: (((possession_status)::text = 'UNDER_CONSTRUCTION'::text) AND (possession_date < '2026-07-01'::date))
+              Heap Blocks: exact=311
+              Buffers: shared hit=317
+              ->  Bitmap Index Scan on idx_projects_status_possession  (cost=0.00..113.48 rows=6519 width=0) (actual time=0.050..0.050 rows=3522.00 loops=1)
+                    Index Cond: (((possession_status)::text = 'UNDER_CONSTRUCTION'::text) AND (possession_date < '2026-07-01'::date))
+                    Index Searches: 1
+                    Buffers: shared hit=6
+        ->  Hash  (cost=3.50..3.50 rows=150 width=28) (actual time=0.016..0.016 rows=150.00 loops=1)
+              Buckets: 1024  Batches: 1  Memory Usage: 18kB
+              Buffers: shared hit=2
+              ->  Seq Scan on builders b  (cost=0.00..3.50 rows=150 width=28) (actual time=0.002..0.007 rows=150.00 loops=1)
+                    Buffers: shared hit=2
+Planning:
+  Buffers: shared hit=285
+Planning Time: 0.336 ms
+Execution Time: 1.221 ms

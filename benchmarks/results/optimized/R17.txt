@@ -1,0 +1,63 @@
+=== R17 run 1 ===
+Sort  (cost=5714.78..5755.99 rows=16484 width=16) (actual time=23.917..24.084 rows=8940.00 loops=1)
+  Sort Key: p.posted_at
+  Sort Method: quicksort  Memory: 664kB
+  Buffers: shared hit=2931
+  ->  Hash Right Anti Join  (cost=1875.33..4560.17 rows=16484 width=16) (actual time=22.561..23.078 rows=8940.00 loops=1)
+        Hash Cond: (e.property_id = p.property_id)
+        Buffers: shared hit=2928
+        ->  Seq Scan on enquiries e  (cost=0.00..1904.00 rows=100000 width=4) (actual time=0.013..2.671 rows=100000.00 loops=1)
+              Buffers: shared hit=904
+        ->  Hash  (cost=1489.53..1489.53 rows=30864 width=16) (actual time=14.455..14.455 rows=20006.00 loops=1)
+              Buckets: 32768  Batches: 1  Memory Usage: 1194kB
+              Buffers: shared hit=2024
+              ->  Index Scan using idx_properties_active_posted on properties p  (cost=0.29..1489.53 rows=30864 width=16) (actual time=0.019..10.200 rows=20006.00 loops=1)
+                    Index Cond: (posted_at < '2026-04-02 00:00:00+05:30'::timestamp with time zone)
+                    Index Searches: 1
+                    Buffers: shared hit=2024
+Planning:
+  Buffers: shared hit=521
+Planning Time: 2.203 ms
+Execution Time: 24.292 ms
+=== R17 run 2 ===
+Sort  (cost=5714.78..5755.99 rows=16484 width=16) (actual time=15.472..15.637 rows=8940.00 loops=1)
+  Sort Key: p.posted_at
+  Sort Method: quicksort  Memory: 664kB
+  Buffers: shared hit=2931
+  ->  Hash Right Anti Join  (cost=1875.33..4560.17 rows=16484 width=16) (actual time=14.164..14.665 rows=8940.00 loops=1)
+        Hash Cond: (e.property_id = p.property_id)
+        Buffers: shared hit=2928
+        ->  Seq Scan on enquiries e  (cost=0.00..1904.00 rows=100000 width=4) (actual time=0.010..2.734 rows=100000.00 loops=1)
+              Buffers: shared hit=904
+        ->  Hash  (cost=1489.53..1489.53 rows=30864 width=16) (actual time=5.925..5.925 rows=20006.00 loops=1)
+              Buckets: 32768  Batches: 1  Memory Usage: 1194kB
+              Buffers: shared hit=2024
+              ->  Index Scan using idx_properties_active_posted on properties p  (cost=0.29..1489.53 rows=30864 width=16) (actual time=0.009..4.764 rows=20006.00 loops=1)
+                    Index Cond: (posted_at < '2026-04-02 00:00:00+05:30'::timestamp with time zone)
+                    Index Searches: 1
+                    Buffers: shared hit=2024
+Planning:
+  Buffers: shared hit=521
+Planning Time: 0.753 ms
+Execution Time: 15.820 ms
+=== R17 run 3 ===
+Sort  (cost=5714.78..5755.99 rows=16484 width=16) (actual time=14.097..14.266 rows=8940.00 loops=1)
+  Sort Key: p.posted_at
+  Sort Method: quicksort  Memory: 664kB
+  Buffers: shared hit=2931
+  ->  Hash Right Anti Join  (cost=1875.33..4560.17 rows=16484 width=16) (actual time=12.803..13.289 rows=8940.00 loops=1)
+        Hash Cond: (e.property_id = p.property_id)
+        Buffers: shared hit=2928
+        ->  Seq Scan on enquiries e  (cost=0.00..1904.00 rows=100000 width=4) (actual time=0.011..2.535 rows=100000.00 loops=1)
+              Buffers: shared hit=904
+        ->  Hash  (cost=1489.53..1489.53 rows=30864 width=16) (actual time=5.484..5.484 rows=20006.00 loops=1)
+              Buckets: 32768  Batches: 1  Memory Usage: 1194kB
+              Buffers: shared hit=2024
+              ->  Index Scan using idx_properties_active_posted on properties p  (cost=0.29..1489.53 rows=30864 width=16) (actual time=0.009..4.510 rows=20006.00 loops=1)
+                    Index Cond: (posted_at < '2026-04-02 00:00:00+05:30'::timestamp with time zone)
+                    Index Searches: 1
+                    Buffers: shared hit=2024
+Planning:
+  Buffers: shared hit=521
+Planning Time: 0.742 ms
+Execution Time: 14.449 ms

@@ -1,0 +1,36 @@
+=== R05 run 1 ===
+Limit  (cost=0.29..70.29 rows=84 width=28) (actual time=0.150..0.265 rows=200.00 loops=1)
+  Buffers: shared hit=15 read=4
+  ->  Index Only Scan using idx_properties_active_map on properties  (cost=0.29..70.29 rows=84 width=28) (actual time=0.149..0.249 rows=200.00 loops=1)
+        Index Cond: ((latitude >= 12.90) AND (latitude <= 13.00) AND (longitude >= 77.55) AND (longitude <= 77.65))
+        Heap Fetches: 7
+        Index Searches: 1
+        Buffers: shared hit=15 read=4
+Planning:
+  Buffers: shared hit=336
+Planning Time: 1.513 ms
+Execution Time: 0.292 ms
+=== R05 run 2 ===
+Limit  (cost=0.29..70.29 rows=84 width=28) (actual time=0.168..0.290 rows=200.00 loops=1)
+  Buffers: shared hit=19
+  ->  Index Only Scan using idx_properties_active_map on properties  (cost=0.29..70.29 rows=84 width=28) (actual time=0.167..0.270 rows=200.00 loops=1)
+        Index Cond: ((latitude >= 12.90) AND (latitude <= 13.00) AND (longitude >= 77.55) AND (longitude <= 77.65))
+        Heap Fetches: 7
+        Index Searches: 1
+        Buffers: shared hit=19
+Planning:
+  Buffers: shared hit=336
+Planning Time: 1.179 ms
+Execution Time: 0.330 ms
+=== R05 run 3 ===
+Limit  (cost=0.29..70.29 rows=84 width=28) (actual time=0.101..0.166 rows=200.00 loops=1)
+  Buffers: shared hit=19
+  ->  Index Only Scan using idx_properties_active_map on properties  (cost=0.29..70.29 rows=84 width=28) (actual time=0.100..0.156 rows=200.00 loops=1)
+        Index Cond: ((latitude >= 12.90) AND (latitude <= 13.00) AND (longitude >= 77.55) AND (longitude <= 77.65))
+        Heap Fetches: 7
+        Index Searches: 1
+        Buffers: shared hit=19
+Planning:
+  Buffers: shared hit=336
+Planning Time: 1.574 ms
+Execution Time: 0.190 ms

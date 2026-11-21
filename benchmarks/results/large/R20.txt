@@ -1,0 +1,63 @@
+=== R20 run 1 ===
+WindowAgg  (cost=13324.64..17293.32 rows=113392 width=44) (actual time=13.929..18.955 rows=30.00 loops=1)
+  Window: w1 AS (ORDER BY ((properties.posted_at)::date))
+  Storage: Memory  Maximum Storage: 17kB
+  Buffers: shared hit=7 read=360
+  ->  GroupAggregate  (cost=13324.60..15592.44 rows=113392 width=12) (actual time=13.735..18.936 rows=30.00 loops=1)
+        Group Key: ((properties.posted_at)::date)
+        Buffers: shared hit=7 read=360
+        ->  Sort  (cost=13324.60..13608.08 rows=113392 width=4) (actual time=13.548..15.918 rows=132062.00 loops=1)
+              Sort Key: ((properties.posted_at)::date)
+              Sort Method: quicksort  Memory: 4096kB
+              Buffers: shared hit=7 read=360
+              ->  Index Only Scan using idx_properties_posted_desc on properties  (cost=0.43..3804.80 rows=113392 width=4) (actual time=0.009..9.508 rows=132062.00 loops=1)
+                    Index Cond: ((posted_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (posted_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                    Heap Fetches: 0
+                    Index Searches: 1
+                    Buffers: shared hit=4 read=360
+Planning:
+  Buffers: shared hit=341 read=48
+Planning Time: 0.977 ms
+Execution Time: 19.000 ms
+=== R20 run 2 ===
+WindowAgg  (cost=13324.64..17293.32 rows=113392 width=44) (actual time=12.230..17.222 rows=30.00 loops=1)
+  Window: w1 AS (ORDER BY ((properties.posted_at)::date))
+  Storage: Memory  Maximum Storage: 17kB
+  Buffers: shared hit=367
+  ->  GroupAggregate  (cost=13324.60..15592.44 rows=113392 width=12) (actual time=12.045..17.206 rows=30.00 loops=1)
+        Group Key: ((properties.posted_at)::date)
+        Buffers: shared hit=367
+        ->  Sort  (cost=13324.60..13608.08 rows=113392 width=4) (actual time=11.862..14.209 rows=132062.00 loops=1)
+              Sort Key: ((properties.posted_at)::date)
+              Sort Method: quicksort  Memory: 4096kB
+              Buffers: shared hit=367
+              ->  Index Only Scan using idx_properties_posted_desc on properties  (cost=0.43..3804.80 rows=113392 width=4) (actual time=0.008..8.320 rows=132062.00 loops=1)
+                    Index Cond: ((posted_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (posted_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                    Heap Fetches: 0
+                    Index Searches: 1
+                    Buffers: shared hit=364
+Planning:
+  Buffers: shared hit=389
+Planning Time: 0.536 ms
+Execution Time: 17.258 ms
+=== R20 run 3 ===
+WindowAgg  (cost=13324.64..17293.32 rows=113392 width=44) (actual time=12.044..17.034 rows=30.00 loops=1)
+  Window: w1 AS (ORDER BY ((properties.posted_at)::date))
+  Storage: Memory  Maximum Storage: 17kB
+  Buffers: shared hit=367
+  ->  GroupAggregate  (cost=13324.60..15592.44 rows=113392 width=12) (actual time=11.856..17.015 rows=30.00 loops=1)
+        Group Key: ((properties.posted_at)::date)
+        Buffers: shared hit=367
+        ->  Sort  (cost=13324.60..13608.08 rows=113392 width=4) (actual time=11.673..14.023 rows=132062.00 loops=1)
+              Sort Key: ((properties.posted_at)::date)
+              Sort Method: quicksort  Memory: 4096kB
+              Buffers: shared hit=367
+              ->  Index Only Scan using idx_properties_posted_desc on properties  (cost=0.43..3804.80 rows=113392 width=4) (actual time=0.007..8.079 rows=132062.00 loops=1)
+                    Index Cond: ((posted_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (posted_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                    Heap Fetches: 0
+                    Index Searches: 1
+                    Buffers: shared hit=364
+Planning:
+  Buffers: shared hit=389
+Planning Time: 0.507 ms
+Execution Time: 17.070 ms

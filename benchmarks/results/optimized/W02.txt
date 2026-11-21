@@ -1,0 +1,66 @@
+=== W02 run 1 ===
+Update on properties  (cost=4.74..12.77 rows=0 width=0) (actual time=0.273..0.273 rows=0.00 loops=1)
+  Buffers: shared hit=94 read=6 dirtied=7
+  InitPlan 2
+    ->  Result  (cost=4.44..4.45 rows=1 width=4) (actual time=0.038..0.038 rows=1.00 loops=1)
+          Buffers: shared hit=7
+          InitPlan 1
+            ->  Limit  (cost=0.42..4.44 rows=1 width=4) (actual time=0.035..0.035 rows=1.00 loops=1)
+                  Buffers: shared hit=7
+                  ->  Index Only Scan Backward using idx_properties_lister_status_type on properties properties_1  (cost=0.42..8.46 rows=2 width=4) (actual time=0.034..0.034 rows=1.00 loops=1)
+                        Index Cond: ((listed_by = 1033) AND (status = 'ACTIVE'::text) AND (listing_type = 'RENT'::text))
+                        Heap Fetches: 3
+                        Index Searches: 1
+                        Buffers: shared hit=7
+  ->  Index Scan using properties_pkey on properties  (cost=0.29..8.32 rows=1 width=22) (actual time=0.050..0.050 rows=1.00 loops=1)
+        Index Cond: (property_id = (InitPlan 2).col1)
+        Index Searches: 1
+        Buffers: shared hit=10
+Planning:
+  Buffers: shared hit=359
+Planning Time: 0.578 ms
+Execution Time: 0.332 ms
+=== W02 run 2 ===
+Update on properties  (cost=4.74..12.77 rows=0 width=0) (actual time=0.254..0.254 rows=0.00 loops=1)
+  Buffers: shared hit=100
+  InitPlan 2
+    ->  Result  (cost=4.44..4.45 rows=1 width=4) (actual time=0.039..0.039 rows=1.00 loops=1)
+          Buffers: shared hit=6
+          InitPlan 1
+            ->  Limit  (cost=0.42..4.44 rows=1 width=4) (actual time=0.036..0.037 rows=1.00 loops=1)
+                  Buffers: shared hit=6
+                  ->  Index Only Scan Backward using idx_properties_lister_status_type on properties properties_1  (cost=0.42..8.46 rows=2 width=4) (actual time=0.036..0.036 rows=1.00 loops=1)
+                        Index Cond: ((listed_by = 1033) AND (status = 'ACTIVE'::text) AND (listing_type = 'RENT'::text))
+                        Heap Fetches: 2
+                        Index Searches: 1
+                        Buffers: shared hit=6
+  ->  Index Scan using properties_pkey on properties  (cost=0.29..8.32 rows=1 width=22) (actual time=0.050..0.050 rows=1.00 loops=1)
+        Index Cond: (property_id = (InitPlan 2).col1)
+        Index Searches: 1
+        Buffers: shared hit=11
+Planning:
+  Buffers: shared hit=359
+Planning Time: 0.548 ms
+Execution Time: 0.298 ms
+=== W02 run 3 ===
+Update on properties  (cost=4.74..12.77 rows=0 width=0) (actual time=0.251..0.251 rows=0.00 loops=1)
+  Buffers: shared hit=100
+  InitPlan 2
+    ->  Result  (cost=4.44..4.45 rows=1 width=4) (actual time=0.037..0.037 rows=1.00 loops=1)
+          Buffers: shared hit=6
+          InitPlan 1
+            ->  Limit  (cost=0.42..4.44 rows=1 width=4) (actual time=0.034..0.034 rows=1.00 loops=1)
+                  Buffers: shared hit=6
+                  ->  Index Only Scan Backward using idx_properties_lister_status_type on properties properties_1  (cost=0.42..8.46 rows=2 width=4) (actual time=0.033..0.034 rows=1.00 loops=1)
+                        Index Cond: ((listed_by = 1033) AND (status = 'ACTIVE'::text) AND (listing_type = 'RENT'::text))
+                        Heap Fetches: 2
+                        Index Searches: 1
+                        Buffers: shared hit=6
+  ->  Index Scan using properties_pkey on properties  (cost=0.29..8.32 rows=1 width=22) (actual time=0.049..0.049 rows=1.00 loops=1)
+        Index Cond: (property_id = (InitPlan 2).col1)
+        Index Searches: 1
+        Buffers: shared hit=11
+Planning:
+  Buffers: shared hit=359
+Planning Time: 0.546 ms
+Execution Time: 0.294 ms

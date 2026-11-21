@@ -1,0 +1,102 @@
+=== R22 run 1 ===
+Limit  (cost=3697.28..3699.13 rows=25 width=34) (actual time=9.152..9.159 rows=25.00 loops=1)
+  Buffers: shared hit=1356 read=16
+  ->  Merge Append  (cost=2.92..177425.70 rows=2401265 width=34) (actual time=0.082..8.196 rows=50025.00 loops=1)
+        Sort Key: properties.posted_at DESC
+        Buffers: shared hit=1356 read=16
+        ->  Index Scan using properties_2025_q1_posted_at_idx1 on properties_2025_q1 properties_1  (cost=0.42..21286.94 rows=395703 width=34) (actual time=0.014..0.015 rows=1.00 loops=1)
+              Index Searches: 1
+              Buffers: shared hit=1 read=3
+        ->  Index Scan using properties_2025_q2_posted_at_idx1 on properties_2025_q2 properties_2  (cost=0.42..21532.15 rows=400113 width=34) (actual time=0.012..0.012 rows=1.00 loops=1)
+              Index Searches: 1
+              Buffers: shared hit=1 read=3
+        ->  Index Scan using properties_2025_q3_posted_at_idx1 on properties_2025_q3 properties_3  (cost=0.42..21769.11 rows=404490 width=34) (actual time=0.013..0.014 rows=1.00 loops=1)
+              Index Searches: 1
+              Buffers: shared hit=1 read=3
+        ->  Index Scan using properties_2025_q4_posted_at_idx1 on properties_2025_q4 properties_4  (cost=0.42..21782.52 rows=404497 width=34) (actual time=0.013..0.013 rows=1.00 loops=1)
+              Index Searches: 1
+              Buffers: shared hit=1 read=3
+        ->  Index Scan using properties_2026_q1_posted_at_idx1 on properties_2026_q1 properties_5  (cost=0.42..21318.36 rows=395839 width=34) (actual time=0.011..0.011 rows=1.00 loops=1)
+              Index Searches: 1
+              Buffers: shared hit=1 read=3
+        ->  Index Scan using properties_2026_q2_posted_at_idx1 on properties_2026_q2 properties_6  (cost=0.42..21689.09 rows=400566 width=33) (actual time=0.008..6.195 rows=49969.00 loops=1)
+              Index Searches: 1
+              Buffers: shared hit=1348
+        ->  Index Scan using properties_2026_q3_posted_at_idx1 on properties_2026_q3 properties_7  (cost=0.14..13.98 rows=56 width=35) (actual time=0.007..0.015 rows=56.00 loops=1)
+              Index Searches: 1
+              Buffers: shared hit=2 read=1
+        ->  Index Scan using properties_default_posted_at_idx1 on properties_default properties_8  (cost=0.12..8.14 rows=1 width=118) (actual time=0.002..0.002 rows=0.00 loops=1)
+              Index Searches: 1
+              Buffers: shared hit=1
+Planning:
+  Buffers: shared hit=2217 read=9
+Planning Time: 3.512 ms
+Execution Time: 9.186 ms
+=== R22 run 2 ===
+Limit  (cost=3697.28..3699.13 rows=25 width=34) (actual time=8.874..8.882 rows=25.00 loops=1)
+  Buffers: shared hit=1372
+  ->  Merge Append  (cost=2.92..177425.70 rows=2401265 width=34) (actual time=0.048..7.963 rows=50025.00 loops=1)
+        Sort Key: properties.posted_at DESC
+        Buffers: shared hit=1372
+        ->  Index Scan using properties_2025_q1_posted_at_idx1 on properties_2025_q1 properties_1  (cost=0.42..21286.94 rows=395703 width=34) (actual time=0.007..0.007 rows=1.00 loops=1)
+              Index Searches: 1
+              Buffers: shared hit=4
+        ->  Index Scan using properties_2025_q2_posted_at_idx1 on properties_2025_q2 properties_2  (cost=0.42..21532.15 rows=400113 width=34) (actual time=0.007..0.007 rows=1.00 loops=1)
+              Index Searches: 1
+              Buffers: shared hit=4
+        ->  Index Scan using properties_2025_q3_posted_at_idx1 on properties_2025_q3 properties_3  (cost=0.42..21769.11 rows=404490 width=34) (actual time=0.008..0.008 rows=1.00 loops=1)
+              Index Searches: 1
+              Buffers: shared hit=4
+        ->  Index Scan using properties_2025_q4_posted_at_idx1 on properties_2025_q4 properties_4  (cost=0.42..21782.52 rows=404497 width=34) (actual time=0.007..0.007 rows=1.00 loops=1)
+              Index Searches: 1
+              Buffers: shared hit=4
+        ->  Index Scan using properties_2026_q1_posted_at_idx1 on properties_2026_q1 properties_5  (cost=0.42..21318.36 rows=395839 width=34) (actual time=0.005..0.005 rows=1.00 loops=1)
+              Index Searches: 1
+              Buffers: shared hit=4
+        ->  Index Scan using properties_2026_q2_posted_at_idx1 on properties_2026_q2 properties_6  (cost=0.42..21689.09 rows=400566 width=33) (actual time=0.008..6.050 rows=49969.00 loops=1)
+              Index Searches: 1
+              Buffers: shared hit=1348
+        ->  Index Scan using properties_2026_q3_posted_at_idx1 on properties_2026_q3 properties_7  (cost=0.14..13.98 rows=56 width=35) (actual time=0.004..0.013 rows=56.00 loops=1)
+              Index Searches: 1
+              Buffers: shared hit=3
+        ->  Index Scan using properties_default_posted_at_idx1 on properties_default properties_8  (cost=0.12..8.14 rows=1 width=118) (actual time=0.002..0.002 rows=0.00 loops=1)
+              Index Searches: 1
+              Buffers: shared hit=1
+Planning:
+  Buffers: shared hit=2224 read=2
+Planning Time: 2.650 ms
+Execution Time: 8.907 ms
+=== R22 run 3 ===
+Limit  (cost=3697.28..3699.13 rows=25 width=34) (actual time=8.496..8.504 rows=25.00 loops=1)
+  Buffers: shared hit=1372
+  ->  Merge Append  (cost=2.92..177425.70 rows=2401265 width=34) (actual time=0.049..7.595 rows=50025.00 loops=1)
+        Sort Key: properties.posted_at DESC
+        Buffers: shared hit=1372
+        ->  Index Scan using properties_2025_q1_posted_at_idx1 on properties_2025_q1 properties_1  (cost=0.42..21286.94 rows=395703 width=34) (actual time=0.008..0.008 rows=1.00 loops=1)
+              Index Searches: 1
+              Buffers: shared hit=4
+        ->  Index Scan using properties_2025_q2_posted_at_idx1 on properties_2025_q2 properties_2  (cost=0.42..21532.15 rows=400113 width=34) (actual time=0.006..0.006 rows=1.00 loops=1)
+              Index Searches: 1
+              Buffers: shared hit=4
+        ->  Index Scan using properties_2025_q3_posted_at_idx1 on properties_2025_q3 properties_3  (cost=0.42..21769.11 rows=404490 width=34) (actual time=0.008..0.008 rows=1.00 loops=1)
+              Index Searches: 1
+              Buffers: shared hit=4
+        ->  Index Scan using properties_2025_q4_posted_at_idx1 on properties_2025_q4 properties_4  (cost=0.42..21782.52 rows=404497 width=34) (actual time=0.007..0.007 rows=1.00 loops=1)
+              Index Searches: 1
+              Buffers: shared hit=4
+        ->  Index Scan using properties_2026_q1_posted_at_idx1 on properties_2026_q1 properties_5  (cost=0.42..21318.36 rows=395839 width=34) (actual time=0.006..0.006 rows=1.00 loops=1)
+              Index Searches: 1
+              Buffers: shared hit=4
+        ->  Index Scan using properties_2026_q2_posted_at_idx1 on properties_2026_q2 properties_6  (cost=0.42..21689.09 rows=400566 width=33) (actual time=0.008..5.738 rows=49969.00 loops=1)
+              Index Searches: 1
+              Buffers: shared hit=1348
+        ->  Index Scan using properties_2026_q3_posted_at_idx1 on properties_2026_q3 properties_7  (cost=0.14..13.98 rows=56 width=35) (actual time=0.004..0.012 rows=56.00 loops=1)
+              Index Searches: 1
+              Buffers: shared hit=3
+        ->  Index Scan using properties_default_posted_at_idx1 on properties_default properties_8  (cost=0.12..8.14 rows=1 width=118) (actual time=0.002..0.002 rows=0.00 loops=1)
+              Index Searches: 1
+              Buffers: shared hit=1
+Planning:
+  Buffers: shared hit=2226
+Planning Time: 2.819 ms
+Execution Time: 8.531 ms

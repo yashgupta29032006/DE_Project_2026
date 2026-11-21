@@ -1,0 +1,234 @@
+=== R19 run 1 ===
+Gather Merge  (cost=130418.57..134288.75 rows=33230 width=26) (actual time=336.952..340.376 rows=33046.00 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=24543 read=46759 written=348
+  ->  Sort  (cost=129418.54..129453.16 rows=13846 width=26) (actual time=318.851..319.090 rows=11015.33 loops=3)
+        Sort Key: (COALESCE((count(*)), '0'::bigint)) DESC
+        Sort Method: quicksort  Memory: 1500kB
+        Buffers: shared hit=24543 read=46759 written=348
+        Worker 0:  Sort Method: quicksort  Memory: 460kB
+        Worker 1:  Sort Method: quicksort  Memory: 835kB
+        ->  Merge Left Join  (cost=28855.95..128466.13 rows=13846 width=26) (actual time=57.655..318.161 rows=11015.33 loops=3)
+              Merge Cond: (p.property_id = enquiries.property_id)
+              Buffers: shared hit=24529 read=46759 written=348
+              ->  Sort  (cost=28855.53..28890.14 rows=13846 width=10) (actual time=55.812..56.038 rows=11015.33 loops=3)
+                    Sort Key: p.property_id
+                    Sort Method: quicksort  Memory: 1286kB
+                    Buffers: shared hit=9202 read=39092 written=348
+                    Worker 0:  Sort Method: quicksort  Memory: 386kB
+                    Worker 1:  Sort Method: quicksort  Memory: 707kB
+                    ->  Hash Join  (cost=2.67..27903.12 rows=13846 width=10) (actual time=0.051..55.030 rows=11015.33 loops=3)
+                          Hash Cond: (p.locality_id = l.locality_id)
+                          Buffers: shared hit=9194 read=39092 written=348
+                          ->  Parallel Append  (cost=0.29..27521.88 rows=138460 width=14) (actual time=0.021..51.536 rows=110621.67 loops=3)
+                                Buffers: shared hit=9191 read=39092 written=348
+                                ->  Parallel Index Scan using properties_2026_q1_posted_at_idx on properties_2026_q1 p_5  (cost=0.42..6306.78 rows=29539 width=14) (actual time=0.008..21.654 rows=70223.00 loops=1)
+                                      Filter: ((listing_type)::text = 'SALE'::text)
+                                      Rows Removed by Filter: 84840
+                                      Index Searches: 1
+                                      Buffers: shared hit=8042 read=442 written=41
+                                ->  Parallel Index Scan using properties_2025_q4_posted_at_idx on properties_2025_q4 p_4  (cost=0.29..2638.52 rows=16288 width=14) (actual time=0.050..22.866 rows=27303.00 loops=1)
+                                      Filter: ((listing_type)::text = 'SALE'::text)
+                                      Rows Removed by Filter: 33424
+                                      Index Searches: 1
+                                      Buffers: shared hit=310 read=7757 written=240
+                                ->  Parallel Index Scan using properties_2025_q3_posted_at_idx on properties_2025_q3 p_3  (cost=0.29..2605.24 rows=16025 width=14) (actual time=0.060..20.748 rows=27040.00 loops=1)
+                                      Filter: ((listing_type)::text = 'SALE'::text)
+                                      Rows Removed by Filter: 33616
+                                      Index Searches: 1
+                                      Buffers: shared hit=201 read=7858 written=33
+                                ->  Parallel Index Scan using properties_2025_q2_posted_at_idx on properties_2025_q2 p_2  (cost=0.29..2588.67 rows=15982 width=14) (actual time=0.052..20.364 rows=27197.00 loops=1)
+                                      Filter: ((listing_type)::text = 'SALE'::text)
+                                      Rows Removed by Filter: 33085
+                                      Index Searches: 1
+                                      Buffers: shared hit=228 read=7776 written=20
+                                ->  Parallel Index Scan using properties_2025_q1_posted_at_idx on properties_2025_q1 p_1  (cost=0.29..2532.34 rows=15639 width=14) (actual time=0.040..7.633 rows=8981.00 loops=3)
+                                      Filter: ((listing_type)::text = 'SALE'::text)
+                                      Rows Removed by Filter: 10837
+                                      Index Searches: 1
+                                      Buffers: shared hit=408 read=7607 written=14
+                                ->  Parallel Seq Scan on properties_2026_q2 p_6  (cost=0.00..10155.54 rows=63623 width=14) (actual time=0.019..34.893 rows=153135.00 loops=1)
+                                      Filter: (((listing_type)::text = 'SALE'::text) AND ((status)::text = 'ACTIVE'::text))
+                                      Rows Removed by Filter: 247431
+                                      Buffers: shared read=7652
+                                ->  Parallel Seq Scan on properties_2026_q3 p_7  (cost=0.00..2.49 rows=14 width=15) (actual time=0.004..0.010 rows=24.00 loops=1)
+                                      Filter: (((listing_type)::text = 'SALE'::text) AND ((status)::text = 'ACTIVE'::text))
+                                      Rows Removed by Filter: 32
+                                      Buffers: shared hit=2
+                                ->  Parallel Seq Scan on properties_default p_8  (cost=0.00..0.00 rows=1 width=24) (actual time=0.000..0.000 rows=0.00 loops=1)
+                                      Filter: (((listing_type)::text = 'SALE'::text) AND ((status)::text = 'ACTIVE'::text))
+                          ->  Hash  (cost=2.25..2.25 rows=10 width=4) (actual time=0.018..0.018 rows=10.00 loops=3)
+                                Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                Buffers: shared hit=3
+                                ->  Seq Scan on localities l  (cost=0.00..2.25 rows=10 width=4) (actual time=0.013..0.015 rows=10.00 loops=3)
+                                      Filter: (city_id = 1)
+                                      Rows Removed by Filter: 90
+                                      Buffers: shared hit=3
+              ->  GroupAggregate  (cost=0.43..86322.13 rows=1052684 width=20) (actual time=0.060..233.885 rows=1317862.00 loops=3)
+                    Group Key: enquiries.property_id
+                    Buffers: shared hit=15327 read=7667
+                    ->  Index Only Scan using idx_enquiries_property_user_created on enquiries  (cost=0.43..60799.67 rows=1999416 width=12) (actual time=0.053..73.474 rows=1999415.00 loops=3)
+                          Heap Fetches: 0
+                          Index Searches: 3
+                          Buffers: shared hit=15327 read=7667
+Planning:
+  Buffers: shared hit=2313 read=135
+Planning Time: 4.811 ms
+Execution Time: 341.072 ms
+=== R19 run 2 ===
+Gather Merge  (cost=130418.57..134288.75 rows=33230 width=26) (actual time=322.423..325.916 rows=33046.00 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=16885 read=54406 written=251
+  ->  Sort  (cost=129418.54..129453.16 rows=13846 width=26) (actual time=319.172..319.412 rows=11015.33 loops=3)
+        Sort Key: (COALESCE((count(*)), '0'::bigint)) DESC
+        Sort Method: quicksort  Memory: 1521kB
+        Buffers: shared hit=16885 read=54406 written=251
+        Worker 0:  Sort Method: quicksort  Memory: 474kB
+        Worker 1:  Sort Method: quicksort  Memory: 801kB
+        ->  Merge Left Join  (cost=28855.95..128466.13 rows=13846 width=26) (actual time=68.887..318.467 rows=11015.33 loops=3)
+              Merge Cond: (p.property_id = enquiries.property_id)
+              Buffers: shared hit=16871 read=54406 written=251
+              ->  Sort  (cost=28855.53..28890.14 rows=13846 width=10) (actual time=60.556..60.790 rows=11015.33 loops=3)
+                    Sort Key: p.property_id
+                    Sort Method: quicksort  Memory: 1301kB
+                    Buffers: shared hit=1544 read=46739 written=246
+                    Worker 0:  Sort Method: quicksort  Memory: 395kB
+                    Worker 1:  Sort Method: quicksort  Memory: 681kB
+                    ->  Hash Join  (cost=2.67..27903.12 rows=13846 width=10) (actual time=0.067..59.773 rows=11015.33 loops=3)
+                          Hash Cond: (p.locality_id = l.locality_id)
+                          Buffers: shared hit=1536 read=46739 written=246
+                          ->  Parallel Append  (cost=0.29..27521.88 rows=138460 width=14) (actual time=0.037..56.257 rows=110621.67 loops=3)
+                                Buffers: shared hit=1533 read=46739 written=246
+                                ->  Parallel Index Scan using properties_2026_q1_posted_at_idx on properties_2026_q1 p_5  (cost=0.42..6306.78 rows=29539 width=14) (actual time=0.048..31.849 rows=70223.00 loops=1)
+                                      Filter: ((listing_type)::text = 'SALE'::text)
+                                      Rows Removed by Filter: 84840
+                                      Index Searches: 1
+                                      Buffers: shared hit=522 read=7962 written=109
+                                ->  Parallel Index Scan using properties_2025_q4_posted_at_idx on properties_2025_q4 p_4  (cost=0.29..2638.52 rows=16288 width=14) (actual time=0.045..23.347 rows=27303.00 loops=1)
+                                      Filter: ((listing_type)::text = 'SALE'::text)
+                                      Rows Removed by Filter: 33424
+                                      Index Searches: 1
+                                      Buffers: shared hit=207 read=7860 written=105
+                                ->  Parallel Index Scan using properties_2025_q3_posted_at_idx on properties_2025_q3 p_3  (cost=0.29..2605.24 rows=16025 width=14) (actual time=0.085..22.301 rows=27040.00 loops=1)
+                                      Filter: ((listing_type)::text = 'SALE'::text)
+                                      Rows Removed by Filter: 33616
+                                      Index Searches: 1
+                                      Buffers: shared hit=199 read=7860 written=5
+                                ->  Parallel Index Scan using properties_2025_q2_posted_at_idx on properties_2025_q2 p_2  (cost=0.29..2588.67 rows=15982 width=14) (actual time=0.075..7.272 rows=9065.67 loops=3)
+                                      Filter: ((listing_type)::text = 'SALE'::text)
+                                      Rows Removed by Filter: 11028
+                                      Index Searches: 1
+                                      Buffers: shared hit=238 read=7776 written=10
+                                ->  Parallel Index Scan using properties_2025_q1_posted_at_idx on properties_2025_q1 p_1  (cost=0.29..2532.34 rows=15639 width=14) (actual time=0.044..11.928 rows=13471.50 loops=2)
+                                      Filter: ((listing_type)::text = 'SALE'::text)
+                                      Rows Removed by Filter: 16255
+                                      Index Searches: 1
+                                      Buffers: shared hit=367 read=7627 written=17
+                                ->  Parallel Seq Scan on properties_2026_q2 p_6  (cost=0.00..10155.54 rows=63623 width=14) (actual time=0.014..34.384 rows=153135.00 loops=1)
+                                      Filter: (((listing_type)::text = 'SALE'::text) AND ((status)::text = 'ACTIVE'::text))
+                                      Rows Removed by Filter: 247431
+                                      Buffers: shared read=7652
+                                ->  Parallel Seq Scan on properties_2026_q3 p_7  (cost=0.00..2.49 rows=14 width=15) (actual time=0.016..0.022 rows=24.00 loops=1)
+                                      Filter: (((listing_type)::text = 'SALE'::text) AND ((status)::text = 'ACTIVE'::text))
+                                      Rows Removed by Filter: 32
+                                      Buffers: shared read=2
+                                ->  Parallel Seq Scan on properties_default p_8  (cost=0.00..0.00 rows=1 width=24) (actual time=0.000..0.000 rows=0.00 loops=1)
+                                      Filter: (((listing_type)::text = 'SALE'::text) AND ((status)::text = 'ACTIVE'::text))
+                          ->  Hash  (cost=2.25..2.25 rows=10 width=4) (actual time=0.017..0.017 rows=10.00 loops=3)
+                                Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                Buffers: shared hit=3
+                                ->  Seq Scan on localities l  (cost=0.00..2.25 rows=10 width=4) (actual time=0.012..0.015 rows=10.00 loops=3)
+                                      Filter: (city_id = 1)
+                                      Rows Removed by Filter: 90
+                                      Buffers: shared hit=3
+              ->  GroupAggregate  (cost=0.43..86322.13 rows=1052684 width=20) (actual time=0.046..229.641 rows=1317862.00 loops=3)
+                    Group Key: enquiries.property_id
+                    Buffers: shared hit=15327 read=7667 written=5
+                    ->  Index Only Scan using idx_enquiries_property_user_created on enquiries  (cost=0.43..60799.67 rows=1999416 width=12) (actual time=0.040..75.317 rows=1999415.00 loops=3)
+                          Heap Fetches: 0
+                          Index Searches: 3
+                          Buffers: shared hit=15327 read=7667 written=5
+Planning:
+  Buffers: shared hit=2260 read=188
+Planning Time: 4.170 ms
+Execution Time: 326.624 ms
+=== R19 run 3 ===
+Gather Merge  (cost=130418.57..134288.75 rows=33230 width=26) (actual time=345.010..348.418 rows=33046.00 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=16859 read=54439 written=294
+  ->  Sort  (cost=129418.54..129453.16 rows=13846 width=26) (actual time=325.754..325.989 rows=11015.33 loops=3)
+        Sort Key: (COALESCE((count(*)), '0'::bigint)) DESC
+        Sort Method: quicksort  Memory: 1510kB
+        Buffers: shared hit=16859 read=54439 written=294
+        Worker 0:  Sort Method: quicksort  Memory: 807kB
+        Worker 1:  Sort Method: quicksort  Memory: 479kB
+        ->  Merge Left Join  (cost=28855.95..128466.13 rows=13846 width=26) (actual time=66.416..324.995 rows=11015.33 loops=3)
+              Merge Cond: (p.property_id = enquiries.property_id)
+              Buffers: shared hit=16845 read=54439 written=294
+              ->  Sort  (cost=28855.53..28890.14 rows=13846 width=10) (actual time=59.197..59.420 rows=11015.33 loops=3)
+                    Sort Key: p.property_id
+                    Sort Method: quicksort  Memory: 1293kB
+                    Buffers: shared hit=1518 read=46772 written=293
+                    Worker 0:  Sort Method: quicksort  Memory: 686kB
+                    Worker 1:  Sort Method: quicksort  Memory: 399kB
+                    ->  Hash Join  (cost=2.67..27903.12 rows=13846 width=10) (actual time=0.104..58.439 rows=11015.33 loops=3)
+                          Hash Cond: (p.locality_id = l.locality_id)
+                          Buffers: shared hit=1510 read=46772 written=293
+                          ->  Parallel Append  (cost=0.29..27521.88 rows=138460 width=14) (actual time=0.057..54.997 rows=110621.67 loops=3)
+                                Buffers: shared hit=1507 read=46772 written=293
+                                ->  Parallel Index Scan using properties_2026_q1_posted_at_idx on properties_2026_q1 p_5  (cost=0.42..6306.78 rows=29539 width=14) (actual time=0.095..30.496 rows=70223.00 loops=1)
+                                      Filter: ((listing_type)::text = 'SALE'::text)
+                                      Rows Removed by Filter: 84840
+                                      Index Searches: 1
+                                      Buffers: shared hit=522 read=7962 written=133
+                                ->  Parallel Index Scan using properties_2025_q4_posted_at_idx on properties_2025_q4 p_4  (cost=0.29..2638.52 rows=16288 width=14) (actual time=0.046..22.177 rows=27303.00 loops=1)
+                                      Filter: ((listing_type)::text = 'SALE'::text)
+                                      Rows Removed by Filter: 33424
+                                      Index Searches: 1
+                                      Buffers: shared hit=205 read=7862 written=116
+                                ->  Parallel Index Scan using properties_2025_q3_posted_at_idx on properties_2025_q3 p_3  (cost=0.29..2605.24 rows=16025 width=14) (actual time=0.071..21.052 rows=27040.00 loops=1)
+                                      Filter: ((listing_type)::text = 'SALE'::text)
+                                      Rows Removed by Filter: 33616
+                                      Index Searches: 1
+                                      Buffers: shared hit=198 read=7861 written=20
+                                ->  Parallel Index Scan using properties_2025_q2_posted_at_idx on properties_2025_q2 p_2  (cost=0.29..2588.67 rows=15982 width=14) (actual time=0.076..20.553 rows=27197.00 loops=1)
+                                      Filter: ((listing_type)::text = 'SALE'::text)
+                                      Rows Removed by Filter: 33085
+                                      Index Searches: 1
+                                      Buffers: shared hit=227 read=7777 written=10
+                                ->  Parallel Index Scan using properties_2025_q1_posted_at_idx on properties_2025_q1 p_1  (cost=0.29..2532.34 rows=15639 width=14) (actual time=0.043..7.650 rows=8981.00 loops=3)
+                                      Filter: ((listing_type)::text = 'SALE'::text)
+                                      Rows Removed by Filter: 10837
+                                      Index Searches: 1
+                                      Buffers: shared hit=355 read=7656 written=14
+                                ->  Parallel Seq Scan on properties_2026_q2 p_6  (cost=0.00..10155.54 rows=63623 width=14) (actual time=0.017..36.432 rows=153135.00 loops=1)
+                                      Filter: (((listing_type)::text = 'SALE'::text) AND ((status)::text = 'ACTIVE'::text))
+                                      Rows Removed by Filter: 247431
+                                      Buffers: shared read=7652
+                                ->  Parallel Seq Scan on properties_2026_q3 p_7  (cost=0.00..2.49 rows=14 width=15) (actual time=0.031..0.036 rows=24.00 loops=1)
+                                      Filter: (((listing_type)::text = 'SALE'::text) AND ((status)::text = 'ACTIVE'::text))
+                                      Rows Removed by Filter: 32
+                                      Buffers: shared read=2
+                                ->  Parallel Seq Scan on properties_default p_8  (cost=0.00..0.00 rows=1 width=24) (actual time=0.000..0.000 rows=0.00 loops=1)
+                                      Filter: (((listing_type)::text = 'SALE'::text) AND ((status)::text = 'ACTIVE'::text))
+                          ->  Hash  (cost=2.25..2.25 rows=10 width=4) (actual time=0.020..0.020 rows=10.00 loops=3)
+                                Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                Buffers: shared hit=3
+                                ->  Seq Scan on localities l  (cost=0.00..2.25 rows=10 width=4) (actual time=0.014..0.017 rows=10.00 loops=3)
+                                      Filter: (city_id = 1)
+                                      Rows Removed by Filter: 90
+                                      Buffers: shared hit=3
+              ->  GroupAggregate  (cost=0.43..86322.13 rows=1052684 width=20) (actual time=0.044..235.563 rows=1317862.00 loops=3)
+                    Group Key: enquiries.property_id
+                    Buffers: shared hit=15327 read=7667 written=1
+                    ->  Index Only Scan using idx_enquiries_property_user_created on enquiries  (cost=0.43..60799.67 rows=1999416 width=12) (actual time=0.039..74.621 rows=1999415.00 loops=3)
+                          Heap Fetches: 0
+                          Index Searches: 3
+                          Buffers: shared hit=15327 read=7667 written=1
+Planning:
+  Buffers: shared hit=2253 read=195
+Planning Time: 4.616 ms
+Execution Time: 349.100 ms

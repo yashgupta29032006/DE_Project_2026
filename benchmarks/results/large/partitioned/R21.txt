@@ -1,0 +1,192 @@
+=== R21 run 1 ===
+Sort  (cost=74711.98..74712.07 rows=33 width=49) (actual time=161.448..162.758 rows=100.00 loops=1)
+  Sort Key: (round(avg(v.feedback_rating), 2)) DESC
+  Sort Method: quicksort  Memory: 29kB
+  Buffers: shared hit=6103 read=40447
+  ->  Finalize GroupAggregate  (cost=74679.82..74711.15 rows=33 width=49) (actual time=161.353..162.737 rows=100.00 loops=1)
+        Group Key: l.locality_name
+        Filter: (count(*) >= 10)
+        Buffers: shared hit=6100 read=40447
+        ->  Gather Merge  (cost=74679.82..74707.77 rows=240 width=49) (actual time=161.345..162.694 rows=300.00 loops=1)
+              Workers Planned: 2
+              Workers Launched: 2
+              Buffers: shared hit=6100 read=40447
+              ->  Sort  (cost=73679.79..73680.04 rows=100 width=49) (actual time=159.741..159.744 rows=100.00 loops=3)
+                    Sort Key: l.locality_name
+                    Sort Method: quicksort  Memory: 32kB
+                    Buffers: shared hit=6100 read=40447
+                    Worker 0:  Sort Method: quicksort  Memory: 32kB
+                    Worker 1:  Sort Method: quicksort  Memory: 32kB
+                    ->  Partial HashAggregate  (cost=73675.47..73676.47 rows=100 width=49) (actual time=159.612..159.619 rows=100.00 loops=3)
+                          Group Key: l.locality_name
+                          Batches: 1  Memory Usage: 32kB
+                          Buffers: shared hit=6084 read=40447
+                          Worker 0:  Batches: 1  Memory Usage: 32kB
+                          Worker 1:  Batches: 1  Memory Usage: 32kB
+                          ->  Hash Join  (cost=7448.46..72768.35 rows=120950 width=11) (actual time=14.660..150.766 rows=97291.00 loops=3)
+                                Hash Cond: (p.locality_id = l.locality_id)
+                                Buffers: shared hit=6084 read=40447
+                                ->  Parallel Hash Join  (cost=7445.21..72434.14 rows=120950 width=6) (actual time=14.633..142.200 rows=97291.00 loops=3)
+                                      Hash Cond: (p.property_id = v.property_id)
+                                      Buffers: shared hit=6081 read=40447
+                                      ->  Parallel Append  (cost=0.00..60733.00 rows=1000527 width=8) (actual time=0.036..65.174 rows=800421.33 loops=3)
+                                            Buffers: shared hit=6076 read=39649
+                                            ->  Parallel Seq Scan on properties_2025_q4 p_4  (cost=0.00..9381.40 rows=168540 width=8) (actual time=0.043..19.060 rows=404497.00 loops=1)
+                                                  Buffers: shared read=7696
+                                            ->  Parallel Seq Scan on properties_2025_q3 p_3  (cost=0.00..9380.38 rows=168538 width=8) (actual time=0.045..18.393 rows=404490.00 loops=1)
+                                                  Buffers: shared hit=3 read=7692
+                                            ->  Parallel Seq Scan on properties_2026_q2 p_6  (cost=0.00..9321.02 rows=166902 width=8) (actual time=0.022..7.106 rows=133522.00 loops=3)
+                                                  Buffers: shared hit=2576 read=5076
+                                            ->  Parallel Seq Scan on properties_2025_q2 p_2  (cost=0.00..9278.14 rows=166714 width=8) (actual time=0.026..9.859 rows=200056.50 loops=2)
+                                                  Buffers: shared hit=1217 read=6394
+                                            ->  Parallel Seq Scan on properties_2026_q1 p_5  (cost=0.00..9189.33 rows=164933 width=8) (actual time=0.015..18.742 rows=395839.00 loops=1)
+                                                  Buffers: shared hit=4 read=7536
+                                            ->  Parallel Seq Scan on properties_2025_q1 p_1  (cost=0.00..9177.76 rows=164876 width=8) (actual time=0.020..19.203 rows=395703.00 loops=1)
+                                                  Buffers: shared hit=2276 read=5253
+                                            ->  Parallel Seq Scan on properties_2026_q3 p_7  (cost=0.00..2.33 rows=33 width=8) (actual time=0.019..0.022 rows=56.00 loops=1)
+                                                  Buffers: shared read=2
+                                            ->  Parallel Seq Scan on properties_default p_8  (cost=0.00..0.00 rows=1 width=8) (actual time=0.001..0.001 rows=0.00 loops=1)
+                                      ->  Parallel Hash  (cost=5933.33..5933.33 rows=120950 width=6) (actual time=14.426..14.426 rows=97291.00 loops=3)
+                                            Buckets: 524288  Batches: 1  Memory Usage: 15552kB
+                                            Buffers: shared hit=5 read=798
+                                            ->  Parallel Index Only Scan using idx_site_visits_property_rating on site_visits v  (cost=0.42..5933.33 rows=120950 width=6) (actual time=0.121..8.582 rows=97291.00 loops=3)
+                                                  Heap Fetches: 16
+                                                  Index Searches: 1
+                                                  Buffers: shared hit=5 read=798
+                                ->  Hash  (cost=2.00..2.00 rows=100 width=13) (actual time=0.023..0.023 rows=100.00 loops=3)
+                                      Buckets: 1024  Batches: 1  Memory Usage: 13kB
+                                      Buffers: shared hit=3
+                                      ->  Seq Scan on localities l  (cost=0.00..2.00 rows=100 width=13) (actual time=0.012..0.016 rows=100.00 loops=3)
+                                            Buffers: shared hit=3
+Planning:
+  Buffers: shared hit=2310 read=103
+Planning Time: 3.387 ms
+Execution Time: 162.821 ms
+=== R21 run 2 ===
+Sort  (cost=74711.98..74712.07 rows=33 width=49) (actual time=157.323..158.592 rows=100.00 loops=1)
+  Sort Key: (round(avg(v.feedback_rating), 2)) DESC
+  Sort Method: quicksort  Memory: 29kB
+  Buffers: shared hit=6953 read=39597 written=12
+  ->  Finalize GroupAggregate  (cost=74679.82..74711.15 rows=33 width=49) (actual time=157.222..158.568 rows=100.00 loops=1)
+        Group Key: l.locality_name
+        Filter: (count(*) >= 10)
+        Buffers: shared hit=6950 read=39597 written=12
+        ->  Gather Merge  (cost=74679.82..74707.77 rows=240 width=49) (actual time=157.207..158.520 rows=300.00 loops=1)
+              Workers Planned: 2
+              Workers Launched: 2
+              Buffers: shared hit=6950 read=39597 written=12
+              ->  Sort  (cost=73679.79..73680.04 rows=100 width=49) (actual time=155.616..155.622 rows=100.00 loops=3)
+                    Sort Key: l.locality_name
+                    Sort Method: quicksort  Memory: 32kB
+                    Buffers: shared hit=6950 read=39597 written=12
+                    Worker 0:  Sort Method: quicksort  Memory: 32kB
+                    Worker 1:  Sort Method: quicksort  Memory: 32kB
+                    ->  Partial HashAggregate  (cost=73675.47..73676.47 rows=100 width=49) (actual time=155.477..155.485 rows=100.00 loops=3)
+                          Group Key: l.locality_name
+                          Batches: 1  Memory Usage: 32kB
+                          Buffers: shared hit=6934 read=39597 written=12
+                          Worker 0:  Batches: 1  Memory Usage: 32kB
+                          Worker 1:  Batches: 1  Memory Usage: 32kB
+                          ->  Hash Join  (cost=7448.46..72768.35 rows=120950 width=11) (actual time=9.101..146.787 rows=97291.00 loops=3)
+                                Hash Cond: (p.locality_id = l.locality_id)
+                                Buffers: shared hit=6934 read=39597 written=12
+                                ->  Parallel Hash Join  (cost=7445.21..72434.14 rows=120950 width=6) (actual time=9.074..138.245 rows=97291.00 loops=3)
+                                      Hash Cond: (p.property_id = v.property_id)
+                                      Buffers: shared hit=6931 read=39597 written=12
+                                      ->  Parallel Append  (cost=0.00..60733.00 rows=1000527 width=8) (actual time=0.051..65.144 rows=800421.33 loops=3)
+                                            Buffers: shared hit=6128 read=39597 written=12
+                                            ->  Parallel Seq Scan on properties_2025_q4 p_4  (cost=0.00..9381.40 rows=168540 width=8) (actual time=0.065..19.093 rows=404497.00 loops=1)
+                                                  Buffers: shared hit=94 read=7602 written=2
+                                            ->  Parallel Seq Scan on properties_2025_q3 p_3  (cost=0.00..9380.38 rows=168538 width=8) (actual time=0.079..18.391 rows=404490.00 loops=1)
+                                                  Buffers: shared hit=97 read=7598 written=5
+                                            ->  Parallel Seq Scan on properties_2026_q2 p_6  (cost=0.00..9321.02 rows=166902 width=8) (actual time=0.027..7.043 rows=133522.00 loops=3)
+                                                  Buffers: shared hit=2674 read=4978
+                                            ->  Parallel Seq Scan on properties_2025_q2 p_2  (cost=0.00..9278.14 rows=166714 width=8) (actual time=0.026..9.801 rows=200056.50 loops=2)
+                                                  Buffers: shared hit=1013 read=6598
+                                            ->  Parallel Seq Scan on properties_2026_q1 p_5  (cost=0.00..9189.33 rows=164933 width=8) (actual time=0.027..18.596 rows=395839.00 loops=1)
+                                                  Buffers: shared hit=97 read=7443
+                                            ->  Parallel Seq Scan on properties_2025_q1 p_1  (cost=0.00..9177.76 rows=164876 width=8) (actual time=0.028..19.255 rows=395703.00 loops=1)
+                                                  Buffers: shared hit=2151 read=5378 written=5
+                                            ->  Parallel Seq Scan on properties_2026_q3 p_7  (cost=0.00..2.33 rows=33 width=8) (actual time=0.006..0.010 rows=56.00 loops=1)
+                                                  Buffers: shared hit=2
+                                            ->  Parallel Seq Scan on properties_default p_8  (cost=0.00..0.00 rows=1 width=8) (actual time=0.001..0.001 rows=0.00 loops=1)
+                                      ->  Parallel Hash  (cost=5933.33..5933.33 rows=120950 width=6) (actual time=8.839..8.839 rows=97291.00 loops=3)
+                                            Buckets: 524288  Batches: 1  Memory Usage: 15552kB
+                                            Buffers: shared hit=803
+                                            ->  Parallel Index Only Scan using idx_site_visits_property_rating on site_visits v  (cost=0.42..5933.33 rows=120950 width=6) (actual time=0.017..3.757 rows=97291.00 loops=3)
+                                                  Heap Fetches: 16
+                                                  Index Searches: 1
+                                                  Buffers: shared hit=803
+                                ->  Hash  (cost=2.00..2.00 rows=100 width=13) (actual time=0.024..0.024 rows=100.00 loops=3)
+                                      Buckets: 1024  Batches: 1  Memory Usage: 13kB
+                                      Buffers: shared hit=3
+                                      ->  Seq Scan on localities l  (cost=0.00..2.00 rows=100 width=13) (actual time=0.014..0.017 rows=100.00 loops=3)
+                                            Buffers: shared hit=3
+Planning:
+  Buffers: shared hit=2413
+Planning Time: 3.030 ms
+Execution Time: 158.677 ms
+=== R21 run 3 ===
+Sort  (cost=74711.98..74712.07 rows=33 width=49) (actual time=154.981..156.438 rows=100.00 loops=1)
+  Sort Key: (round(avg(v.feedback_rating), 2)) DESC
+  Sort Method: quicksort  Memory: 29kB
+  Buffers: shared hit=7013 read=39536 written=52
+  ->  Finalize GroupAggregate  (cost=74679.82..74711.15 rows=33 width=49) (actual time=154.881..156.415 rows=100.00 loops=1)
+        Group Key: l.locality_name
+        Filter: (count(*) >= 10)
+        Buffers: shared hit=7010 read=39536 written=52
+        ->  Gather Merge  (cost=74679.82..74707.77 rows=240 width=49) (actual time=154.870..156.367 rows=300.00 loops=1)
+              Workers Planned: 2
+              Workers Launched: 2
+              Buffers: shared hit=7010 read=39536 written=52
+              ->  Sort  (cost=73679.79..73680.04 rows=100 width=49) (actual time=153.319..153.323 rows=100.00 loops=3)
+                    Sort Key: l.locality_name
+                    Sort Method: quicksort  Memory: 32kB
+                    Buffers: shared hit=7010 read=39536 written=52
+                    Worker 0:  Sort Method: quicksort  Memory: 32kB
+                    Worker 1:  Sort Method: quicksort  Memory: 32kB
+                    ->  Partial HashAggregate  (cost=73675.47..73676.47 rows=100 width=49) (actual time=153.184..153.191 rows=100.00 loops=3)
+                          Group Key: l.locality_name
+                          Batches: 1  Memory Usage: 32kB
+                          Buffers: shared hit=6994 read=39536 written=52
+                          Worker 0:  Batches: 1  Memory Usage: 32kB
+                          Worker 1:  Batches: 1  Memory Usage: 32kB
+                          ->  Hash Join  (cost=7448.46..72768.35 rows=120950 width=11) (actual time=8.679..144.251 rows=97291.00 loops=3)
+                                Hash Cond: (p.locality_id = l.locality_id)
+                                Buffers: shared hit=6994 read=39536 written=52
+                                ->  Parallel Hash Join  (cost=7445.21..72434.14 rows=120950 width=6) (actual time=8.654..135.965 rows=97291.00 loops=3)
+                                      Hash Cond: (p.property_id = v.property_id)
+                                      Buffers: shared hit=6991 read=39536 written=52
+                                      ->  Parallel Append  (cost=0.00..60733.00 rows=1000527 width=8) (actual time=0.086..65.832 rows=800421.33 loops=3)
+                                            Buffers: shared hit=6189 read=39536 written=52
+                                            ->  Parallel Seq Scan on properties_2025_q4 p_4  (cost=0.00..9381.40 rows=168540 width=8) (actual time=0.127..19.642 rows=404497.00 loops=1)
+                                                  Buffers: shared hit=183 read=7513 written=13
+                                            ->  Parallel Seq Scan on properties_2025_q3 p_3  (cost=0.00..9380.38 rows=168538 width=8) (actual time=0.124..19.043 rows=404490.00 loops=1)
+                                                  Buffers: shared hit=188 read=7507 written=19
+                                            ->  Parallel Seq Scan on properties_2026_q2 p_6  (cost=0.00..9321.02 rows=166902 width=8) (actual time=0.028..7.035 rows=133522.00 loops=3)
+                                                  Buffers: shared hit=2768 read=4884
+                                            ->  Parallel Seq Scan on properties_2025_q2 p_2  (cost=0.00..9278.14 rows=166714 width=8) (actual time=0.032..9.855 rows=200056.50 loops=2)
+                                                  Buffers: shared hit=847 read=6764
+                                            ->  Parallel Seq Scan on properties_2026_q1 p_5  (cost=0.00..9189.33 rows=164933 width=8) (actual time=0.025..18.744 rows=395839.00 loops=1)
+                                                  Buffers: shared hit=191 read=7349
+                                            ->  Parallel Seq Scan on properties_2025_q1 p_1  (cost=0.00..9177.76 rows=164876 width=8) (actual time=0.070..19.762 rows=395703.00 loops=1)
+                                                  Buffers: shared hit=2010 read=5519 written=20
+                                            ->  Parallel Seq Scan on properties_2026_q3 p_7  (cost=0.00..2.33 rows=33 width=8) (actual time=0.005..0.008 rows=56.00 loops=1)
+                                                  Buffers: shared hit=2
+                                            ->  Parallel Seq Scan on properties_default p_8  (cost=0.00..0.00 rows=1 width=8) (actual time=0.001..0.001 rows=0.00 loops=1)
+                                      ->  Parallel Hash  (cost=5933.33..5933.33 rows=120950 width=6) (actual time=8.379..8.380 rows=97291.00 loops=3)
+                                            Buckets: 524288  Batches: 1  Memory Usage: 15584kB
+                                            Buffers: shared hit=802
+                                            ->  Parallel Index Only Scan using idx_site_visits_property_rating on site_visits v  (cost=0.42..5933.33 rows=120950 width=6) (actual time=0.015..3.685 rows=97291.00 loops=3)
+                                                  Heap Fetches: 16
+                                                  Index Searches: 1
+                                                  Buffers: shared hit=802
+                                ->  Hash  (cost=2.00..2.00 rows=100 width=13) (actual time=0.022..0.022 rows=100.00 loops=3)
+                                      Buckets: 1024  Batches: 1  Memory Usage: 13kB
+                                      Buffers: shared hit=3
+                                      ->  Seq Scan on localities l  (cost=0.00..2.00 rows=100 width=13) (actual time=0.012..0.015 rows=100.00 loops=3)
+                                            Buffers: shared hit=3
+Planning:
+  Buffers: shared hit=2413
+Planning Time: 3.530 ms
+Execution Time: 156.518 ms

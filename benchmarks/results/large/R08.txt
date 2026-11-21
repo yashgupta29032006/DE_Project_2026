@@ -1,0 +1,105 @@
+=== R08 run 1 ===
+Gather Merge  (cost=28752.02..29054.49 rows=2597 width=48) (actual time=20.325..22.618 rows=11090.00 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=47040 read=5715
+  ->  Sort  (cost=27752.00..27754.71 rows=1082 width=48) (actual time=16.288..16.376 rows=3696.67 loops=3)
+        Sort Key: (round(('100'::numeric * ('1'::numeric - (c.new_price / c.old_price))), 1)) DESC
+        Sort Method: quicksort  Memory: 222kB
+        Buffers: shared hit=47040 read=5715
+        Worker 0:  Sort Method: quicksort  Memory: 270kB
+        Worker 1:  Sort Method: quicksort  Memory: 368kB
+        ->  Nested Loop  (cost=655.74..27697.47 rows=1082 width=48) (actual time=0.709..15.632 rows=3696.67 loops=3)
+              Buffers: shared hit=47026 read=5715
+              ->  Parallel Bitmap Heap Scan on price_changes c  (cost=655.31..4389.27 rows=3566 width=16) (actual time=0.492..1.769 rows=4349.00 loops=3)
+                    Recheck Cond: ((changed_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (changed_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                    Filter: (new_price <= (old_price * 0.9))
+                    Rows Removed by Filter: 4296
+                    Heap Blocks: exact=153
+                    Buffers: shared hit=40 read=511
+                    Worker 0:  Heap Blocks: exact=125
+                    Worker 1:  Heap Blocks: exact=131
+                    ->  Bitmap Index Scan on idx_price_changes_changed_property  (cost=0.00..653.17 rows=25675 width=0) (actual time=1.287..1.287 rows=25935.00 loops=1)
+                          Index Cond: ((changed_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (changed_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                          Index Searches: 1
+                          Buffers: shared read=102
+              ->  Index Scan using properties_pkey on properties p  (cost=0.43..6.53 rows=1 width=4) (actual time=0.003..0.003 rows=0.85 loops=13047)
+                    Index Cond: (property_id = c.property_id)
+                    Filter: ((status)::text = 'ACTIVE'::text)
+                    Rows Removed by Filter: 0
+                    Index Searches: 13047
+                    Buffers: shared hit=46986 read=5204
+Planning:
+  Buffers: shared hit=504 read=5 dirtied=1
+Planning Time: 1.179 ms
+Execution Time: 22.914 ms
+=== R08 run 2 ===
+Gather Merge  (cost=28752.02..29054.49 rows=2597 width=48) (actual time=10.532..12.482 rows=11090.00 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=52755
+  ->  Sort  (cost=27752.00..27754.71 rows=1082 width=48) (actual time=8.929..9.010 rows=3696.67 loops=3)
+        Sort Key: (round(('100'::numeric * ('1'::numeric - (c.new_price / c.old_price))), 1)) DESC
+        Sort Method: quicksort  Memory: 265kB
+        Buffers: shared hit=52755
+        Worker 0:  Sort Method: quicksort  Memory: 246kB
+        Worker 1:  Sort Method: quicksort  Memory: 254kB
+        ->  Nested Loop  (cost=655.74..27697.47 rows=1082 width=48) (actual time=0.333..8.223 rows=3696.67 loops=3)
+              Buffers: shared hit=52741
+              ->  Parallel Bitmap Heap Scan on price_changes c  (cost=655.31..4389.27 rows=3566 width=16) (actual time=0.319..1.620 rows=4349.00 loops=3)
+                    Recheck Cond: ((changed_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (changed_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                    Filter: (new_price <= (old_price * 0.9))
+                    Rows Removed by Filter: 4296
+                    Heap Blocks: exact=176
+                    Buffers: shared hit=551
+                    Worker 0:  Heap Blocks: exact=109
+                    Worker 1:  Heap Blocks: exact=124
+                    ->  Bitmap Index Scan on idx_price_changes_changed_property  (cost=0.00..653.17 rows=25675 width=0) (actual time=0.817..0.817 rows=25935.00 loops=1)
+                          Index Cond: ((changed_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (changed_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                          Index Searches: 1
+                          Buffers: shared hit=102
+              ->  Index Scan using properties_pkey on properties p  (cost=0.43..6.53 rows=1 width=4) (actual time=0.001..0.001 rows=0.85 loops=13047)
+                    Index Cond: (property_id = c.property_id)
+                    Filter: ((status)::text = 'ACTIVE'::text)
+                    Rows Removed by Filter: 0
+                    Index Searches: 13047
+                    Buffers: shared hit=52190
+Planning:
+  Buffers: shared hit=505
+Planning Time: 0.701 ms
+Execution Time: 12.751 ms
+=== R08 run 3 ===
+Gather Merge  (cost=28752.02..29054.49 rows=2597 width=48) (actual time=10.237..12.098 rows=11090.00 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=52755
+  ->  Sort  (cost=27752.00..27754.71 rows=1082 width=48) (actual time=8.623..8.701 rows=3696.67 loops=3)
+        Sort Key: (round(('100'::numeric * ('1'::numeric - (c.new_price / c.old_price))), 1)) DESC
+        Sort Method: quicksort  Memory: 271kB
+        Buffers: shared hit=52755
+        Worker 0:  Sort Method: quicksort  Memory: 245kB
+        Worker 1:  Sort Method: quicksort  Memory: 250kB
+        ->  Nested Loop  (cost=655.74..27697.47 rows=1082 width=48) (actual time=0.307..7.949 rows=3696.67 loops=3)
+              Buffers: shared hit=52741
+              ->  Parallel Bitmap Heap Scan on price_changes c  (cost=655.31..4389.27 rows=3566 width=16) (actual time=0.296..1.520 rows=4349.00 loops=3)
+                    Recheck Cond: ((changed_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (changed_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                    Filter: (new_price <= (old_price * 0.9))
+                    Rows Removed by Filter: 4296
+                    Heap Blocks: exact=179
+                    Buffers: shared hit=551
+                    Worker 0:  Heap Blocks: exact=110
+                    Worker 1:  Heap Blocks: exact=120
+                    ->  Bitmap Index Scan on idx_price_changes_changed_property  (cost=0.00..653.17 rows=25675 width=0) (actual time=0.767..0.767 rows=25935.00 loops=1)
+                          Index Cond: ((changed_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (changed_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                          Index Searches: 1
+                          Buffers: shared hit=102
+              ->  Index Scan using properties_pkey on properties p  (cost=0.43..6.53 rows=1 width=4) (actual time=0.001..0.001 rows=0.85 loops=13047)
+                    Index Cond: (property_id = c.property_id)
+                    Filter: ((status)::text = 'ACTIVE'::text)
+                    Rows Removed by Filter: 0
+                    Index Searches: 13047
+                    Buffers: shared hit=52190
+Planning:
+  Buffers: shared hit=505
+Planning Time: 0.739 ms
+Execution Time: 12.357 ms

@@ -1,0 +1,177 @@
+=== R08 run 1 ===
+Gather Merge  (cost=34088.30..34394.25 rows=2627 width=48) (actual time=76.379..77.573 rows=11090.00 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=1950 read=46821 written=1058
+  ->  Sort  (cost=33088.27..33091.01 rows=1095 width=48) (actual time=74.172..74.243 rows=3696.67 loops=3)
+        Sort Key: (round(('100'::numeric * ('1'::numeric - (c.new_price / c.old_price))), 1)) DESC
+        Sort Method: quicksort  Memory: 860kB
+        Buffers: shared hit=1950 read=46821 written=1058
+        Worker 0:  Sort Method: quicksort  Memory: 25kB
+        Worker 1:  Sort Method: quicksort  Memory: 25kB
+        ->  Parallel Hash Join  (cost=4434.14..33032.99 rows=1095 width=48) (actual time=52.213..73.551 rows=3696.67 loops=3)
+              Hash Cond: (p.property_id = c.property_id)
+              Buffers: shared hit=1936 read=46821 written=1058
+              ->  Parallel Append  (cost=0.29..27431.86 rows=307141 width=4) (actual time=0.034..57.038 rows=245574.00 loops=3)
+                    Buffers: shared hit=1936 read=46310 written=1058
+                    ->  Parallel Index Scan using properties_2026_q1_posted_at_idx on properties_2026_q1 p_5  (cost=0.42..6144.61 rows=64868 width=4) (actual time=0.037..29.274 rows=155063.00 loops=1)
+                          Index Searches: 1
+                          Buffers: shared hit=610 read=7874 written=454
+                    ->  Parallel Index Scan using properties_2025_q4_posted_at_idx on properties_2025_q4 p_4  (cost=0.29..2548.70 rows=35929 width=4) (actual time=0.051..24.412 rows=60727.00 loops=1)
+                          Index Searches: 1
+                          Buffers: shared hit=279 read=7788 written=476
+                    ->  Parallel Index Scan using properties_2025_q3_posted_at_idx on properties_2025_q3 p_3  (cost=0.29..2516.19 rows=35619 width=4) (actual time=0.043..19.645 rows=60656.00 loops=1)
+                          Index Searches: 1
+                          Buffers: shared hit=199 read=7860 written=65
+                    ->  Parallel Index Scan using properties_2025_q2_posted_at_idx on properties_2025_q2 p_2  (cost=0.29..2500.27 rows=35359 width=4) (actual time=0.060..19.392 rows=60282.00 loops=1)
+                          Index Searches: 1
+                          Buffers: shared hit=229 read=7775 written=44
+                    ->  Parallel Index Scan using properties_2025_q1_posted_at_idx on properties_2025_q1 p_1  (cost=0.29..2445.69 rows=34659 width=4) (actual time=0.047..6.352 rows=19817.67 loops=3)
+                          Index Searches: 1
+                          Buffers: shared hit=380 read=7598 written=19
+                    ->  Parallel Seq Scan on properties_2026_q2 p_6  (cost=0.00..9738.28 rows=141973 width=4) (actual time=0.011..34.570 rows=340485.00 loops=1)
+                          Filter: ((status)::text = 'ACTIVE'::text)
+                          Rows Removed by Filter: 60081
+                          Buffers: shared hit=237 read=7415
+                    ->  Parallel Seq Scan on properties_2026_q3 p_7  (cost=0.00..2.41 rows=33 width=4) (actual time=0.006..0.013 rows=56.00 loops=1)
+                          Filter: ((status)::text = 'ACTIVE'::text)
+                          Buffers: shared hit=2
+                    ->  Parallel Seq Scan on properties_default p_8  (cost=0.00..0.00 rows=1 width=4) (actual time=0.006..0.006 rows=0.00 loops=1)
+                          Filter: ((status)::text = 'ACTIVE'::text)
+              ->  Parallel Hash  (cost=4389.27..4389.27 rows=3566 width=16) (actual time=5.566..5.566 rows=4349.00 loops=3)
+                    Buckets: 16384  Batches: 1  Memory Usage: 832kB
+                    Buffers: shared read=511
+                    ->  Parallel Bitmap Heap Scan on price_changes c  (cost=655.31..4389.27 rows=3566 width=16) (actual time=1.660..4.901 rows=4349.00 loops=3)
+                          Recheck Cond: ((changed_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (changed_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                          Filter: (new_price <= (old_price * 0.9))
+                          Rows Removed by Filter: 4296
+                          Heap Blocks: exact=148
+                          Buffers: shared read=511
+                          Worker 0:  Heap Blocks: exact=155
+                          Worker 1:  Heap Blocks: exact=106
+                          ->  Bitmap Index Scan on idx_price_changes_changed_property  (cost=0.00..653.17 rows=25675 width=0) (actual time=2.784..2.784 rows=25935.00 loops=1)
+                                Index Cond: ((changed_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (changed_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                                Index Searches: 1
+                                Buffers: shared read=102
+Planning:
+  Buffers: shared hit=2374 read=3
+Planning Time: 3.775 ms
+Execution Time: 77.825 ms
+=== R08 run 2 ===
+Gather Merge  (cost=34088.30..34394.25 rows=2627 width=48) (actual time=70.778..71.809 rows=11090.00 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=1558 read=47202 written=90
+  ->  Sort  (cost=33088.27..33091.01 rows=1095 width=48) (actual time=68.483..68.553 rows=3696.67 loops=3)
+        Sort Key: (round(('100'::numeric * ('1'::numeric - (c.new_price / c.old_price))), 1)) DESC
+        Sort Method: quicksort  Memory: 860kB
+        Buffers: shared hit=1558 read=47202 written=90
+        Worker 0:  Sort Method: quicksort  Memory: 25kB
+        Worker 1:  Sort Method: quicksort  Memory: 25kB
+        ->  Parallel Hash Join  (cost=4434.14..33032.99 rows=1095 width=48) (actual time=47.238..67.883 rows=3696.67 loops=3)
+              Hash Cond: (p.property_id = c.property_id)
+              Buffers: shared hit=1544 read=47202 written=90
+              ->  Parallel Append  (cost=0.29..27431.86 rows=307141 width=4) (actual time=0.057..54.372 rows=245574.00 loops=3)
+                    Buffers: shared hit=1544 read=46691 written=90
+                    ->  Parallel Index Scan using properties_2026_q1_posted_at_idx on properties_2026_q1 p_5  (cost=0.42..6144.61 rows=64868 width=4) (actual time=0.061..26.832 rows=155063.00 loops=1)
+                          Index Searches: 1
+                          Buffers: shared hit=524 read=7960 written=19
+                    ->  Parallel Index Scan using properties_2025_q4_posted_at_idx on properties_2025_q4 p_4  (cost=0.29..2548.70 rows=35929 width=4) (actual time=0.052..22.233 rows=60727.00 loops=1)
+                          Index Searches: 1
+                          Buffers: shared hit=207 read=7860 written=15
+                    ->  Parallel Index Scan using properties_2025_q3_posted_at_idx on properties_2025_q3 p_3  (cost=0.29..2516.19 rows=35619 width=4) (actual time=0.057..18.295 rows=60656.00 loops=1)
+                          Index Searches: 1
+                          Buffers: shared hit=200 read=7859 written=27
+                    ->  Parallel Index Scan using properties_2025_q2_posted_at_idx on properties_2025_q2 p_2  (cost=0.29..2500.27 rows=35359 width=4) (actual time=0.075..18.631 rows=60282.00 loops=1)
+                          Index Searches: 1
+                          Buffers: shared hit=230 read=7774 written=16
+                    ->  Parallel Index Scan using properties_2025_q1_posted_at_idx on properties_2025_q1 p_1  (cost=0.29..2445.69 rows=34659 width=4) (actual time=0.043..6.319 rows=19817.67 loops=3)
+                          Index Searches: 1
+                          Buffers: shared hit=383 read=7584 written=13
+                    ->  Parallel Seq Scan on properties_2026_q2 p_6  (cost=0.00..9738.28 rows=141973 width=4) (actual time=0.007..16.828 rows=170242.50 loops=2)
+                          Filter: ((status)::text = 'ACTIVE'::text)
+                          Rows Removed by Filter: 30040
+                          Buffers: shared read=7652
+                    ->  Parallel Seq Scan on properties_2026_q3 p_7  (cost=0.00..2.41 rows=33 width=4) (actual time=0.053..0.059 rows=56.00 loops=1)
+                          Filter: ((status)::text = 'ACTIVE'::text)
+                          Buffers: shared read=2
+                    ->  Parallel Seq Scan on properties_default p_8  (cost=0.00..0.00 rows=1 width=4) (actual time=0.002..0.002 rows=0.00 loops=1)
+                          Filter: ((status)::text = 'ACTIVE'::text)
+              ->  Parallel Hash  (cost=4389.27..4389.27 rows=3566 width=16) (actual time=2.265..2.265 rows=4349.00 loops=3)
+                    Buckets: 16384  Batches: 1  Memory Usage: 864kB
+                    Buffers: shared read=511
+                    ->  Parallel Bitmap Heap Scan on price_changes c  (cost=655.31..4389.27 rows=3566 width=16) (actual time=0.302..1.425 rows=4349.00 loops=3)
+                          Recheck Cond: ((changed_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (changed_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                          Filter: (new_price <= (old_price * 0.9))
+                          Rows Removed by Filter: 4296
+                          Heap Blocks: exact=276
+                          Buffers: shared read=511
+                          Worker 0:  Heap Blocks: exact=24
+                          Worker 1:  Heap Blocks: exact=109
+                          ->  Bitmap Index Scan on idx_price_changes_changed_property  (cost=0.00..653.17 rows=25675 width=0) (actual time=0.778..0.778 rows=25935.00 loops=1)
+                                Index Cond: ((changed_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (changed_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                                Index Searches: 1
+                                Buffers: shared read=102
+Planning:
+  Buffers: shared hit=2202 read=175
+Planning Time: 3.689 ms
+Execution Time: 72.055 ms
+=== R08 run 3 ===
+Gather Merge  (cost=34088.30..34394.25 rows=2627 width=48) (actual time=70.955..72.016 rows=11090.00 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  Buffers: shared hit=1551 read=47212 written=113
+  ->  Sort  (cost=33088.27..33091.01 rows=1095 width=48) (actual time=68.663..68.736 rows=3696.67 loops=3)
+        Sort Key: (round(('100'::numeric * ('1'::numeric - (c.new_price / c.old_price))), 1)) DESC
+        Sort Method: quicksort  Memory: 860kB
+        Buffers: shared hit=1551 read=47212 written=113
+        Worker 0:  Sort Method: quicksort  Memory: 25kB
+        Worker 1:  Sort Method: quicksort  Memory: 25kB
+        ->  Parallel Hash Join  (cost=4434.14..33032.99 rows=1095 width=48) (actual time=47.353..68.043 rows=3696.67 loops=3)
+              Hash Cond: (p.property_id = c.property_id)
+              Buffers: shared hit=1537 read=47212 written=113
+              ->  Parallel Append  (cost=0.29..27431.86 rows=307141 width=4) (actual time=0.044..54.730 rows=245574.00 loops=3)
+                    Buffers: shared hit=1537 read=46701 written=113
+                    ->  Parallel Index Scan using properties_2026_q1_posted_at_idx on properties_2026_q1 p_5  (cost=0.42..6144.61 rows=64868 width=4) (actual time=0.058..28.546 rows=155063.00 loops=1)
+                          Index Searches: 1
+                          Buffers: shared hit=525 read=7959 written=26
+                    ->  Parallel Index Scan using properties_2025_q4_posted_at_idx on properties_2025_q4 p_4  (cost=0.29..2548.70 rows=35929 width=4) (actual time=0.057..22.613 rows=60727.00 loops=1)
+                          Index Searches: 1
+                          Buffers: shared hit=207 read=7860 written=19
+                    ->  Parallel Index Scan using properties_2025_q3_posted_at_idx on properties_2025_q3 p_3  (cost=0.29..2516.19 rows=35619 width=4) (actual time=0.084..18.315 rows=60656.00 loops=1)
+                          Index Searches: 1
+                          Buffers: shared hit=201 read=7858 written=14
+                    ->  Parallel Index Scan using properties_2025_q2_posted_at_idx on properties_2025_q2 p_2  (cost=0.29..2500.27 rows=35359 width=4) (actual time=0.088..18.226 rows=60282.00 loops=1)
+                          Index Searches: 1
+                          Buffers: shared hit=230 read=7774 written=21
+                    ->  Parallel Index Scan using properties_2025_q1_posted_at_idx on properties_2025_q1 p_1  (cost=0.29..2445.69 rows=34659 width=4) (actual time=0.044..6.319 rows=19817.67 loops=3)
+                          Index Searches: 1
+                          Buffers: shared hit=374 read=7596 written=33
+                    ->  Parallel Seq Scan on properties_2026_q2 p_6  (cost=0.00..9738.28 rows=141973 width=4) (actual time=0.013..32.996 rows=340485.00 loops=1)
+                          Filter: ((status)::text = 'ACTIVE'::text)
+                          Rows Removed by Filter: 60081
+                          Buffers: shared read=7652
+                    ->  Parallel Seq Scan on properties_2026_q3 p_7  (cost=0.00..2.41 rows=33 width=4) (actual time=0.015..0.021 rows=56.00 loops=1)
+                          Filter: ((status)::text = 'ACTIVE'::text)
+                          Buffers: shared read=2
+                    ->  Parallel Seq Scan on properties_default p_8  (cost=0.00..0.00 rows=1 width=4) (actual time=0.001..0.001 rows=0.00 loops=1)
+                          Filter: ((status)::text = 'ACTIVE'::text)
+              ->  Parallel Hash  (cost=4389.27..4389.27 rows=3566 width=16) (actual time=2.282..2.282 rows=4349.00 loops=3)
+                    Buckets: 16384  Batches: 1  Memory Usage: 832kB
+                    Buffers: shared read=511
+                    ->  Parallel Bitmap Heap Scan on price_changes c  (cost=655.31..4389.27 rows=3566 width=16) (actual time=0.310..1.461 rows=4349.00 loops=3)
+                          Recheck Cond: ((changed_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (changed_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                          Filter: (new_price <= (old_price * 0.9))
+                          Rows Removed by Filter: 4296
+                          Heap Blocks: exact=280
+                          Buffers: shared read=511
+                          Worker 0:  Heap Blocks: exact=20
+                          Worker 1:  Heap Blocks: exact=109
+                          ->  Bitmap Index Scan on idx_price_changes_changed_property  (cost=0.00..653.17 rows=25675 width=0) (actual time=0.791..0.791 rows=25935.00 loops=1)
+                                Index Cond: ((changed_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (changed_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                                Index Searches: 1
+                                Buffers: shared read=102
+Planning:
+  Buffers: shared hit=2270 read=107
+Planning Time: 3.660 ms
+Execution Time: 72.284 ms

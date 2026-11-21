@@ -1,0 +1,249 @@
+=== R01 run 1 ===
+Sort  (cost=1577.82..1578.58 rows=305 width=33) (actual time=3.239..3.258 rows=472.00 loops=1)
+  Sort Key: p.price
+  Sort Method: quicksort  Memory: 50kB
+  Buffers: shared hit=136 read=514
+  ->  Nested Loop  (cost=4.71..1565.23 rows=305 width=33) (actual time=0.089..3.049 rows=472.00 loops=1)
+        Buffers: shared hit=133 read=514
+        ->  Seq Scan on localities l  (cost=0.00..2.50 rows=1 width=4) (actual time=0.006..0.013 rows=1.00 loops=1)
+              Filter: (((locality_name)::text = 'Koramangala'::text) AND (city_id = 1))
+              Rows Removed by Filter: 99
+              Buffers: shared hit=1
+        ->  Append  (cost=4.71..1559.66 rows=307 width=37) (actual time=0.082..2.995 rows=472.00 loops=1)
+              Buffers: shared hit=132 read=514
+              ->  Bitmap Heap Scan on properties_2025_q1 p_1  (cost=4.71..130.98 rows=24 width=37) (actual time=0.081..0.309 rows=43.00 loops=1)
+                    Recheck Cond: ((l.locality_id = locality_id) AND (bhk = 2) AND (price <= '40000'::numeric) AND ((listing_type)::text = 'RENT'::text) AND ((status)::text = 'ACTIVE'::text))
+                    Filter: ((furnishing)::text = ANY ('{SEMI_FURNISHED,FULLY_FURNISHED}'::text[]))
+                    Rows Removed by Filter: 10
+                    Heap Blocks: exact=53
+                    Buffers: shared hit=5 read=53
+                    ->  Bitmap Index Scan on properties_2025_q1_locality_id_bhk_price_idx  (cost=0.00..4.70 rows=33 width=0) (actual time=0.026..0.026 rows=53.00 loops=1)
+                          Index Cond: ((locality_id = l.locality_id) AND (bhk = 2) AND (price <= '40000'::numeric))
+                          Index Searches: 1
+                          Buffers: shared hit=3 read=2
+              ->  Bitmap Heap Scan on properties_2025_q2 p_2  (cost=4.72..134.75 rows=25 width=37) (actual time=0.071..0.304 rows=33.00 loops=1)
+                    Recheck Cond: ((l.locality_id = locality_id) AND (bhk = 2) AND (price <= '40000'::numeric) AND ((listing_type)::text = 'RENT'::text) AND ((status)::text = 'ACTIVE'::text))
+                    Filter: ((furnishing)::text = ANY ('{SEMI_FURNISHED,FULLY_FURNISHED}'::text[]))
+                    Rows Removed by Filter: 16
+                    Heap Blocks: exact=49
+                    Buffers: shared hit=2 read=49
+                    ->  Bitmap Index Scan on properties_2025_q2_locality_id_bhk_price_idx  (cost=0.00..4.71 rows=34 width=0) (actual time=0.036..0.036 rows=49.00 loops=1)
+                          Index Cond: ((locality_id = l.locality_id) AND (bhk = 2) AND (price <= '40000'::numeric))
+                          Index Searches: 1
+                          Buffers: shared read=2
+              ->  Bitmap Heap Scan on properties_2025_q3 p_3  (cost=4.72..134.79 rows=25 width=37) (actual time=0.068..0.309 rows=46.00 loops=1)
+                    Recheck Cond: ((l.locality_id = locality_id) AND (bhk = 2) AND (price <= '40000'::numeric) AND ((listing_type)::text = 'RENT'::text) AND ((status)::text = 'ACTIVE'::text))
+                    Filter: ((furnishing)::text = ANY ('{SEMI_FURNISHED,FULLY_FURNISHED}'::text[]))
+                    Rows Removed by Filter: 10
+                    Heap Blocks: exact=56
+                    Buffers: shared hit=3 read=55
+                    ->  Bitmap Index Scan on properties_2025_q3_locality_id_bhk_price_idx  (cost=0.00..4.71 rows=34 width=0) (actual time=0.030..0.030 rows=56.00 loops=1)
+                          Index Cond: ((locality_id = l.locality_id) AND (bhk = 2) AND (price <= '40000'::numeric))
+                          Index Searches: 1
+                          Buffers: shared read=2
+              ->  Bitmap Heap Scan on properties_2025_q4 p_4  (cost=4.73..138.53 rows=26 width=37) (actual time=0.091..0.250 rows=37.00 loops=1)
+                    Recheck Cond: ((l.locality_id = locality_id) AND (bhk = 2) AND (price <= '40000'::numeric) AND ((listing_type)::text = 'RENT'::text) AND ((status)::text = 'ACTIVE'::text))
+                    Filter: ((furnishing)::text = ANY ('{SEMI_FURNISHED,FULLY_FURNISHED}'::text[]))
+                    Rows Removed by Filter: 12
+                    Heap Blocks: exact=49
+                    Buffers: shared hit=1 read=50
+                    ->  Bitmap Index Scan on properties_2025_q4_locality_id_bhk_price_idx  (cost=0.00..4.73 rows=35 width=0) (actual time=0.033..0.033 rows=49.00 loops=1)
+                          Index Cond: ((locality_id = l.locality_id) AND (bhk = 2) AND (price <= '40000'::numeric))
+                          Index Searches: 1
+                          Buffers: shared read=2
+              ->  Bitmap Heap Scan on properties_2026_q1 p_5  (cost=5.50..320.55 rows=62 width=37) (actual time=0.100..0.558 rows=93.00 loops=1)
+                    Recheck Cond: ((l.locality_id = locality_id) AND (bhk = 2) AND (price <= '40000'::numeric) AND ((listing_type)::text = 'RENT'::text) AND ((status)::text = 'ACTIVE'::text))
+                    Filter: ((furnishing)::text = ANY ('{SEMI_FURNISHED,FULLY_FURNISHED}'::text[]))
+                    Rows Removed by Filter: 37
+                    Heap Blocks: exact=127
+                    Buffers: shared hit=8 read=123
+                    ->  Bitmap Index Scan on properties_2026_q1_locality_id_bhk_price_idx  (cost=0.00..5.48 rows=85 width=0) (actual time=0.038..0.038 rows=130.00 loops=1)
+                          Index Cond: ((locality_id = l.locality_id) AND (bhk = 2) AND (price <= '40000'::numeric))
+                          Index Searches: 1
+                          Buffers: shared read=4
+              ->  Bitmap Heap Scan on properties_2026_q2 p_6  (cost=6.91..695.14 rows=143 width=37) (actual time=0.125..1.203 rows=220.00 loops=1)
+                    Recheck Cond: ((l.locality_id = locality_id) AND (bhk = 2) AND (price <= '40000'::numeric) AND ((listing_type)::text = 'RENT'::text) AND ((status)::text = 'ACTIVE'::text))
+                    Filter: ((furnishing)::text = ANY ('{SEMI_FURNISHED,FULLY_FURNISHED}'::text[]))
+                    Rows Removed by Filter: 78
+                    Heap Blocks: exact=291
+                    Buffers: shared hit=111 read=184
+                    ->  Bitmap Index Scan on properties_2026_q2_locality_id_bhk_price_idx  (cost=0.00..6.87 rows=196 width=0) (actual time=0.068..0.068 rows=298.00 loops=1)
+                          Index Cond: ((locality_id = l.locality_id) AND (bhk = 2) AND (price <= '40000'::numeric))
+                          Index Searches: 1
+                          Buffers: shared read=4
+              ->  Seq Scan on properties_2026_q3 p_7  (cost=0.00..3.40 rows=1 width=38) (actual time=0.024..0.024 rows=0.00 loops=1)
+                    Filter: ((price <= '40000'::numeric) AND ((furnishing)::text = ANY ('{SEMI_FURNISHED,FULLY_FURNISHED}'::text[])) AND ((listing_type)::text = 'RENT'::text) AND ((status)::text = 'ACTIVE'::text) AND (bhk = 2) AND (l.locality_id = locality_id))
+                    Rows Removed by Filter: 56
+                    Buffers: shared hit=2
+              ->  Seq Scan on properties_default p_8  (cost=0.00..0.00 rows=1 width=102) (actual time=0.002..0.002 rows=0.00 loops=1)
+                    Filter: ((price <= '40000'::numeric) AND ((furnishing)::text = ANY ('{SEMI_FURNISHED,FULLY_FURNISHED}'::text[])) AND ((listing_type)::text = 'RENT'::text) AND ((status)::text = 'ACTIVE'::text) AND (bhk = 2) AND (l.locality_id = locality_id))
+Planning:
+  Buffers: shared hit=2648 read=11 dirtied=22
+Planning Time: 9.181 ms
+Execution Time: 3.358 ms
+=== R01 run 2 ===
+Sort  (cost=1577.82..1578.58 rows=305 width=33) (actual time=1.764..1.788 rows=472.00 loops=1)
+  Sort Key: p.price
+  Sort Method: quicksort  Memory: 50kB
+  Buffers: shared hit=650
+  ->  Nested Loop  (cost=4.71..1565.23 rows=305 width=33) (actual time=0.047..1.574 rows=472.00 loops=1)
+        Buffers: shared hit=647
+        ->  Seq Scan on localities l  (cost=0.00..2.50 rows=1 width=4) (actual time=0.008..0.014 rows=1.00 loops=1)
+              Filter: (((locality_name)::text = 'Koramangala'::text) AND (city_id = 1))
+              Rows Removed by Filter: 99
+              Buffers: shared hit=1
+        ->  Append  (cost=4.71..1559.66 rows=307 width=37) (actual time=0.038..1.511 rows=472.00 loops=1)
+              Buffers: shared hit=646
+              ->  Bitmap Heap Scan on properties_2025_q1 p_1  (cost=4.71..130.98 rows=24 width=37) (actual time=0.037..0.142 rows=43.00 loops=1)
+                    Recheck Cond: ((l.locality_id = locality_id) AND (bhk = 2) AND (price <= '40000'::numeric) AND ((listing_type)::text = 'RENT'::text) AND ((status)::text = 'ACTIVE'::text))
+                    Filter: ((furnishing)::text = ANY ('{SEMI_FURNISHED,FULLY_FURNISHED}'::text[]))
+                    Rows Removed by Filter: 10
+                    Heap Blocks: exact=53
+                    Buffers: shared hit=58
+                    ->  Bitmap Index Scan on properties_2025_q1_locality_id_bhk_price_idx  (cost=0.00..4.70 rows=33 width=0) (actual time=0.019..0.019 rows=53.00 loops=1)
+                          Index Cond: ((locality_id = l.locality_id) AND (bhk = 2) AND (price <= '40000'::numeric))
+                          Index Searches: 1
+                          Buffers: shared hit=5
+              ->  Bitmap Heap Scan on properties_2025_q2 p_2  (cost=4.72..134.75 rows=25 width=37) (actual time=0.025..0.112 rows=33.00 loops=1)
+                    Recheck Cond: ((l.locality_id = locality_id) AND (bhk = 2) AND (price <= '40000'::numeric) AND ((listing_type)::text = 'RENT'::text) AND ((status)::text = 'ACTIVE'::text))
+                    Filter: ((furnishing)::text = ANY ('{SEMI_FURNISHED,FULLY_FURNISHED}'::text[]))
+                    Rows Removed by Filter: 16
+                    Heap Blocks: exact=49
+                    Buffers: shared hit=51
+                    ->  Bitmap Index Scan on properties_2025_q2_locality_id_bhk_price_idx  (cost=0.00..4.71 rows=34 width=0) (actual time=0.014..0.014 rows=49.00 loops=1)
+                          Index Cond: ((locality_id = l.locality_id) AND (bhk = 2) AND (price <= '40000'::numeric))
+                          Index Searches: 1
+                          Buffers: shared hit=2
+              ->  Bitmap Heap Scan on properties_2025_q3 p_3  (cost=4.72..134.79 rows=25 width=37) (actual time=0.024..0.123 rows=46.00 loops=1)
+                    Recheck Cond: ((l.locality_id = locality_id) AND (bhk = 2) AND (price <= '40000'::numeric) AND ((listing_type)::text = 'RENT'::text) AND ((status)::text = 'ACTIVE'::text))
+                    Filter: ((furnishing)::text = ANY ('{SEMI_FURNISHED,FULLY_FURNISHED}'::text[]))
+                    Rows Removed by Filter: 10
+                    Heap Blocks: exact=56
+                    Buffers: shared hit=58
+                    ->  Bitmap Index Scan on properties_2025_q3_locality_id_bhk_price_idx  (cost=0.00..4.71 rows=34 width=0) (actual time=0.015..0.015 rows=56.00 loops=1)
+                          Index Cond: ((locality_id = l.locality_id) AND (bhk = 2) AND (price <= '40000'::numeric))
+                          Index Searches: 1
+                          Buffers: shared hit=2
+              ->  Bitmap Heap Scan on properties_2025_q4 p_4  (cost=4.73..138.53 rows=26 width=37) (actual time=0.028..0.108 rows=37.00 loops=1)
+                    Recheck Cond: ((l.locality_id = locality_id) AND (bhk = 2) AND (price <= '40000'::numeric) AND ((listing_type)::text = 'RENT'::text) AND ((status)::text = 'ACTIVE'::text))
+                    Filter: ((furnishing)::text = ANY ('{SEMI_FURNISHED,FULLY_FURNISHED}'::text[]))
+                    Rows Removed by Filter: 12
+                    Heap Blocks: exact=49
+                    Buffers: shared hit=51
+                    ->  Bitmap Index Scan on properties_2025_q4_locality_id_bhk_price_idx  (cost=0.00..4.73 rows=35 width=0) (actual time=0.013..0.013 rows=49.00 loops=1)
+                          Index Cond: ((locality_id = l.locality_id) AND (bhk = 2) AND (price <= '40000'::numeric))
+                          Index Searches: 1
+                          Buffers: shared hit=2
+              ->  Bitmap Heap Scan on properties_2026_q1 p_5  (cost=5.50..320.55 rows=62 width=37) (actual time=0.048..0.279 rows=93.00 loops=1)
+                    Recheck Cond: ((l.locality_id = locality_id) AND (bhk = 2) AND (price <= '40000'::numeric) AND ((listing_type)::text = 'RENT'::text) AND ((status)::text = 'ACTIVE'::text))
+                    Filter: ((furnishing)::text = ANY ('{SEMI_FURNISHED,FULLY_FURNISHED}'::text[]))
+                    Rows Removed by Filter: 37
+                    Heap Blocks: exact=127
+                    Buffers: shared hit=131
+                    ->  Bitmap Index Scan on properties_2026_q1_locality_id_bhk_price_idx  (cost=0.00..5.48 rows=85 width=0) (actual time=0.026..0.026 rows=130.00 loops=1)
+                          Index Cond: ((locality_id = l.locality_id) AND (bhk = 2) AND (price <= '40000'::numeric))
+                          Index Searches: 1
+                          Buffers: shared hit=4
+              ->  Bitmap Heap Scan on properties_2026_q2 p_6  (cost=6.91..695.14 rows=143 width=37) (actual time=0.099..0.675 rows=220.00 loops=1)
+                    Recheck Cond: ((l.locality_id = locality_id) AND (bhk = 2) AND (price <= '40000'::numeric) AND ((listing_type)::text = 'RENT'::text) AND ((status)::text = 'ACTIVE'::text))
+                    Filter: ((furnishing)::text = ANY ('{SEMI_FURNISHED,FULLY_FURNISHED}'::text[]))
+                    Rows Removed by Filter: 78
+                    Heap Blocks: exact=291
+                    Buffers: shared hit=295
+                    ->  Bitmap Index Scan on properties_2026_q2_locality_id_bhk_price_idx  (cost=0.00..6.87 rows=196 width=0) (actual time=0.056..0.056 rows=298.00 loops=1)
+                          Index Cond: ((locality_id = l.locality_id) AND (bhk = 2) AND (price <= '40000'::numeric))
+                          Index Searches: 1
+                          Buffers: shared hit=4
+              ->  Seq Scan on properties_2026_q3 p_7  (cost=0.00..3.40 rows=1 width=38) (actual time=0.025..0.025 rows=0.00 loops=1)
+                    Filter: ((price <= '40000'::numeric) AND ((furnishing)::text = ANY ('{SEMI_FURNISHED,FULLY_FURNISHED}'::text[])) AND ((listing_type)::text = 'RENT'::text) AND ((status)::text = 'ACTIVE'::text) AND (bhk = 2) AND (l.locality_id = locality_id))
+                    Rows Removed by Filter: 56
+                    Buffers: shared hit=2
+              ->  Seq Scan on properties_default p_8  (cost=0.00..0.00 rows=1 width=102) (actual time=0.002..0.002 rows=0.00 loops=1)
+                    Filter: ((price <= '40000'::numeric) AND ((furnishing)::text = ANY ('{SEMI_FURNISHED,FULLY_FURNISHED}'::text[])) AND ((listing_type)::text = 'RENT'::text) AND ((status)::text = 'ACTIVE'::text) AND (bhk = 2) AND (l.locality_id = locality_id))
+Planning:
+  Buffers: shared hit=2659
+Planning Time: 9.453 ms
+Execution Time: 1.916 ms
+=== R01 run 3 ===
+Sort  (cost=1577.82..1578.58 rows=305 width=33) (actual time=1.219..1.228 rows=472.00 loops=1)
+  Sort Key: p.price
+  Sort Method: quicksort  Memory: 50kB
+  Buffers: shared hit=650
+  ->  Nested Loop  (cost=4.71..1565.23 rows=305 width=33) (actual time=0.040..1.110 rows=472.00 loops=1)
+        Buffers: shared hit=647
+        ->  Seq Scan on localities l  (cost=0.00..2.50 rows=1 width=4) (actual time=0.005..0.008 rows=1.00 loops=1)
+              Filter: (((locality_name)::text = 'Koramangala'::text) AND (city_id = 1))
+              Rows Removed by Filter: 99
+              Buffers: shared hit=1
+        ->  Append  (cost=4.71..1559.66 rows=307 width=37) (actual time=0.033..1.072 rows=472.00 loops=1)
+              Buffers: shared hit=646
+              ->  Bitmap Heap Scan on properties_2025_q1 p_1  (cost=4.71..130.98 rows=24 width=37) (actual time=0.032..0.125 rows=43.00 loops=1)
+                    Recheck Cond: ((l.locality_id = locality_id) AND (bhk = 2) AND (price <= '40000'::numeric) AND ((listing_type)::text = 'RENT'::text) AND ((status)::text = 'ACTIVE'::text))
+                    Filter: ((furnishing)::text = ANY ('{SEMI_FURNISHED,FULLY_FURNISHED}'::text[]))
+                    Rows Removed by Filter: 10
+                    Heap Blocks: exact=53
+                    Buffers: shared hit=58
+                    ->  Bitmap Index Scan on properties_2025_q1_locality_id_bhk_price_idx  (cost=0.00..4.70 rows=33 width=0) (actual time=0.016..0.016 rows=53.00 loops=1)
+                          Index Cond: ((locality_id = l.locality_id) AND (bhk = 2) AND (price <= '40000'::numeric))
+                          Index Searches: 1
+                          Buffers: shared hit=5
+              ->  Bitmap Heap Scan on properties_2025_q2 p_2  (cost=4.72..134.75 rows=25 width=37) (actual time=0.021..0.097 rows=33.00 loops=1)
+                    Recheck Cond: ((l.locality_id = locality_id) AND (bhk = 2) AND (price <= '40000'::numeric) AND ((listing_type)::text = 'RENT'::text) AND ((status)::text = 'ACTIVE'::text))
+                    Filter: ((furnishing)::text = ANY ('{SEMI_FURNISHED,FULLY_FURNISHED}'::text[]))
+                    Rows Removed by Filter: 16
+                    Heap Blocks: exact=49
+                    Buffers: shared hit=51
+                    ->  Bitmap Index Scan on properties_2025_q2_locality_id_bhk_price_idx  (cost=0.00..4.71 rows=34 width=0) (actual time=0.012..0.012 rows=49.00 loops=1)
+                          Index Cond: ((locality_id = l.locality_id) AND (bhk = 2) AND (price <= '40000'::numeric))
+                          Index Searches: 1
+                          Buffers: shared hit=2
+              ->  Bitmap Heap Scan on properties_2025_q3 p_3  (cost=4.72..134.79 rows=25 width=37) (actual time=0.021..0.112 rows=46.00 loops=1)
+                    Recheck Cond: ((l.locality_id = locality_id) AND (bhk = 2) AND (price <= '40000'::numeric) AND ((listing_type)::text = 'RENT'::text) AND ((status)::text = 'ACTIVE'::text))
+                    Filter: ((furnishing)::text = ANY ('{SEMI_FURNISHED,FULLY_FURNISHED}'::text[]))
+                    Rows Removed by Filter: 10
+                    Heap Blocks: exact=56
+                    Buffers: shared hit=58
+                    ->  Bitmap Index Scan on properties_2025_q3_locality_id_bhk_price_idx  (cost=0.00..4.71 rows=34 width=0) (actual time=0.013..0.013 rows=56.00 loops=1)
+                          Index Cond: ((locality_id = l.locality_id) AND (bhk = 2) AND (price <= '40000'::numeric))
+                          Index Searches: 1
+                          Buffers: shared hit=2
+              ->  Bitmap Heap Scan on properties_2025_q4 p_4  (cost=4.73..138.53 rows=26 width=37) (actual time=0.026..0.098 rows=37.00 loops=1)
+                    Recheck Cond: ((l.locality_id = locality_id) AND (bhk = 2) AND (price <= '40000'::numeric) AND ((listing_type)::text = 'RENT'::text) AND ((status)::text = 'ACTIVE'::text))
+                    Filter: ((furnishing)::text = ANY ('{SEMI_FURNISHED,FULLY_FURNISHED}'::text[]))
+                    Rows Removed by Filter: 12
+                    Heap Blocks: exact=49
+                    Buffers: shared hit=51
+                    ->  Bitmap Index Scan on properties_2025_q4_locality_id_bhk_price_idx  (cost=0.00..4.73 rows=35 width=0) (actual time=0.012..0.012 rows=49.00 loops=1)
+                          Index Cond: ((locality_id = l.locality_id) AND (bhk = 2) AND (price <= '40000'::numeric))
+                          Index Searches: 1
+                          Buffers: shared hit=2
+              ->  Bitmap Heap Scan on properties_2026_q1 p_5  (cost=5.50..320.55 rows=62 width=37) (actual time=0.040..0.231 rows=93.00 loops=1)
+                    Recheck Cond: ((l.locality_id = locality_id) AND (bhk = 2) AND (price <= '40000'::numeric) AND ((listing_type)::text = 'RENT'::text) AND ((status)::text = 'ACTIVE'::text))
+                    Filter: ((furnishing)::text = ANY ('{SEMI_FURNISHED,FULLY_FURNISHED}'::text[]))
+                    Rows Removed by Filter: 37
+                    Heap Blocks: exact=127
+                    Buffers: shared hit=131
+                    ->  Bitmap Index Scan on properties_2026_q1_locality_id_bhk_price_idx  (cost=0.00..5.48 rows=85 width=0) (actual time=0.022..0.022 rows=130.00 loops=1)
+                          Index Cond: ((locality_id = l.locality_id) AND (bhk = 2) AND (price <= '40000'::numeric))
+                          Index Searches: 1
+                          Buffers: shared hit=4
+              ->  Bitmap Heap Scan on properties_2026_q2 p_6  (cost=6.91..695.14 rows=143 width=37) (actual time=0.042..0.369 rows=220.00 loops=1)
+                    Recheck Cond: ((l.locality_id = locality_id) AND (bhk = 2) AND (price <= '40000'::numeric) AND ((listing_type)::text = 'RENT'::text) AND ((status)::text = 'ACTIVE'::text))
+                    Filter: ((furnishing)::text = ANY ('{SEMI_FURNISHED,FULLY_FURNISHED}'::text[]))
+                    Rows Removed by Filter: 78
+                    Heap Blocks: exact=291
+                    Buffers: shared hit=295
+                    ->  Bitmap Index Scan on properties_2026_q2_locality_id_bhk_price_idx  (cost=0.00..6.87 rows=196 width=0) (actual time=0.024..0.024 rows=298.00 loops=1)
+                          Index Cond: ((locality_id = l.locality_id) AND (bhk = 2) AND (price <= '40000'::numeric))
+                          Index Searches: 1
+                          Buffers: shared hit=4
+              ->  Seq Scan on properties_2026_q3 p_7  (cost=0.00..3.40 rows=1 width=38) (actual time=0.011..0.011 rows=0.00 loops=1)
+                    Filter: ((price <= '40000'::numeric) AND ((furnishing)::text = ANY ('{SEMI_FURNISHED,FULLY_FURNISHED}'::text[])) AND ((listing_type)::text = 'RENT'::text) AND ((status)::text = 'ACTIVE'::text) AND (bhk = 2) AND (l.locality_id = locality_id))
+                    Rows Removed by Filter: 56
+                    Buffers: shared hit=2
+              ->  Seq Scan on properties_default p_8  (cost=0.00..0.00 rows=1 width=102) (actual time=0.001..0.001 rows=0.00 loops=1)
+                    Filter: ((price <= '40000'::numeric) AND ((furnishing)::text = ANY ('{SEMI_FURNISHED,FULLY_FURNISHED}'::text[])) AND ((listing_type)::text = 'RENT'::text) AND ((status)::text = 'ACTIVE'::text) AND (bhk = 2) AND (l.locality_id = locality_id))
+Planning:
+  Buffers: shared hit=2659
+Planning Time: 8.860 ms
+Execution Time: 1.313 ms

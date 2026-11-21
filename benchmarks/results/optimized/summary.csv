@@ -1,31 +1,31 @@
-query_id,query_name,baseline_execution_ms,optimized_execution_ms,improvement_percent,baseline_plan,optimized_plan,status,notes
-R01,Rent search - Koramangala 2 BHK,16.370,,,"Seq Scan on properties | Seq Scan on localities",,"NOT_RUN","Baseline from benchmarks/results/baseline/summary.csv; optimized plan not measured"
-R02,Buy search - Pune 3 BHK,15.860,,,"Seq Scan on properties | Seq Scan on localities",,"NOT_RUN","Baseline from benchmarks/results/baseline/summary.csv; optimized plan not measured"
-R03,Property project builder amenities,0.323,,,"Index Scan on properties | Index Scan on projects | Index Scan on builders | Index Only Scan on project_amenities | Index Scan on amenities",,"NOT_RUN","Baseline from benchmarks/results/baseline/summary.csv; optimized plan not measured"
-R04,Whitefield monthly sale price trend,27.631,,,"Seq Scan on localities | Seq Scan on properties",,"NOT_RUN","Baseline from benchmarks/results/baseline/summary.csv; optimized plan not measured"
-R05,Bengaluru active rental map view,13.333,,,"Seq Scan on properties",,"NOT_RUN","Baseline from benchmarks/results/baseline/summary.csv; optimized plan not measured"
-R06,Owner listing enquiry visit counts,22.662,,,"Seq Scan on site_visits | Seq Scan on enquiries | Seq Scan on properties",,"NOT_RUN","Baseline from benchmarks/results/baseline/summary.csv; optimized plan not measured"
-R07,Agent July 1 site visits,5.019,,,"Seq Scan on site_visits | Index Scan on properties | Index Scan on users",,"NOT_RUN","Baseline from benchmarks/results/baseline/summary.csv; optimized plan not measured"
-R08,June price-drop alerts,3.080,,,"Seq Scan on price_changes | Index Scan on properties",,"NOT_RUN","Baseline from benchmarks/results/baseline/summary.csv; optimized plan not measured"
-R09,Active properties with required amenities,22.574,,,"Seq Scan on properties | Seq Scan on project_amenities | Seq Scan on amenities",,"NOT_RUN","Baseline from benchmarks/results/baseline/summary.csv; optimized plan not measured"
-R10,Project lookup by RERA ID,0.101,,,"Seq Scan on builders | Index Scan using projects_rera_id_key on projects",,"NOT_RUN","Baseline from benchmarks/results/baseline/summary.csv; optimized plan not measured"
-R11,Project 217 active listing ranges,17.091,,,"Seq Scan on properties",,"NOT_RUN","Baseline from benchmarks/results/baseline/summary.csv; optimized plan not measured"
-R12,June leads without matching visit,16.429,,,"Seq Scan on enquiries | Seq Scan on site_visits",,"NOT_RUN","Baseline from benchmarks/results/baseline/summary.csv; optimized plan not measured"
-R13,Projects with no properties,22.448,,,"Seq Scan on projects | Seq Scan on properties",,"NOT_RUN","Baseline from benchmarks/results/baseline/summary.csv; optimized plan not measured"
-R14,2026 agent leaderboard,29.055,,,"Seq Scan on properties | Seq Scan on users",,"NOT_RUN","Baseline from benchmarks/results/baseline/summary.csv; optimized plan not measured"
-R15,Bengaluru rental yield by locality,23.294,,,"Seq Scan on properties | Seq Scan on localities",,"NOT_RUN","Baseline from benchmarks/results/baseline/summary.csv; optimized plan not measured"
-R16,Projects whose name contains greens,0.949,,,"Seq Scan on projects",,"NOT_RUN","Baseline from benchmarks/results/baseline/summary.csv; optimized plan not measured"
-R17,Stale active listings never enquired,42.270,,,"Seq Scan on enquiries | Seq Scan on properties",,"NOT_RUN","Baseline from benchmarks/results/baseline/summary.csv; optimized plan not measured"
-R18,Duplicate active listing checks,34.200,,,"Seq Scan on properties",,"NOT_RUN","Baseline from benchmarks/results/baseline/summary.csv; optimized plan not measured"
-R19,Bengaluru active sale property enquiry report,16875.315,,,"Seq Scan on properties | Seq Scan on localities | correlated Seq Scan on enquiries",,"NOT_RUN","Confirmed baseline bottleneck; optimized plan not measured"
-R20,June daily listing growth,25.237,,,"Seq Scan on properties",,"NOT_RUN","Baseline from benchmarks/results/baseline/summary.csv; optimized plan not measured"
-R21,Rated site visits by locality,20.212,,,"Seq Scan on properties | Seq Scan on site_visits | Seq Scan on localities",,"NOT_RUN","Baseline from benchmarks/results/baseline/summary.csv; optimized plan not measured"
-R22,Newest listings page 2001,60.715,,,"Seq Scan on properties",,"NOT_RUN","Baseline external sort; optimized plan not measured"
-R23,Sign in by mobile number,0.051,,,"Index Scan using users_phone_key on users",,"NOT_RUN","Baseline from benchmarks/results/baseline/summary.csv; optimized plan not measured"
-R24,Overdue under-construction projects,0.316,,,"Seq Scan on projects | Seq Scan on builders",,"NOT_RUN","Baseline from benchmarks/results/baseline/summary.csv; optimized plan not measured"
-R25,Shortlist conversion funnel by city,650.680,,,"Seq Scan on shortlists | Seq Scan on properties | nested-loop locality join | Seq Scan on enquiries",,"NOT_RUN","Confirmed baseline bottleneck; optimized plan not measured"
-W01,Post property,2.776,,,"no scan",,"NOT_RUN","Baseline write benchmark used ROLLBACK; optimized plan not measured"
-W02,Owner price cut,1.063,,,"Index Scan using properties_pkey on properties",,"NOT_RUN","Baseline write benchmark used ROLLBACK; optimized plan not measured"
-W03,Book a site visit,1.132,,,"no scan",,"NOT_RUN","Baseline write benchmark used ROLLBACK; optimized plan not measured"
-W04,Deactivate stale active listings,145.394,,,"Seq Scan on properties",,"NOT_RUN","Confirmed baseline write bottleneck; optimized plan not measured"
-W05,Mark oldest owner rental rented,17.134,,,"Index Scan using properties_pkey on properties",,"NOT_RUN","Baseline write benchmark used ROLLBACK; optimized plan not measured"
+query_id,type,avg_ms,median_ms,min_ms,max_ms,scan_nodes
+R01,READ,0.306,0.288,0.233,0.397,Seq Scan on localities | Bitmap Heap Scan on properties | Bitmap Index Scan on idx_properties_rent_search
+R02,READ,0.569,0.567,0.559,0.580,Seq Scan on localities | Bitmap Heap Scan on properties | Bitmap Index Scan on idx_properties_sale_search
+R03,READ,0.325,0.329,0.267,0.380,Index Scan using properties_pkey on properties | Index Scan using uq_projects_project_locality on projects | Index Scan using builders_pkey on builders | Index Only Scan using project_amenities_pkey on project_amenities | Seq Scan on amenities
+R04,READ,0.582,0.542,0.486,0.717,Seq Scan on localities | Bitmap Heap Scan on properties | Bitmap Index Scan on idx_properties_locality_listing_posted
+R05,READ,0.271,0.292,0.190,0.330,Index Only Scan using idx_properties_active_map on properties
+R06,READ,29.860,24.261,23.389,41.930,Seq Scan on enquiries | Seq Scan on site_visits | Bitmap Heap Scan on properties | Bitmap Index Scan on idx_properties_lister_status_type
+R07,READ,0.117,0.096,0.093,0.163,Index Only Scan using idx_properties_lister_status_type on properties | Index Scan using idx_site_visits_property_user on site_visits | Index Scan using users_pkey on users
+R08,READ,6.091,6.135,5.907,6.231,Index Scan using idx_properties_active_posted on properties | Bitmap Heap Scan on price_changes | Bitmap Index Scan on idx_price_changes_changed_property
+R09,READ,2.053,1.611,1.577,2.972,Seq Scan on amenities | Index Only Scan using idx_project_amenities_amenity_project on project_amenities | Bitmap Heap Scan on properties | Bitmap Index Scan on idx_properties_project_status
+R10,READ,0.111,0.110,0.095,0.129,Seq Scan on builders | Index Scan using projects_rera_id_key on projects
+R11,READ,0.201,0.193,0.182,0.229,Index Only Scan using idx_properties_project_status on properties
+R12,READ,11.951,10.942,9.187,15.725,Bitmap Heap Scan on enquiries | Bitmap Index Scan on idx_enquiries_created_property_user | Seq Scan on site_visits
+R13,READ,1.493,1.519,1.150,1.811,Seq Scan on projects | Index Only Scan using idx_properties_project_id on properties
+R14,READ,11.880,9.139,7.910,18.592,Index Scan using idx_properties_posted_desc on properties | Seq Scan on users
+R15,READ,16.847,15.270,14.915,20.355,Seq Scan on properties | Seq Scan on localities
+R16,READ,0.505,0.403,0.395,0.716,Seq Scan on projects
+R17,READ,18.187,15.820,14.449,24.292,Seq Scan on enquiries | Index Scan using idx_properties_active_posted on properties
+R18,READ,5.759,5.707,5.705,5.864,Index Only Scan using idx_properties_active_duplicates on properties
+R19,READ,27.445,27.125,26.981,28.229,Seq Scan on enquiries | Index Scan using idx_properties_active_posted on properties | Seq Scan on localities
+R20,READ,0.993,0.966,0.942,1.072,Index Only Scan using idx_properties_posted_desc on properties
+R21,READ,10.579,10.819,10.017,10.901,Seq Scan on properties | Index Only Scan using idx_site_visits_property_rating on site_visits | Seq Scan on localities
+R22,READ,6.499,6.515,6.449,6.532,Index Scan using idx_properties_posted_desc on properties
+R23,READ,0.031,0.031,0.030,0.033,Index Scan using users_phone_key on users
+R24,READ,0.368,0.331,0.312,0.462,Seq Scan on projects | Seq Scan on builders
+R25,READ,85.468,80.967,77.713,97.724,Seq Scan on shortlists | Seq Scan on properties | Seq Scan on localities | Index Only Scan using idx_enquiries_property_user_created on enquiries
+W01,WRITE,8.486,1.499,1.466,22.494,(no scan)
+W02,WRITE,0.308,0.298,0.294,0.332,Index Only Scan using idx_properties_lister_status_type on properties | Index Scan using properties_pkey on properties
+W03,WRITE,1.987,1.989,1.840,2.132,(no scan)
+W04,WRITE,391.387,367.013,356.963,450.184,Index Scan using idx_properties_active_posted on properties
+W05,WRITE,0.336,0.331,0.298,0.380,Index Only Scan using idx_properties_lister_status_type on properties | Index Scan using properties_pkey on properties

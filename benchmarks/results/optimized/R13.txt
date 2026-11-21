@@ -1,0 +1,42 @@
+=== R13 run 1 ===
+Nested Loop Anti Join  (cost=0.29..468.70 rows=120 width=37) (actual time=1.387..1.473 rows=120.00 loops=1)
+  Buffers: shared hit=2375 read=55
+  ->  Seq Scan on projects pj  (cost=0.00..34.00 rows=1200 width=37) (actual time=0.010..0.111 rows=1200.00 loops=1)
+        Buffers: shared hit=22
+  ->  Index Only Scan using idx_properties_project_id on properties p  (cost=0.29..1.99 rows=61 width=4) (actual time=0.001..0.001 rows=0.90 loops=1200)
+        Index Cond: (project_id = pj.project_id)
+        Heap Fetches: 7
+        Index Searches: 1200
+        Buffers: shared hit=2353 read=55
+Planning:
+  Buffers: shared hit=511
+Planning Time: 1.684 ms
+Execution Time: 1.519 ms
+=== R13 run 2 ===
+Nested Loop Anti Join  (cost=0.29..468.70 rows=120 width=37) (actual time=1.015..1.107 rows=120.00 loops=1)
+  Buffers: shared hit=2430
+  ->  Seq Scan on projects pj  (cost=0.00..34.00 rows=1200 width=37) (actual time=0.008..0.093 rows=1200.00 loops=1)
+        Buffers: shared hit=22
+  ->  Index Only Scan using idx_properties_project_id on properties p  (cost=0.29..1.99 rows=61 width=4) (actual time=0.001..0.001 rows=0.90 loops=1200)
+        Index Cond: (project_id = pj.project_id)
+        Heap Fetches: 7
+        Index Searches: 1200
+        Buffers: shared hit=2408
+Planning:
+  Buffers: shared hit=511
+Planning Time: 1.422 ms
+Execution Time: 1.150 ms
+=== R13 run 3 ===
+Nested Loop Anti Join  (cost=0.29..468.70 rows=120 width=37) (actual time=1.644..1.749 rows=120.00 loops=1)
+  Buffers: shared hit=2430
+  ->  Seq Scan on projects pj  (cost=0.00..34.00 rows=1200 width=37) (actual time=0.009..0.126 rows=1200.00 loops=1)
+        Buffers: shared hit=22
+  ->  Index Only Scan using idx_properties_project_id on properties p  (cost=0.29..1.99 rows=61 width=4) (actual time=0.001..0.001 rows=0.90 loops=1200)
+        Index Cond: (project_id = pj.project_id)
+        Heap Fetches: 7
+        Index Searches: 1200
+        Buffers: shared hit=2408
+Planning:
+  Buffers: shared hit=511
+Planning Time: 1.902 ms
+Execution Time: 1.811 ms

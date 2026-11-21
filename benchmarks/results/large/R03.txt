@@ -1,0 +1,138 @@
+=== R03 run 1 ===
+Nested Loop Left Join  (cost=15.06..31.18 rows=1 width=93) (actual time=0.407..0.408 rows=1.00 loops=1)
+  Join Filter: (pa.project_id = pj.project_id)
+  Buffers: shared hit=8 read=4
+  ->  Nested Loop Left Join  (cost=0.86..16.92 rows=1 width=65) (actual time=0.380..0.381 rows=1.00 loops=1)
+        Buffers: shared read=4
+        ->  Nested Loop Left Join  (cost=0.72..16.75 rows=1 width=45) (actual time=0.377..0.377 rows=1.00 loops=1)
+              Buffers: shared read=4
+              ->  Index Scan using properties_pkey on properties p  (cost=0.43..8.45 rows=1 width=21) (actual time=0.374..0.374 rows=1.00 loops=1)
+                    Index Cond: (property_id = 6897)
+                    Index Searches: 1
+                    Buffers: shared read=4
+              ->  Index Scan using uq_projects_project_locality on projects pj  (cost=0.29..8.30 rows=1 width=28) (actual time=0.000..0.001 rows=0.00 loops=1)
+                    Index Cond: (project_id = p.project_id)
+                    Index Searches: 0
+        ->  Index Scan using builders_pkey on builders b  (cost=0.14..0.16 rows=1 width=28) (actual time=0.002..0.002 rows=0.00 loops=1)
+              Index Cond: (builder_id = pj.builder_id)
+              Index Searches: 0
+  ->  GroupAggregate  (cost=14.20..14.24 rows=1 width=36) (actual time=0.026..0.027 rows=0.00 loops=1)
+        Buffers: shared hit=8
+        InitPlan 1
+          ->  Index Scan using properties_pkey on properties  (cost=0.43..8.45 rows=1 width=4) (actual time=0.001..0.001 rows=1.00 loops=1)
+                Index Cond: (property_id = 6897)
+                Index Searches: 1
+                Buffers: shared hit=4
+        ->  Sort  (cost=5.75..5.77 rows=6 width=17) (actual time=0.026..0.026 rows=0.00 loops=1)
+              Sort Key: a.amenity_name
+              Sort Method: quicksort  Memory: 25kB
+              Buffers: shared hit=8
+              ->  Hash Join  (cost=4.47..5.68 rows=6 width=17) (actual time=0.011..0.011 rows=0.00 loops=1)
+                    Hash Cond: (a.amenity_id = pa.amenity_id)
+                    Buffers: shared hit=5
+                    ->  Seq Scan on amenities a  (cost=0.00..1.15 rows=15 width=17) (actual time=0.004..0.004 rows=1.00 loops=1)
+                          Buffers: shared hit=1
+                    ->  Hash  (cost=4.40..4.40 rows=6 width=8) (actual time=0.005..0.005 rows=0.00 loops=1)
+                          Buckets: 1024  Batches: 1  Memory Usage: 8kB
+                          Buffers: shared hit=4
+                          ->  Index Only Scan using project_amenities_pkey on project_amenities pa  (cost=0.29..4.40 rows=6 width=8) (actual time=0.005..0.005 rows=0.00 loops=1)
+                                Index Cond: (project_id = (InitPlan 1).col1)
+                                Heap Fetches: 0
+                                Index Searches: 0
+                                Buffers: shared hit=4
+Planning:
+  Buffers: shared hit=578 read=22
+Planning Time: 2.684 ms
+Execution Time: 0.452 ms
+=== R03 run 2 ===
+Nested Loop Left Join  (cost=15.06..31.18 rows=1 width=93) (actual time=0.097..0.099 rows=1.00 loops=1)
+  Join Filter: (pa.project_id = pj.project_id)
+  Buffers: shared hit=12
+  ->  Nested Loop Left Join  (cost=0.86..16.92 rows=1 width=65) (actual time=0.029..0.030 rows=1.00 loops=1)
+        Buffers: shared hit=4
+        ->  Nested Loop Left Join  (cost=0.72..16.75 rows=1 width=45) (actual time=0.022..0.023 rows=1.00 loops=1)
+              Buffers: shared hit=4
+              ->  Index Scan using properties_pkey on properties p  (cost=0.43..8.45 rows=1 width=21) (actual time=0.019..0.019 rows=1.00 loops=1)
+                    Index Cond: (property_id = 6897)
+                    Index Searches: 1
+                    Buffers: shared hit=4
+              ->  Index Scan using uq_projects_project_locality on projects pj  (cost=0.29..8.30 rows=1 width=28) (actual time=0.000..0.000 rows=0.00 loops=1)
+                    Index Cond: (project_id = p.project_id)
+                    Index Searches: 0
+        ->  Index Scan using builders_pkey on builders b  (cost=0.14..0.16 rows=1 width=28) (actual time=0.006..0.006 rows=0.00 loops=1)
+              Index Cond: (builder_id = pj.builder_id)
+              Index Searches: 0
+  ->  GroupAggregate  (cost=14.20..14.24 rows=1 width=36) (actual time=0.062..0.063 rows=0.00 loops=1)
+        Buffers: shared hit=8
+        InitPlan 1
+          ->  Index Scan using properties_pkey on properties  (cost=0.43..8.45 rows=1 width=4) (actual time=0.002..0.003 rows=1.00 loops=1)
+                Index Cond: (property_id = 6897)
+                Index Searches: 1
+                Buffers: shared hit=4
+        ->  Sort  (cost=5.75..5.77 rows=6 width=17) (actual time=0.061..0.062 rows=0.00 loops=1)
+              Sort Key: a.amenity_name
+              Sort Method: quicksort  Memory: 25kB
+              Buffers: shared hit=8
+              ->  Hash Join  (cost=4.47..5.68 rows=6 width=17) (actual time=0.025..0.026 rows=0.00 loops=1)
+                    Hash Cond: (a.amenity_id = pa.amenity_id)
+                    Buffers: shared hit=5
+                    ->  Seq Scan on amenities a  (cost=0.00..1.15 rows=15 width=17) (actual time=0.005..0.005 rows=1.00 loops=1)
+                          Buffers: shared hit=1
+                    ->  Hash  (cost=4.40..4.40 rows=6 width=8) (actual time=0.013..0.014 rows=0.00 loops=1)
+                          Buckets: 1024  Batches: 1  Memory Usage: 8kB
+                          Buffers: shared hit=4
+                          ->  Index Only Scan using project_amenities_pkey on project_amenities pa  (cost=0.29..4.40 rows=6 width=8) (actual time=0.013..0.013 rows=0.00 loops=1)
+                                Index Cond: (project_id = (InitPlan 1).col1)
+                                Heap Fetches: 0
+                                Index Searches: 0
+                                Buffers: shared hit=4
+Planning:
+  Buffers: shared hit=598
+Planning Time: 2.801 ms
+Execution Time: 0.207 ms
+=== R03 run 3 ===
+Nested Loop Left Join  (cost=15.06..31.18 rows=1 width=93) (actual time=0.106..0.108 rows=1.00 loops=1)
+  Join Filter: (pa.project_id = pj.project_id)
+  Buffers: shared hit=12
+  ->  Nested Loop Left Join  (cost=0.86..16.92 rows=1 width=65) (actual time=0.066..0.067 rows=1.00 loops=1)
+        Buffers: shared hit=4
+        ->  Nested Loop Left Join  (cost=0.72..16.75 rows=1 width=45) (actual time=0.011..0.011 rows=1.00 loops=1)
+              Buffers: shared hit=4
+              ->  Index Scan using properties_pkey on properties p  (cost=0.43..8.45 rows=1 width=21) (actual time=0.008..0.009 rows=1.00 loops=1)
+                    Index Cond: (property_id = 6897)
+                    Index Searches: 1
+                    Buffers: shared hit=4
+              ->  Index Scan using uq_projects_project_locality on projects pj  (cost=0.29..8.30 rows=1 width=28) (actual time=0.000..0.000 rows=0.00 loops=1)
+                    Index Cond: (project_id = p.project_id)
+                    Index Searches: 0
+        ->  Index Scan using builders_pkey on builders b  (cost=0.14..0.16 rows=1 width=28) (actual time=0.055..0.055 rows=0.00 loops=1)
+              Index Cond: (builder_id = pj.builder_id)
+              Index Searches: 0
+  ->  GroupAggregate  (cost=14.20..14.24 rows=1 width=36) (actual time=0.039..0.040 rows=0.00 loops=1)
+        Buffers: shared hit=8
+        InitPlan 1
+          ->  Index Scan using properties_pkey on properties  (cost=0.43..8.45 rows=1 width=4) (actual time=0.002..0.002 rows=1.00 loops=1)
+                Index Cond: (property_id = 6897)
+                Index Searches: 1
+                Buffers: shared hit=4
+        ->  Sort  (cost=5.75..5.77 rows=6 width=17) (actual time=0.038..0.039 rows=0.00 loops=1)
+              Sort Key: a.amenity_name
+              Sort Method: quicksort  Memory: 25kB
+              Buffers: shared hit=8
+              ->  Hash Join  (cost=4.47..5.68 rows=6 width=17) (actual time=0.017..0.017 rows=0.00 loops=1)
+                    Hash Cond: (a.amenity_id = pa.amenity_id)
+                    Buffers: shared hit=5
+                    ->  Seq Scan on amenities a  (cost=0.00..1.15 rows=15 width=17) (actual time=0.004..0.004 rows=1.00 loops=1)
+                          Buffers: shared hit=1
+                    ->  Hash  (cost=4.40..4.40 rows=6 width=8) (actual time=0.008..0.009 rows=0.00 loops=1)
+                          Buckets: 1024  Batches: 1  Memory Usage: 8kB
+                          Buffers: shared hit=4
+                          ->  Index Only Scan using project_amenities_pkey on project_amenities pa  (cost=0.29..4.40 rows=6 width=8) (actual time=0.008..0.008 rows=0.00 loops=1)
+                                Index Cond: (project_id = (InitPlan 1).col1)
+                                Heap Fetches: 0
+                                Index Searches: 0
+                                Buffers: shared hit=4
+Planning:
+  Buffers: shared hit=598
+Planning Time: 2.049 ms
+Execution Time: 0.181 ms

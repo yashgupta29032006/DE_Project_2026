@@ -1,0 +1,31 @@
+query_id,type,avg_ms,median_ms,min_ms,max_ms,scan_nodes
+R01,READ,4.248,3.501,2.979,6.265,Seq Scan on localities | Bitmap Heap Scan on properties | Bitmap Index Scan on idx_properties_rent_search
+R02,READ,7.089,6.343,5.240,9.684,Seq Scan on localities | Bitmap Heap Scan on properties | Bitmap Index Scan on idx_properties_sale_search
+R03,READ,0.280,0.207,0.181,0.452,Index Scan using properties_pkey on properties | Index Scan using uq_projects_project_locality on projects | Index Scan using builders_pkey on builders | Seq Scan on amenities | Index Only Scan using project_amenities_pkey on project_amenities
+R04,READ,7.594,3.966,3.565,15.251,Seq Scan on localities | Bitmap Heap Scan on properties | Bitmap Index Scan on idx_properties_locality_listing_posted
+R05,READ,0.238,0.243,0.200,0.270,Index Only Scan using idx_properties_active_map on properties
+R06,READ,508.844,514.060,496.233,516.238,Bitmap Heap Scan on properties | Bitmap Index Scan on idx_properties_lister_status_type | Index Only Scan using idx_enquiries_property_user_created on enquiries | Index Only Scan using idx_site_visits_property_user on site_visits
+R07,READ,0.427,0.185,0.179,0.916,Index Only Scan using idx_properties_lister_status_type on properties | Index Scan using idx_site_visits_property_user on site_visits | Index Scan using users_pkey on users
+R08,READ,16.007,12.751,12.357,22.914,Bitmap Heap Scan on price_changes | Bitmap Index Scan on idx_price_changes_changed_property | Index Scan using properties_pkey on properties
+R09,READ,68.837,31.503,18.811,156.196,Seq Scan on amenities | Index Only Scan using idx_project_amenities_amenity_project on project_amenities | Index Scan using idx_properties_project_status on properties
+R10,READ,0.159,0.049,0.049,0.378,Seq Scan on builders | Index Scan using projects_rera_id_key on projects
+R11,READ,0.124,0.079,0.055,0.237,Index Only Scan using idx_properties_project_status on properties
+R12,READ,67.393,68.809,62.090,71.280,Seq Scan on site_visits | Bitmap Heap Scan on enquiries | Bitmap Index Scan on idx_enquiries_created_property_user
+R13,READ,12.131,11.569,11.270,13.555,Seq Scan on projects | Index Only Scan using idx_properties_project_id on properties
+R14,READ,83.059,68.538,66.174,114.464,Index Scan using idx_properties_posted_desc on properties | Seq Scan on users
+R15,READ,87.199,86.980,86.880,87.736,Seq Scan on properties | Seq Scan on localities
+R16,READ,6.038,6.133,5.844,6.137,Seq Scan on projects
+R17,READ,193.541,192.987,185.281,202.355,Seq Scan on enquiries | Index Scan using idx_properties_active_posted on properties
+R18,READ,110.576,110.942,107.301,113.486,Index Only Scan using idx_properties_active_duplicates on properties
+R19,READ,693.798,712.048,642.873,726.472,Index Scan using idx_properties_active_posted on properties | Seq Scan on localities | Index Only Scan using idx_enquiries_property_user_created on enquiries
+R20,READ,17.776,17.258,17.070,19.000,Index Only Scan using idx_properties_posted_desc on properties
+R21,READ,128.418,128.544,123.785,132.925,Seq Scan on properties | Index Only Scan using idx_site_visits_property_rating on site_visits | Seq Scan on localities
+R22,READ,7.622,7.502,7.493,7.872,Index Scan using idx_properties_posted_desc on properties
+R23,READ,0.220,0.032,0.030,0.599,Index Scan using users_phone_key on users
+R24,READ,2.240,2.304,2.102,2.314,Bitmap Heap Scan on projects | Bitmap Index Scan on idx_projects_status_possession | Seq Scan on builders
+R25,READ,3084.123,3153.723,2334.967,3763.680,Seq Scan on shortlists | Seq Scan on properties | Seq Scan on localities | Index Only Scan using idx_enquiries_property_user_created on enquiries
+W01,WRITE,3.435,1.820,1.798,6.688,(no scan)
+W02,WRITE,0.562,0.489,0.286,0.912,Index Only Scan using idx_properties_lister_status_type on properties | Index Scan using properties_pkey on properties
+W03,WRITE,1.562,1.616,1.103,1.968,(no scan)
+W04,WRITE,17876.253,17790.162,15725.456,20113.142,Index Scan using idx_properties_active_posted on properties
+W05,WRITE,0.555,0.421,0.390,0.853,Index Only Scan using idx_properties_lister_status_type on properties | Index Scan using properties_pkey on properties

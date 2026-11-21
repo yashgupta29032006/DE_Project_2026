@@ -1,0 +1,39 @@
+=== R11 run 1 ===
+GroupAggregate  (cost=0.42..9.13 rows=9 width=79) (actual time=0.121..0.133 rows=8.00 loops=1)
+  Group Key: bhk, listing_type
+  Buffers: shared hit=4 read=1
+  ->  Index Only Scan using idx_properties_project_status on properties  (cost=0.42..8.80 rows=19 width=13) (actual time=0.104..0.109 rows=19.00 loops=1)
+        Index Cond: ((project_id = 217) AND (status = 'ACTIVE'::text))
+        Heap Fetches: 1
+        Index Searches: 1
+        Buffers: shared hit=4 read=1
+Planning:
+  Buffers: shared hit=379
+Planning Time: 2.181 ms
+Execution Time: 0.182 ms
+=== R11 run 2 ===
+GroupAggregate  (cost=0.42..9.13 rows=9 width=79) (actual time=0.118..0.131 rows=8.00 loops=1)
+  Group Key: bhk, listing_type
+  Buffers: shared hit=5
+  ->  Index Only Scan using idx_properties_project_status on properties  (cost=0.42..8.80 rows=19 width=13) (actual time=0.099..0.106 rows=19.00 loops=1)
+        Index Cond: ((project_id = 217) AND (status = 'ACTIVE'::text))
+        Heap Fetches: 1
+        Index Searches: 1
+        Buffers: shared hit=5
+Planning:
+  Buffers: shared hit=379
+Planning Time: 1.705 ms
+Execution Time: 0.193 ms
+=== R11 run 3 ===
+GroupAggregate  (cost=0.42..9.13 rows=9 width=79) (actual time=0.129..0.146 rows=8.00 loops=1)
+  Group Key: bhk, listing_type
+  Buffers: shared hit=5
+  ->  Index Only Scan using idx_properties_project_status on properties  (cost=0.42..8.80 rows=19 width=13) (actual time=0.107..0.116 rows=19.00 loops=1)
+        Index Cond: ((project_id = 217) AND (status = 'ACTIVE'::text))
+        Heap Fetches: 1
+        Index Searches: 1
+        Buffers: shared hit=5
+Planning:
+  Buffers: shared hit=379
+Planning Time: 2.322 ms
+Execution Time: 0.229 ms

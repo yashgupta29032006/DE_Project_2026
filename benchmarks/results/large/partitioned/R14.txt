@@ -1,0 +1,147 @@
+=== R14 run 1 ===
+Limit  (cost=36118.36..36118.41 rows=20 width=24) (actual time=46.159..46.250 rows=20.00 loops=1)
+  Buffers: shared hit=13 read=24451 written=51
+  ->  Sort  (cost=36118.36..36145.09 rows=10689 width=24) (actual time=46.158..46.249 rows=20.00 loops=1)
+        Sort Key: (count(*)) DESC
+        Sort Method: top-N heapsort  Memory: 26kB
+        Buffers: shared hit=13 read=24451 written=51
+        ->  HashAggregate  (cost=35727.04..35833.93 rows=10689 width=24) (actual time=43.918..45.167 rows=22646.00 loops=1)
+              Group Key: u.user_id
+              Batches: 1  Memory Usage: 1817kB
+              Buffers: shared hit=10 read=24451 written=51
+              ->  Gather  (cost=14419.58..35673.60 rows=10689 width=16) (actual time=15.953..39.427 rows=35150.00 loops=1)
+                    Workers Planned: 2
+                    Workers Launched: 2
+                    Buffers: shared hit=10 read=24451 written=51
+                    ->  Parallel Hash Join  (cost=13419.58..33604.70 rows=4454 width=16) (actual time=15.284..39.924 rows=11716.67 loops=3)
+                          Hash Cond: (p.listed_by = u.user_id)
+                          Buffers: shared hit=10 read=24451 written=51
+                          ->  Parallel Append  (cost=0.00..19956.33 rows=87156 width=4) (actual time=0.858..20.711 rows=70037.67 loops=3)
+                                Buffers: shared hit=10 read=15411 written=51
+                                ->  Parallel Bitmap Heap Scan on properties_2026_q2 p_2  (cost=1478.12..9504.07 rows=24930 width=4) (actual time=2.473..13.304 rows=60081.00 loops=1)
+                                      Recheck Cond: (((status)::text = ANY ('{SOLD,RENTED}'::text[])) AND (posted_at >= '2026-01-01 00:00:00+05:30'::timestamp with time zone))
+                                      Buffers: shared hit=5 read=7871 written=51
+                                      Worker 1:  Heap Blocks: exact=7640
+                                      ->  Bitmap Index Scan on properties_2026_q2_status_posted_at_idx  (cost=0.00..1463.16 rows=59831 width=0) (actual time=1.921..1.921 rows=60081.00 loops=1)
+                                            Index Cond: (((status)::text = ANY ('{SOLD,RENTED}'::text[])) AND (posted_at >= '2026-01-01 00:00:00+05:30'::timestamp with time zone))
+                                            Index Searches: 1
+                                            Buffers: shared hit=4 read=232
+                                ->  Parallel Seq Scan on properties_2026_q1 p_1  (cost=0.00..10013.99 rows=62224 width=4) (actual time=0.046..13.912 rows=50010.67 loops=3)
+                                      Filter: (((status)::text = ANY ('{SOLD,RENTED}'::text[])) AND (posted_at >= '2026-01-01 00:00:00+05:30'::timestamp with time zone))
+                                      Rows Removed by Filter: 81936
+                                      Buffers: shared hit=4 read=7539
+                                ->  Parallel Seq Scan on properties_2026_q3 p_3  (cost=0.00..2.49 rows=1 width=4) (actual time=0.021..0.021 rows=0.00 loops=1)
+                                      Filter: (((status)::text = ANY ('{SOLD,RENTED}'::text[])) AND (posted_at >= '2026-01-01 00:00:00+05:30'::timestamp with time zone))
+                                      Rows Removed by Filter: 56
+                                      Buffers: shared hit=1 read=1
+                                ->  Parallel Seq Scan on properties_default p_4  (cost=0.00..0.00 rows=1 width=4) (actual time=0.002..0.003 rows=0.00 loops=1)
+                                      Filter: (((status)::text = ANY ('{SOLD,RENTED}'::text[])) AND (posted_at >= '2026-01-01 00:00:00+05:30'::timestamp with time zone))
+                          ->  Parallel Hash  (cost=13206.67..13206.67 rows=17033 width=16) (actual time=14.394..14.394 rows=13394.00 loops=3)
+                                Buckets: 65536  Batches: 1  Memory Usage: 2560kB
+                                Buffers: shared read=9040
+                                ->  Parallel Seq Scan on users u  (cost=0.00..13206.67 rows=17033 width=16) (actual time=0.032..13.372 rows=13394.00 loops=3)
+                                      Filter: ((user_type)::text = 'AGENT'::text)
+                                      Rows Removed by Filter: 253273
+                                      Buffers: shared read=9040
+Planning:
+  Buffers: shared hit=1443 read=31
+Planning Time: 2.109 ms
+Execution Time: 46.316 ms
+=== R14 run 2 ===
+Limit  (cost=36118.36..36118.41 rows=20 width=24) (actual time=45.545..45.608 rows=20.00 loops=1)
+  Buffers: shared hit=8430 read=16034 written=9
+  ->  Sort  (cost=36118.36..36145.09 rows=10689 width=24) (actual time=45.544..45.606 rows=20.00 loops=1)
+        Sort Key: (count(*)) DESC
+        Sort Method: top-N heapsort  Memory: 26kB
+        Buffers: shared hit=8430 read=16034 written=9
+        ->  HashAggregate  (cost=35727.04..35833.93 rows=10689 width=24) (actual time=43.303..44.513 rows=22646.00 loops=1)
+              Group Key: u.user_id
+              Batches: 1  Memory Usage: 1817kB
+              Buffers: shared hit=8427 read=16034 written=9
+              ->  Gather  (cost=14419.58..35673.60 rows=10689 width=16) (actual time=15.534..39.396 rows=35150.00 loops=1)
+                    Workers Planned: 2
+                    Workers Launched: 2
+                    Buffers: shared hit=8427 read=16034 written=9
+                    ->  Parallel Hash Join  (cost=13419.58..33604.70 rows=4454 width=16) (actual time=14.718..39.468 rows=11716.67 loops=3)
+                          Hash Cond: (p.listed_by = u.user_id)
+                          Buffers: shared hit=8427 read=16034 written=9
+                          ->  Parallel Append  (cost=0.00..19956.33 rows=87156 width=4) (actual time=0.725..21.129 rows=70037.67 loops=3)
+                                Buffers: shared hit=8145 read=7276 written=7
+                                ->  Parallel Bitmap Heap Scan on properties_2026_q2 p_2  (cost=1478.12..9504.07 rows=24930 width=4) (actual time=2.066..12.239 rows=60081.00 loops=1)
+                                      Recheck Cond: (((status)::text = ANY ('{SOLD,RENTED}'::text[])) AND (posted_at >= '2026-01-01 00:00:00+05:30'::timestamp with time zone))
+                                      Buffers: shared hit=7857 read=19
+                                      Worker 0:  Heap Blocks: exact=7640
+                                      ->  Bitmap Index Scan on properties_2026_q2_status_posted_at_idx  (cost=0.00..1463.16 rows=59831 width=0) (actual time=1.511..1.511 rows=60081.00 loops=1)
+                                            Index Cond: (((status)::text = ANY ('{SOLD,RENTED}'::text[])) AND (posted_at >= '2026-01-01 00:00:00+05:30'::timestamp with time zone))
+                                            Index Searches: 1
+                                            Buffers: shared hit=236
+                                ->  Parallel Seq Scan on properties_2026_q1 p_1  (cost=0.00..10013.99 rows=62224 width=4) (actual time=0.064..14.675 rows=50010.67 loops=3)
+                                      Filter: (((status)::text = ANY ('{SOLD,RENTED}'::text[])) AND (posted_at >= '2026-01-01 00:00:00+05:30'::timestamp with time zone))
+                                      Rows Removed by Filter: 81936
+                                      Buffers: shared hit=286 read=7257 written=7
+                                ->  Parallel Seq Scan on properties_2026_q3 p_3  (cost=0.00..2.49 rows=1 width=4) (actual time=0.011..0.011 rows=0.00 loops=1)
+                                      Filter: (((status)::text = ANY ('{SOLD,RENTED}'::text[])) AND (posted_at >= '2026-01-01 00:00:00+05:30'::timestamp with time zone))
+                                      Rows Removed by Filter: 56
+                                      Buffers: shared hit=2
+                                ->  Parallel Seq Scan on properties_default p_4  (cost=0.00..0.00 rows=1 width=4) (actual time=0.000..0.000 rows=0.00 loops=1)
+                                      Filter: (((status)::text = ANY ('{SOLD,RENTED}'::text[])) AND (posted_at >= '2026-01-01 00:00:00+05:30'::timestamp with time zone))
+                          ->  Parallel Hash  (cost=13206.67..13206.67 rows=17033 width=16) (actual time=13.961..13.961 rows=13394.00 loops=3)
+                                Buckets: 65536  Batches: 1  Memory Usage: 2560kB
+                                Buffers: shared hit=282 read=8758 written=2
+                                ->  Parallel Seq Scan on users u  (cost=0.00..13206.67 rows=17033 width=16) (actual time=0.046..12.937 rows=13394.00 loops=3)
+                                      Filter: ((user_type)::text = 'AGENT'::text)
+                                      Rows Removed by Filter: 253273
+                                      Buffers: shared hit=282 read=8758 written=2
+Planning:
+  Buffers: shared hit=1474
+Planning Time: 2.093 ms
+Execution Time: 45.670 ms
+=== R14 run 3 ===
+Limit  (cost=36118.36..36118.41 rows=20 width=24) (actual time=44.105..44.163 rows=20.00 loops=1)
+  Buffers: shared hit=9011 read=15453
+  ->  Sort  (cost=36118.36..36145.09 rows=10689 width=24) (actual time=44.104..44.161 rows=20.00 loops=1)
+        Sort Key: (count(*)) DESC
+        Sort Method: top-N heapsort  Memory: 26kB
+        Buffers: shared hit=9011 read=15453
+        ->  HashAggregate  (cost=35727.04..35833.93 rows=10689 width=24) (actual time=41.770..42.990 rows=22646.00 loops=1)
+              Group Key: u.user_id
+              Batches: 1  Memory Usage: 1817kB
+              Buffers: shared hit=9008 read=15453
+              ->  Gather  (cost=14419.58..35673.60 rows=10689 width=16) (actual time=15.562..37.999 rows=35150.00 loops=1)
+                    Workers Planned: 2
+                    Workers Launched: 2
+                    Buffers: shared hit=9008 read=15453
+                    ->  Parallel Hash Join  (cost=13419.58..33604.70 rows=4454 width=16) (actual time=14.845..38.171 rows=11716.67 loops=3)
+                          Hash Cond: (p.listed_by = u.user_id)
+                          Buffers: shared hit=9008 read=15453
+                          ->  Parallel Append  (cost=0.00..19956.33 rows=87156 width=4) (actual time=0.704..19.921 rows=70037.67 loops=3)
+                                Buffers: shared hit=8445 read=6976
+                                ->  Parallel Bitmap Heap Scan on properties_2026_q2 p_2  (cost=1478.12..9504.07 rows=24930 width=4) (actual time=2.025..11.598 rows=60081.00 loops=1)
+                                      Recheck Cond: (((status)::text = ANY ('{SOLD,RENTED}'::text[])) AND (posted_at >= '2026-01-01 00:00:00+05:30'::timestamp with time zone))
+                                      Buffers: shared hit=7876
+                                      Worker 1:  Heap Blocks: exact=7640
+                                      ->  Bitmap Index Scan on properties_2026_q2_status_posted_at_idx  (cost=0.00..1463.16 rows=59831 width=0) (actual time=1.472..1.472 rows=60081.00 loops=1)
+                                            Index Cond: (((status)::text = ANY ('{SOLD,RENTED}'::text[])) AND (posted_at >= '2026-01-01 00:00:00+05:30'::timestamp with time zone))
+                                            Index Searches: 1
+                                            Buffers: shared hit=236
+                                ->  Parallel Seq Scan on properties_2026_q1 p_1  (cost=0.00..10013.99 rows=62224 width=4) (actual time=0.051..13.723 rows=50010.67 loops=3)
+                                      Filter: (((status)::text = ANY ('{SOLD,RENTED}'::text[])) AND (posted_at >= '2026-01-01 00:00:00+05:30'::timestamp with time zone))
+                                      Rows Removed by Filter: 81936
+                                      Buffers: shared hit=567 read=6976
+                                ->  Parallel Seq Scan on properties_2026_q3 p_3  (cost=0.00..2.49 rows=1 width=4) (actual time=0.011..0.011 rows=0.00 loops=1)
+                                      Filter: (((status)::text = ANY ('{SOLD,RENTED}'::text[])) AND (posted_at >= '2026-01-01 00:00:00+05:30'::timestamp with time zone))
+                                      Rows Removed by Filter: 56
+                                      Buffers: shared hit=2
+                                ->  Parallel Seq Scan on properties_default p_4  (cost=0.00..0.00 rows=1 width=4) (actual time=0.001..0.001 rows=0.00 loops=1)
+                                      Filter: (((status)::text = ANY ('{SOLD,RENTED}'::text[])) AND (posted_at >= '2026-01-01 00:00:00+05:30'::timestamp with time zone))
+                          ->  Parallel Hash  (cost=13206.67..13206.67 rows=17033 width=16) (actual time=14.110..14.110 rows=13394.00 loops=3)
+                                Buckets: 65536  Batches: 1  Memory Usage: 2528kB
+                                Buffers: shared hit=563 read=8477
+                                ->  Parallel Seq Scan on users u  (cost=0.00..13206.67 rows=17033 width=16) (actual time=0.042..13.070 rows=13394.00 loops=3)
+                                      Filter: ((user_type)::text = 'AGENT'::text)
+                                      Rows Removed by Filter: 253273
+                                      Buffers: shared hit=563 read=8477
+Planning:
+  Buffers: shared hit=1474
+Planning Time: 2.013 ms
+Execution Time: 44.213 ms

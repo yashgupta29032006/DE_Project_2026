@@ -1,0 +1,126 @@
+=== W04 run 1 ===
+Update on properties  (cost=0.29..19267.92 rows=0 width=0) (actual time=8858.507..8858.508 rows=0.00 loops=1)
+  Update on properties_2025_q1 properties_1
+  Update on properties_2025_q2 properties_2
+  Update on properties_2025_q3 properties_3
+  Update on properties_2025_q4 properties_4
+  Update on properties_2026_q1 properties_5
+  Update on properties_default properties_6
+  Buffers: shared hit=6589396 read=84375 dirtied=93968 written=83682
+  ->  Append  (cost=0.29..19267.92 rows=346325 width=58) (actual time=0.064..464.634 rows=287639.00 loops=1)
+        Buffers: shared hit=2664 read=34757 written=27141
+        ->  Index Scan using properties_2025_q1_posted_at_idx on properties_2025_q1 properties_1  (cost=0.29..2982.91 rows=58920 width=58) (actual time=0.063..36.058 rows=59453.00 loops=1)
+              Index Cond: (posted_at < '2026-03-03 00:00:00+05:30'::timestamp with time zone)
+              Filter: ((status)::text = 'ACTIVE'::text)
+              Index Searches: 1
+              Buffers: shared hit=286 read=7609 written=1707
+        ->  Index Scan using properties_2025_q2_posted_at_idx on properties_2025_q2 properties_2  (cost=0.29..3048.33 rows=60110 width=58) (actual time=0.036..150.031 rows=60282.00 loops=1)
+              Index Cond: (posted_at < '2026-03-03 00:00:00+05:30'::timestamp with time zone)
+              Filter: ((status)::text = 'ACTIVE'::text)
+              Index Searches: 1
+              Buffers: shared hit=1139 read=6864 written=6540
+        ->  Index Scan using properties_2025_q3_posted_at_idx on properties_2025_q3 properties_3  (cost=0.29..3068.28 rows=60552 width=58) (actual time=0.174..137.069 rows=60656.00 loops=1)
+              Index Cond: (posted_at < '2026-03-03 00:00:00+05:30'::timestamp with time zone)
+              Filter: ((status)::text = 'ACTIVE'::text)
+              Index Searches: 1
+              Buffers: shared hit=275 read=7783 written=7212
+        ->  Index Scan using properties_2025_q4_posted_at_idx on properties_2025_q4 properties_4  (cost=0.29..3105.59 rows=61079 width=58) (actual time=0.036..80.718 rows=60727.00 loops=1)
+              Index Cond: (posted_at < '2026-03-03 00:00:00+05:30'::timestamp with time zone)
+              Filter: ((status)::text = 'ACTIVE'::text)
+              Index Searches: 1
+              Buffers: shared hit=270 read=7796 written=7244
+        ->  Index Scan using properties_2026_q1_posted_at_idx on properties_2026_q1 properties_5  (cost=0.42..5331.18 rows=105663 width=58) (actual time=0.055..49.191 rows=46521.00 loops=1)
+              Index Cond: (posted_at < '2026-03-03 00:00:00+05:30'::timestamp with time zone)
+              Filter: ((status)::text = 'ACTIVE'::text)
+              Index Searches: 1
+              Buffers: shared hit=694 read=4705 written=4438
+        ->  Seq Scan on properties_default properties_6  (cost=0.00..0.00 rows=1 width=58) (actual time=0.006..0.006 rows=0.00 loops=1)
+              Filter: ((posted_at < '2026-03-03 00:00:00+05:30'::timestamp with time zone) AND ((status)::text = 'ACTIVE'::text))
+Planning:
+  Buffers: shared hit=1772 read=1
+Planning Time: 7.679 ms
+Execution Time: 8858.818 ms
+=== W04 run 2 ===
+Update on properties  (cost=0.29..21291.63 rows=0 width=0) (actual time=8940.245..8940.246 rows=0.00 loops=1)
+  Update on properties_2025_q1 properties_1
+  Update on properties_2025_q2 properties_2
+  Update on properties_2025_q3 properties_3
+  Update on properties_2025_q4 properties_4
+  Update on properties_2026_q1 properties_5
+  Update on properties_default properties_6
+  Buffers: shared hit=6719654 read=96836 dirtied=105987 written=106528
+  ->  Append  (cost=0.29..21291.63 rows=394785 width=58) (actual time=0.028..1178.197 rows=287639.00 loops=1)
+        Buffers: shared hit=5224 read=32197 dirtied=31519 written=28421
+        ->  Index Scan using properties_2025_q1_posted_at_idx on properties_2025_q1 properties_1  (cost=0.29..3264.14 rows=67748 width=58) (actual time=0.027..351.068 rows=59453.00 loops=1)
+              Index Cond: (posted_at < '2026-03-03 00:00:00+05:30'::timestamp with time zone)
+              Filter: ((status)::text = 'ACTIVE'::text)
+              Index Searches: 1
+              Buffers: shared hit=1076 read=6819 dirtied=6693 written=6067
+        ->  Index Scan using properties_2025_q2_posted_at_idx on properties_2025_q2 properties_2  (cost=0.29..3338.02 rows=69153 width=58) (actual time=0.171..208.528 rows=60282.00 loops=1)
+              Index Cond: (posted_at < '2026-03-03 00:00:00+05:30'::timestamp with time zone)
+              Filter: ((status)::text = 'ACTIVE'::text)
+              Index Searches: 1
+              Buffers: shared hit=1111 read=6892 dirtied=6744 written=5612
+        ->  Index Scan using properties_2025_q3_posted_at_idx on properties_2025_q3 properties_3  (cost=0.29..3358.98 rows=69609 width=58) (actual time=0.030..212.273 rows=60656.00 loops=1)
+              Index Cond: (posted_at < '2026-03-03 00:00:00+05:30'::timestamp with time zone)
+              Filter: ((status)::text = 'ACTIVE'::text)
+              Index Searches: 1
+              Buffers: shared hit=1129 read=6929 dirtied=6788 written=5978
+        ->  Index Scan using properties_2025_q4_posted_at_idx on properties_2025_q4 properties_4  (cost=0.29..3400.73 rows=70222 width=58) (actual time=0.256..261.080 rows=60727.00 loops=1)
+              Index Cond: (posted_at < '2026-03-03 00:00:00+05:30'::timestamp with time zone)
+              Filter: ((status)::text = 'ACTIVE'::text)
+              Index Searches: 1
+              Buffers: shared hit=1153 read=6913 dirtied=6775 written=6540
+        ->  Index Scan using properties_2026_q1_posted_at_idx on properties_2026_q1 properties_5  (cost=0.42..5955.83 rows=118052 width=58) (actual time=0.114..115.088 rows=46521.00 loops=1)
+              Index Cond: (posted_at < '2026-03-03 00:00:00+05:30'::timestamp with time zone)
+              Filter: ((status)::text = 'ACTIVE'::text)
+              Index Searches: 1
+              Buffers: shared hit=755 read=4644 dirtied=4519 written=4224
+        ->  Seq Scan on properties_default properties_6  (cost=0.00..0.00 rows=1 width=58) (actual time=0.003..0.003 rows=0.00 loops=1)
+              Filter: ((posted_at < '2026-03-03 00:00:00+05:30'::timestamp with time zone) AND ((status)::text = 'ACTIVE'::text))
+Planning:
+  Buffers: shared hit=1617 read=153 dirtied=4 written=136
+Planning Time: 4.622 ms
+Execution Time: 8940.442 ms
+=== W04 run 3 ===
+Update on properties  (cost=0.29..23313.69 rows=0 width=0) (actual time=7897.289..7897.290 rows=0.00 loops=1)
+  Update on properties_2025_q1 properties_1
+  Update on properties_2025_q2 properties_2
+  Update on properties_2025_q3 properties_3
+  Update on properties_2025_q4 properties_4
+  Update on properties_2026_q1 properties_5
+  Update on properties_default properties_6
+  Buffers: shared hit=6820126 read=105571 dirtied=109676 written=112946
+  ->  Append  (cost=0.29..23313.69 rows=443267 width=58) (actual time=0.024..1022.892 rows=287639.00 loops=1)
+        Buffers: shared hit=3926 read=33495 dirtied=31837 written=30235
+        ->  Index Scan using properties_2025_q1_posted_at_idx on properties_2025_q1 properties_1  (cost=0.29..3545.56 rows=76591 width=58) (actual time=0.024..222.764 rows=59453.00 loops=1)
+              Index Cond: (posted_at < '2026-03-03 00:00:00+05:30'::timestamp with time zone)
+              Filter: ((status)::text = 'ACTIVE'::text)
+              Index Searches: 1
+              Buffers: shared hit=796 read=7099 dirtied=6952 written=6594
+        ->  Index Scan using properties_2025_q2_posted_at_idx on properties_2025_q2 properties_2  (cost=0.29..3627.70 rows=78196 width=58) (actual time=0.032..274.226 rows=60282.00 loops=1)
+              Index Cond: (posted_at < '2026-03-03 00:00:00+05:30'::timestamp with time zone)
+              Filter: ((status)::text = 'ACTIVE'::text)
+              Index Searches: 1
+              Buffers: shared hit=805 read=7198 dirtied=7038 written=6483
+        ->  Index Scan using properties_2025_q3_posted_at_idx on properties_2025_q3 properties_3  (cost=0.29..3648.79 rows=78675 width=58) (actual time=10.191..205.594 rows=60656.00 loops=1)
+              Index Cond: (posted_at < '2026-03-03 00:00:00+05:30'::timestamp with time zone)
+              Filter: ((status)::text = 'ACTIVE'::text)
+              Index Searches: 1
+              Buffers: shared hit=777 read=7281 dirtied=7130 written=6389
+        ->  Index Scan using properties_2025_q4_posted_at_idx on properties_2025_q4 properties_4  (cost=0.29..3694.87 rows=79365 width=58) (actual time=0.038..179.588 rows=60727.00 loops=1)
+              Index Cond: (posted_at < '2026-03-03 00:00:00+05:30'::timestamp with time zone)
+              Filter: ((status)::text = 'ACTIVE'::text)
+              Index Searches: 1
+              Buffers: shared hit=949 read=7117 dirtied=6021 written=6270
+        ->  Index Scan using properties_2026_q1_posted_at_idx on properties_2026_q1 properties_5  (cost=0.42..6580.43 rows=130439 width=58) (actual time=0.106..128.238 rows=46521.00 loops=1)
+              Index Cond: (posted_at < '2026-03-03 00:00:00+05:30'::timestamp with time zone)
+              Filter: ((status)::text = 'ACTIVE'::text)
+              Index Searches: 1
+              Buffers: shared hit=599 read=4800 dirtied=4696 written=4499
+        ->  Seq Scan on properties_default properties_6  (cost=0.00..0.00 rows=1 width=58) (actual time=0.015..0.015 rows=0.00 loops=1)
+              Filter: ((posted_at < '2026-03-03 00:00:00+05:30'::timestamp with time zone) AND ((status)::text = 'ACTIVE'::text))
+Planning:
+  Buffers: shared hit=1610 read=165 dirtied=4 written=142
+Planning Time: 3.897 ms
+Execution Time: 7897.486 ms

@@ -1,0 +1,123 @@
+=== R18 run 1 ===
+Sort  (cost=114524.92..114719.91 rows=77997 width=25) (actual time=390.622..390.645 rows=1264.00 loops=1)
+  Sort Key: (count(*)) DESC
+  Sort Method: quicksort  Memory: 106kB
+  Buffers: shared hit=1732 read=46430 written=199, temp read=4503 written=6764
+  ->  HashAggregate  (cost=94755.03..106318.22 rows=77997 width=25) (actual time=270.306..390.528 rows=1264.00 loops=1)
+        Group Key: properties.listed_by, properties.locality_id, properties.carpet_area_sqft, properties.floor_no, properties.bhk
+        Filter: (count(*) > 1)
+        Planned Partitions: 4  Batches: 21  Memory Usage: 9785kB  Disk Usage: 24048kB
+        Rows Removed by Filter: 734194
+        Buffers: shared hit=1729 read=46430 written=199, temp read=4503 written=6764
+        ->  Append  (cost=0.29..34402.02 rows=737136 width=17) (actual time=0.010..161.338 rows=736722.00 loops=1)
+              Buffers: shared hit=1729 read=46430 written=199
+              ->  Index Scan using properties_2025_q1_posted_at_idx on properties_2025_q1 properties_1  (cost=0.29..2688.31 rows=58920 width=17) (actual time=0.010..21.604 rows=59453.00 loops=1)
+                    Index Searches: 1
+                    Buffers: shared hit=411 read=7484
+              ->  Index Scan using properties_2025_q2_posted_at_idx on properties_2025_q2 properties_2  (cost=0.29..2747.78 rows=60110 width=17) (actual time=0.019..19.652 rows=60282.00 loops=1)
+                    Index Searches: 1
+                    Buffers: shared hit=329 read=7674 written=45
+              ->  Index Scan using properties_2025_q3_posted_at_idx on properties_2025_q3 properties_3  (cost=0.29..2765.52 rows=60552 width=17) (actual time=0.019..17.720 rows=60656.00 loops=1)
+                    Index Searches: 1
+                    Buffers: shared hit=265 read=7793 written=15
+              ->  Index Scan using properties_2025_q4_posted_at_idx on properties_2025_q4 properties_4  (cost=0.29..2800.20 rows=61079 width=17) (actual time=0.020..17.963 rows=60727.00 loops=1)
+                    Index Searches: 1
+                    Buffers: shared hit=205 read=7861 written=115
+              ->  Index Scan using properties_2026_q1_posted_at_idx on properties_2026_q1 properties_5  (cost=0.42..7052.76 rows=155683 width=17) (actual time=0.020..23.785 rows=155063.00 loops=1)
+                    Index Searches: 1
+                    Buffers: shared hit=519 read=7964 written=24
+              ->  Seq Scan on properties_2026_q2 properties_6  (cost=0.00..12659.08 rows=340735 width=17) (actual time=0.040..36.481 rows=340485.00 loops=1)
+                    Filter: ((status)::text = 'ACTIVE'::text)
+                    Rows Removed by Filter: 60081
+                    Buffers: shared read=7652
+              ->  Seq Scan on properties_2026_q3 properties_7  (cost=0.00..2.70 rows=56 width=17) (actual time=0.020..0.026 rows=56.00 loops=1)
+                    Filter: ((status)::text = 'ACTIVE'::text)
+                    Buffers: shared read=2
+              ->  Seq Scan on properties_default properties_8  (cost=0.00..0.00 rows=1 width=28) (actual time=0.005..0.005 rows=0.00 loops=1)
+                    Filter: ((status)::text = 'ACTIVE'::text)
+Planning:
+  Buffers: shared hit=2231 read=130 dirtied=8
+Planning Time: 4.047 ms
+Execution Time: 394.114 ms
+=== R18 run 2 ===
+Sort  (cost=114524.92..114719.91 rows=77997 width=25) (actual time=384.172..384.199 rows=1264.00 loops=1)
+  Sort Key: (count(*)) DESC
+  Sort Method: quicksort  Memory: 106kB
+  Buffers: shared hit=1616 read=46546 written=288, temp read=4503 written=6764
+  ->  HashAggregate  (cost=94755.03..106318.22 rows=77997 width=25) (actual time=263.137..384.081 rows=1264.00 loops=1)
+        Group Key: properties.listed_by, properties.locality_id, properties.carpet_area_sqft, properties.floor_no, properties.bhk
+        Filter: (count(*) > 1)
+        Planned Partitions: 4  Batches: 21  Memory Usage: 9785kB  Disk Usage: 24048kB
+        Rows Removed by Filter: 734194
+        Buffers: shared hit=1613 read=46546 written=288, temp read=4503 written=6764
+        ->  Append  (cost=0.29..34402.02 rows=737136 width=17) (actual time=0.012..157.071 rows=736722.00 loops=1)
+              Buffers: shared hit=1613 read=46546 written=288
+              ->  Index Scan using properties_2025_q1_posted_at_idx on properties_2025_q1 properties_1  (cost=0.29..2688.31 rows=58920 width=17) (actual time=0.011..20.413 rows=59453.00 loops=1)
+                    Index Searches: 1
+                    Buffers: shared hit=453 read=7442
+              ->  Index Scan using properties_2025_q2_posted_at_idx on properties_2025_q2 properties_2  (cost=0.29..2747.78 rows=60110 width=17) (actual time=0.017..18.634 rows=60282.00 loops=1)
+                    Index Searches: 1
+                    Buffers: shared hit=230 read=7773 written=79
+              ->  Index Scan using properties_2025_q3_posted_at_idx on properties_2025_q3 properties_3  (cost=0.29..2765.52 rows=60552 width=17) (actual time=0.017..17.052 rows=60656.00 loops=1)
+                    Index Searches: 1
+                    Buffers: shared hit=200 read=7858 written=117
+              ->  Index Scan using properties_2025_q4_posted_at_idx on properties_2025_q4 properties_4  (cost=0.29..2800.20 rows=61079 width=17) (actual time=0.017..17.381 rows=60727.00 loops=1)
+                    Index Searches: 1
+                    Buffers: shared hit=206 read=7860 written=63
+              ->  Index Scan using properties_2026_q1_posted_at_idx on properties_2026_q1 properties_5  (cost=0.42..7052.76 rows=155683 width=17) (actual time=0.018..23.734 rows=155063.00 loops=1)
+                    Index Searches: 1
+                    Buffers: shared hit=524 read=7959 written=29
+              ->  Seq Scan on properties_2026_q2 properties_6  (cost=0.00..12659.08 rows=340735 width=17) (actual time=0.037..35.839 rows=340485.00 loops=1)
+                    Filter: ((status)::text = 'ACTIVE'::text)
+                    Rows Removed by Filter: 60081
+                    Buffers: shared read=7652
+              ->  Seq Scan on properties_2026_q3 properties_7  (cost=0.00..2.70 rows=56 width=17) (actual time=0.021..0.027 rows=56.00 loops=1)
+                    Filter: ((status)::text = 'ACTIVE'::text)
+                    Buffers: shared read=2
+              ->  Seq Scan on properties_default properties_8  (cost=0.00..0.00 rows=1 width=28) (actual time=0.005..0.005 rows=0.00 loops=1)
+                    Filter: ((status)::text = 'ACTIVE'::text)
+Planning:
+  Buffers: shared hit=2237 read=124
+Planning Time: 3.644 ms
+Execution Time: 386.668 ms
+=== R18 run 3 ===
+Sort  (cost=114524.92..114719.91 rows=77997 width=25) (actual time=413.382..413.405 rows=1264.00 loops=1)
+  Sort Key: (count(*)) DESC
+  Sort Method: quicksort  Memory: 106kB
+  Buffers: shared hit=1617 read=46545 written=345, temp read=4503 written=6764
+  ->  HashAggregate  (cost=94755.03..106318.22 rows=77997 width=25) (actual time=290.474..413.293 rows=1264.00 loops=1)
+        Group Key: properties.listed_by, properties.locality_id, properties.carpet_area_sqft, properties.floor_no, properties.bhk
+        Filter: (count(*) > 1)
+        Planned Partitions: 4  Batches: 21  Memory Usage: 9785kB  Disk Usage: 24048kB
+        Rows Removed by Filter: 734194
+        Buffers: shared hit=1614 read=46545 written=345, temp read=4503 written=6764
+        ->  Append  (cost=0.29..34402.02 rows=737136 width=17) (actual time=0.011..168.542 rows=736722.00 loops=1)
+              Buffers: shared hit=1614 read=46545 written=345
+              ->  Index Scan using properties_2025_q1_posted_at_idx on properties_2025_q1 properties_1  (cost=0.29..2688.31 rows=58920 width=17) (actual time=0.011..29.187 rows=59453.00 loops=1)
+                    Index Searches: 1
+                    Buffers: shared hit=454 read=7441
+              ->  Index Scan using properties_2025_q2_posted_at_idx on properties_2025_q2 properties_2  (cost=0.29..2747.78 rows=60110 width=17) (actual time=0.063..20.025 rows=60282.00 loops=1)
+                    Index Searches: 1
+                    Buffers: shared hit=230 read=7773 written=124
+              ->  Index Scan using properties_2025_q3_posted_at_idx on properties_2025_q3 properties_3  (cost=0.29..2765.52 rows=60552 width=17) (actual time=0.024..17.668 rows=60656.00 loops=1)
+                    Index Searches: 1
+                    Buffers: shared hit=200 read=7858 written=114
+              ->  Index Scan using properties_2025_q4_posted_at_idx on properties_2025_q4 properties_4  (cost=0.29..2800.20 rows=61079 width=17) (actual time=0.024..17.094 rows=60727.00 loops=1)
+                    Index Searches: 1
+                    Buffers: shared hit=206 read=7860 written=78
+              ->  Index Scan using properties_2026_q1_posted_at_idx on properties_2026_q1 properties_5  (cost=0.42..7052.76 rows=155683 width=17) (actual time=0.025..24.010 rows=155063.00 loops=1)
+                    Index Searches: 1
+                    Buffers: shared hit=524 read=7959 written=29
+              ->  Seq Scan on properties_2026_q2 properties_6  (cost=0.00..12659.08 rows=340735 width=17) (actual time=0.036..36.633 rows=340485.00 loops=1)
+                    Filter: ((status)::text = 'ACTIVE'::text)
+                    Rows Removed by Filter: 60081
+                    Buffers: shared read=7652
+              ->  Seq Scan on properties_2026_q3 properties_7  (cost=0.00..2.70 rows=56 width=17) (actual time=0.022..0.028 rows=56.00 loops=1)
+                    Filter: ((status)::text = 'ACTIVE'::text)
+                    Buffers: shared read=2
+              ->  Seq Scan on properties_default properties_8  (cost=0.00..0.00 rows=1 width=28) (actual time=0.006..0.006 rows=0.00 loops=1)
+                    Filter: ((status)::text = 'ACTIVE'::text)
+Planning:
+  Buffers: shared hit=2231 read=130
+Planning Time: 3.671 ms
+Execution Time: 415.879 ms

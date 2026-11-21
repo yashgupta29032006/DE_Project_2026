@@ -1,0 +1,210 @@
+=== R15 run 1 ===
+Sort  (cost=66952.51..66952.53 rows=10 width=105) (actual time=118.470..119.764 rows=10.00 loops=1)
+  Sort Key: (round((('1200'::numeric * avg((p.price / p.carpet_area_sqft)) FILTER (WHERE ((p.listing_type)::text = 'RENT'::text))) / avg((p.price / p.carpet_area_sqft)) FILTER (WHERE ((p.listing_type)::text = 'SALE'::text))), 2)) DESC
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=8756 read=36991
+  ->  Finalize GroupAggregate  (cost=66948.95..66952.34 rows=10 width=105) (actual time=118.445..119.756 rows=10.00 loops=1)
+        Group Key: l.locality_name
+        Buffers: shared hit=8753 read=36991
+        ->  Gather Merge  (cost=66948.95..66951.74 rows=24 width=73) (actual time=118.436..119.734 rows=30.00 loops=1)
+              Workers Planned: 2
+              Workers Launched: 2
+              Buffers: shared hit=8753 read=36991
+              ->  Sort  (cost=65948.92..65948.95 rows=10 width=73) (actual time=116.929..116.930 rows=10.00 loops=3)
+                    Sort Key: l.locality_name
+                    Sort Method: quicksort  Memory: 26kB
+                    Buffers: shared hit=8753 read=36991
+                    Worker 0:  Sort Method: quicksort  Memory: 26kB
+                    Worker 1:  Sort Method: quicksort  Memory: 26kB
+                    ->  Partial HashAggregate  (cost=65948.61..65948.76 rows=10 width=73) (actual time=116.897..116.901 rows=10.00 loops=3)
+                          Group Key: l.locality_name
+                          Batches: 1  Memory Usage: 32kB
+                          Buffers: shared hit=8737 read=36991
+                          Worker 0:  Batches: 1  Memory Usage: 32kB
+                          Worker 1:  Batches: 1  Memory Usage: 32kB
+                          ->  Hash Join  (cost=2.38..64525.46 rows=81323 width=25) (actual time=0.048..105.790 rows=65051.67 loops=3)
+                                Hash Cond: (p.locality_id = l.locality_id)
+                                Buffers: shared hit=8737 read=36991
+                                ->  Parallel Append  (cost=0.00..62297.87 rows=813234 width=20) (actual time=0.023..86.423 rows=650634.67 loops=3)
+                                      Buffers: shared hit=8734 read=36991
+                                      ->  Parallel Seq Scan on properties_2025_q4 p_4  (cost=0.00..9802.76 rows=137192 width=20) (actual time=0.033..31.994 rows=329248.00 loops=1)
+                                            Filter: ((property_type)::text = 'APARTMENT'::text)
+                                            Rows Removed by Filter: 75249
+                                            Buffers: shared read=7696
+                                      ->  Parallel Seq Scan on properties_2025_q3 p_3  (cost=0.00..9801.72 rows=136549 width=20) (actual time=0.031..30.577 rows=328497.00 loops=1)
+                                            Filter: ((property_type)::text = 'APARTMENT'::text)
+                                            Rows Removed by Filter: 75993
+                                            Buffers: shared read=7695
+                                      ->  Parallel Seq Scan on properties_2026_q2 p_6  (cost=0.00..9738.28 rows=135642 width=20) (actual time=0.004..12.403 rows=108518.33 loops=3)
+                                            Filter: ((property_type)::text = 'APARTMENT'::text)
+                                            Rows Removed by Filter: 25004
+                                            Buffers: shared hit=7640 read=12
+                                      ->  Parallel Seq Scan on properties_2025_q2 p_2  (cost=0.00..9694.92 rows=135366 width=20) (actual time=0.058..29.327 rows=325332.00 loops=1)
+                                            Filter: ((property_type)::text = 'APARTMENT'::text)
+                                            Rows Removed by Filter: 74781
+                                            Buffers: shared hit=1 read=7610
+                                      ->  Parallel Seq Scan on properties_2026_q1 p_5  (cost=0.00..9601.66 rows=134173 width=20) (actual time=0.009..15.371 rows=160749.50 loops=2)
+                                            Filter: ((property_type)::text = 'APARTMENT'::text)
+                                            Rows Removed by Filter: 37170
+                                            Buffers: shared hit=837 read=6703
+                                      ->  Parallel Seq Scan on properties_2025_q1 p_1  (cost=0.00..9589.95 rows=134292 width=20) (actual time=0.020..29.941 rows=321727.00 loops=1)
+                                            Filter: ((property_type)::text = 'APARTMENT'::text)
+                                            Rows Removed by Filter: 73976
+                                            Buffers: shared hit=254 read=7275
+                                      ->  Parallel Seq Scan on properties_2026_q3 p_7  (cost=0.00..2.41 rows=27 width=21) (actual time=0.004..0.010 rows=46.00 loops=1)
+                                            Filter: ((property_type)::text = 'APARTMENT'::text)
+                                            Rows Removed by Filter: 10
+                                            Buffers: shared hit=2
+                                      ->  Parallel Seq Scan on properties_default p_8  (cost=0.00..0.00 rows=1 width=74) (actual time=0.000..0.000 rows=0.00 loops=1)
+                                            Filter: ((property_type)::text = 'APARTMENT'::text)
+                                ->  Hash  (cost=2.25..2.25 rows=10 width=13) (actual time=0.019..0.019 rows=10.00 loops=3)
+                                      Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                      Buffers: shared hit=3
+                                      ->  Seq Scan on localities l  (cost=0.00..2.25 rows=10 width=13) (actual time=0.013..0.016 rows=10.00 loops=3)
+                                            Filter: (city_id = 1)
+                                            Rows Removed by Filter: 90
+                                            Buffers: shared hit=3
+Planning:
+  Buffers: shared hit=2365 read=16
+Planning Time: 3.354 ms
+Execution Time: 119.816 ms
+=== R15 run 2 ===
+Sort  (cost=66952.51..66952.53 rows=10 width=105) (actual time=119.020..120.443 rows=10.00 loops=1)
+  Sort Key: (round((('1200'::numeric * avg((p.price / p.carpet_area_sqft)) FILTER (WHERE ((p.listing_type)::text = 'RENT'::text))) / avg((p.price / p.carpet_area_sqft)) FILTER (WHERE ((p.listing_type)::text = 'SALE'::text))), 2)) DESC
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=9253 read=36494
+  ->  Finalize GroupAggregate  (cost=66948.95..66952.34 rows=10 width=105) (actual time=118.963..120.433 rows=10.00 loops=1)
+        Group Key: l.locality_name
+        Buffers: shared hit=9250 read=36494
+        ->  Gather Merge  (cost=66948.95..66951.74 rows=24 width=73) (actual time=118.950..120.406 rows=30.00 loops=1)
+              Workers Planned: 2
+              Workers Launched: 2
+              Buffers: shared hit=9250 read=36494
+              ->  Sort  (cost=65948.92..65948.95 rows=10 width=73) (actual time=117.293..117.295 rows=10.00 loops=3)
+                    Sort Key: l.locality_name
+                    Sort Method: quicksort  Memory: 26kB
+                    Buffers: shared hit=9250 read=36494
+                    Worker 0:  Sort Method: quicksort  Memory: 26kB
+                    Worker 1:  Sort Method: quicksort  Memory: 26kB
+                    ->  Partial HashAggregate  (cost=65948.61..65948.76 rows=10 width=73) (actual time=117.265..117.269 rows=10.00 loops=3)
+                          Group Key: l.locality_name
+                          Batches: 1  Memory Usage: 32kB
+                          Buffers: shared hit=9234 read=36494
+                          Worker 0:  Batches: 1  Memory Usage: 32kB
+                          Worker 1:  Batches: 1  Memory Usage: 32kB
+                          ->  Hash Join  (cost=2.38..64525.46 rows=81323 width=25) (actual time=0.046..106.223 rows=65051.67 loops=3)
+                                Hash Cond: (p.locality_id = l.locality_id)
+                                Buffers: shared hit=9234 read=36494
+                                ->  Parallel Append  (cost=0.00..62297.87 rows=813234 width=20) (actual time=0.024..86.375 rows=650634.67 loops=3)
+                                      Buffers: shared hit=9231 read=36494
+                                      ->  Parallel Seq Scan on properties_2025_q4 p_4  (cost=0.00..9802.76 rows=137192 width=20) (actual time=0.037..31.167 rows=329248.00 loops=1)
+                                            Filter: ((property_type)::text = 'APARTMENT'::text)
+                                            Rows Removed by Filter: 75249
+                                            Buffers: shared hit=94 read=7602
+                                      ->  Parallel Seq Scan on properties_2025_q3 p_3  (cost=0.00..9801.72 rows=136549 width=20) (actual time=0.030..31.814 rows=328497.00 loops=1)
+                                            Filter: ((property_type)::text = 'APARTMENT'::text)
+                                            Rows Removed by Filter: 75993
+                                            Buffers: shared hit=94 read=7601
+                                      ->  Parallel Seq Scan on properties_2026_q2 p_6  (cost=0.00..9738.28 rows=135642 width=20) (actual time=0.007..11.768 rows=108518.33 loops=3)
+                                            Filter: ((property_type)::text = 'APARTMENT'::text)
+                                            Rows Removed by Filter: 25004
+                                            Buffers: shared hit=7652
+                                      ->  Parallel Seq Scan on properties_2025_q2 p_2  (cost=0.00..9694.92 rows=135366 width=20) (actual time=0.044..15.513 rows=162666.00 loops=2)
+                                            Filter: ((property_type)::text = 'APARTMENT'::text)
+                                            Rows Removed by Filter: 37390
+                                            Buffers: shared hit=95 read=7516
+                                      ->  Parallel Seq Scan on properties_2026_q1 p_5  (cost=0.00..9601.66 rows=134173 width=20) (actual time=0.009..30.666 rows=321499.00 loops=1)
+                                            Filter: ((property_type)::text = 'APARTMENT'::text)
+                                            Rows Removed by Filter: 74340
+                                            Buffers: shared hit=931 read=6609
+                                      ->  Parallel Seq Scan on properties_2025_q1 p_1  (cost=0.00..9589.95 rows=134292 width=20) (actual time=0.020..29.797 rows=321727.00 loops=1)
+                                            Filter: ((property_type)::text = 'APARTMENT'::text)
+                                            Rows Removed by Filter: 73976
+                                            Buffers: shared hit=363 read=7166
+                                      ->  Parallel Seq Scan on properties_2026_q3 p_7  (cost=0.00..2.41 rows=27 width=21) (actual time=0.003..0.009 rows=46.00 loops=1)
+                                            Filter: ((property_type)::text = 'APARTMENT'::text)
+                                            Rows Removed by Filter: 10
+                                            Buffers: shared hit=2
+                                      ->  Parallel Seq Scan on properties_default p_8  (cost=0.00..0.00 rows=1 width=74) (actual time=0.000..0.000 rows=0.00 loops=1)
+                                            Filter: ((property_type)::text = 'APARTMENT'::text)
+                                ->  Hash  (cost=2.25..2.25 rows=10 width=13) (actual time=0.017..0.017 rows=10.00 loops=3)
+                                      Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                      Buffers: shared hit=3
+                                      ->  Seq Scan on localities l  (cost=0.00..2.25 rows=10 width=13) (actual time=0.012..0.014 rows=10.00 loops=3)
+                                            Filter: (city_id = 1)
+                                            Rows Removed by Filter: 90
+                                            Buffers: shared hit=3
+Planning:
+  Buffers: shared hit=2381
+Planning Time: 3.167 ms
+Execution Time: 120.494 ms
+=== R15 run 3 ===
+Sort  (cost=66952.51..66952.53 rows=10 width=105) (actual time=118.632..120.193 rows=10.00 loops=1)
+  Sort Key: (round((('1200'::numeric * avg((p.price / p.carpet_area_sqft)) FILTER (WHERE ((p.listing_type)::text = 'RENT'::text))) / avg((p.price / p.carpet_area_sqft)) FILTER (WHERE ((p.listing_type)::text = 'SALE'::text))), 2)) DESC
+  Sort Method: quicksort  Memory: 25kB
+  Buffers: shared hit=9723 read=36024
+  ->  Finalize GroupAggregate  (cost=66948.95..66952.34 rows=10 width=105) (actual time=118.570..120.179 rows=10.00 loops=1)
+        Group Key: l.locality_name
+        Buffers: shared hit=9720 read=36024
+        ->  Gather Merge  (cost=66948.95..66951.74 rows=24 width=73) (actual time=118.557..120.154 rows=30.00 loops=1)
+              Workers Planned: 2
+              Workers Launched: 2
+              Buffers: shared hit=9720 read=36024
+              ->  Sort  (cost=65948.92..65948.95 rows=10 width=73) (actual time=116.949..116.951 rows=10.00 loops=3)
+                    Sort Key: l.locality_name
+                    Sort Method: quicksort  Memory: 26kB
+                    Buffers: shared hit=9720 read=36024
+                    Worker 0:  Sort Method: quicksort  Memory: 26kB
+                    Worker 1:  Sort Method: quicksort  Memory: 26kB
+                    ->  Partial HashAggregate  (cost=65948.61..65948.76 rows=10 width=73) (actual time=116.922..116.925 rows=10.00 loops=3)
+                          Group Key: l.locality_name
+                          Batches: 1  Memory Usage: 32kB
+                          Buffers: shared hit=9704 read=36024
+                          Worker 0:  Batches: 1  Memory Usage: 32kB
+                          Worker 1:  Batches: 1  Memory Usage: 32kB
+                          ->  Hash Join  (cost=2.38..64525.46 rows=81323 width=25) (actual time=0.048..105.935 rows=65051.67 loops=3)
+                                Hash Cond: (p.locality_id = l.locality_id)
+                                Buffers: shared hit=9704 read=36024
+                                ->  Parallel Append  (cost=0.00..62297.87 rows=813234 width=20) (actual time=0.025..86.060 rows=650634.67 loops=3)
+                                      Buffers: shared hit=9701 read=36024
+                                      ->  Parallel Seq Scan on properties_2025_q4 p_4  (cost=0.00..9802.76 rows=137192 width=20) (actual time=0.032..31.487 rows=329248.00 loops=1)
+                                            Filter: ((property_type)::text = 'APARTMENT'::text)
+                                            Rows Removed by Filter: 75249
+                                            Buffers: shared hit=188 read=7508
+                                      ->  Parallel Seq Scan on properties_2025_q3 p_3  (cost=0.00..9801.72 rows=136549 width=20) (actual time=0.040..30.375 rows=328497.00 loops=1)
+                                            Filter: ((property_type)::text = 'APARTMENT'::text)
+                                            Rows Removed by Filter: 75993
+                                            Buffers: shared hit=188 read=7507
+                                      ->  Parallel Seq Scan on properties_2026_q2 p_6  (cost=0.00..9738.28 rows=135642 width=20) (actual time=0.004..11.602 rows=108518.33 loops=3)
+                                            Filter: ((property_type)::text = 'APARTMENT'::text)
+                                            Rows Removed by Filter: 25004
+                                            Buffers: shared hit=7652
+                                      ->  Parallel Seq Scan on properties_2025_q2 p_2  (cost=0.00..9694.92 rows=135366 width=20) (actual time=0.052..29.831 rows=325332.00 loops=1)
+                                            Filter: ((property_type)::text = 'APARTMENT'::text)
+                                            Rows Removed by Filter: 74781
+                                            Buffers: shared hit=189 read=7422
+                                      ->  Parallel Seq Scan on properties_2026_q1 p_5  (cost=0.00..9601.66 rows=134173 width=20) (actual time=0.008..15.762 rows=160749.50 loops=2)
+                                            Filter: ((property_type)::text = 'APARTMENT'::text)
+                                            Rows Removed by Filter: 37170
+                                            Buffers: shared hit=1025 read=6515
+                                      ->  Parallel Seq Scan on properties_2025_q1 p_1  (cost=0.00..9589.95 rows=134292 width=20) (actual time=0.026..30.785 rows=321727.00 loops=1)
+                                            Filter: ((property_type)::text = 'APARTMENT'::text)
+                                            Rows Removed by Filter: 73976
+                                            Buffers: shared hit=457 read=7072
+                                      ->  Parallel Seq Scan on properties_2026_q3 p_7  (cost=0.00..2.41 rows=27 width=21) (actual time=0.004..0.009 rows=46.00 loops=1)
+                                            Filter: ((property_type)::text = 'APARTMENT'::text)
+                                            Rows Removed by Filter: 10
+                                            Buffers: shared hit=2
+                                      ->  Parallel Seq Scan on properties_default p_8  (cost=0.00..0.00 rows=1 width=74) (actual time=0.000..0.000 rows=0.00 loops=1)
+                                            Filter: ((property_type)::text = 'APARTMENT'::text)
+                                ->  Hash  (cost=2.25..2.25 rows=10 width=13) (actual time=0.017..0.017 rows=10.00 loops=3)
+                                      Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                      Buffers: shared hit=3
+                                      ->  Seq Scan on localities l  (cost=0.00..2.25 rows=10 width=13) (actual time=0.012..0.014 rows=10.00 loops=3)
+                                            Filter: (city_id = 1)
+                                            Rows Removed by Filter: 90
+                                            Buffers: shared hit=3
+Planning:
+  Buffers: shared hit=2381
+Planning Time: 3.239 ms
+Execution Time: 120.256 ms
